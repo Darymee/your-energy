@@ -1,0 +1,26 @@
+:root {
+  --color-black: #242424;
+  --color-white: #f4f4f4;
+  --color-white-20: #f4f4f433; /* #f4f4f4 20% opacity */
+  --color-white-40: #f4f4f466; /* #f4f4f4 40% opacity */
+  --color-grey-60: #24242499; /* #242424 60% opacity */
+  --color-grey-50: #24242480; /* #242424 50% opacity */
+  --color-grey-40: #24242466; /* #242424 40% opacity */
+  --color-light-grey: #c6cdd1;
+  --color-grey-pagination: #d4d4d4;
+
+  --color-yellow: #eea10c;
+
+  --modal-overlay-bg: #04040466;
+  --card-overlay-bg: #11111180;
+  --card-bg: #ffffff;
+
+  --card-border-color: #efede833;
+
+  --border-radius-12: 12px;
+  --border-radius-15: 15px;
+  --border-radius-20: 20px;
+  --border-radius-30: 30px;
+
+  --transition: 300ms ease-in-out;
+}
