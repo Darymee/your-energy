@@ -12,7 +12,8 @@ p:last-child {
   margin-bottom: 0;
 }
 
-ul {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -23,8 +24,10 @@ a {
   text-decoration: none;
 }
 
-button {
+button,
+input {
   cursor: pointer;
+  font-family: inherit;
 }
 
 img {

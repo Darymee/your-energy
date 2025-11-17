@@ -5,14 +5,24 @@
   |============================
 */
 /* Common styles */
-@import url('./reset.css');
-@import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
+@import url('./utils/reset.css');
+@import url('./utils/base.css');
+@import url('./utils/variables.css');
 
-/* Sections style */
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
-@import url('./footer.css');
+/* Component styles */
+@import url('./components/anchor-button.css');
+@import url('./components/animations.css');
+@import url('./components/button.css');
+@import url('./components/container.css');
+@import url('./components/modal-exercise.css');
+@import url('./components/modal-rating.css');
+@import url('./components/navigation.css');
+@import url('./components/social.css');
+@import url('./components/overlay.css');
+@import url('./components/pagination.css');
+
+/* Layout style */
+@import url('./layout/header.css');
+@import url('./layout/hero.css');
+@import url('./layout/exercises.css');
+@import url('./layout/footer.css');
