@@ -13,7 +13,19 @@
   margin-bottom: 20px;
 }
 
+.exercises-thumb-btn button.active::after {
+  content: '';
+  position: absolute;
+  border-radius: 2px;
+  height: 4px;
+  bottom: -7px;
+  left: 0;
+  width: 100%;
+  background-color: #242424;
+}
+
 .exercises-thumb-btn button {
+  position: relative;
   flex-direction: row;
   font-weight: 400;
   font-size: 14px;
@@ -21,6 +33,11 @@
   color: rgba(36, 36, 36, 0.6);
   background-color: transparent;
   border: none;
+  padding: 0;
+}
+
+.exercises-thumb-btn button.active {
+  color: #242424;
 }
 
 /* .exercises-thumb-btn button:first-child {
@@ -244,6 +261,10 @@
 }
 
 @media screen and (min-width: 1440px) {
+  .exercises-thumb-btn button.active::after {
+    bottom: 7px;
+  }
+
   .exercises-title-thumb {
     display: flex;
     justify-content: space-between;

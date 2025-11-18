@@ -23,16 +23,27 @@ const renderHtml = data => {
 };
 
 try {
-  const res = await data_api.getDataByFilter();
+  const res = await data_api.getDataByFilter('Muscles');
+  refs.btnBox.children[0].classList.add('active');
   renderHtml(res);
-} catch (error) {}
+} catch (error) {
+  console.log('🚀 ~ error:', error);
+}
 
 const onClickBtn = async e => {
   try {
     const selectedType = e.target.dataset.type;
+    // Видаляю усі попердні класи active з кнопок
+    [...e.currentTarget.children].forEach(btn =>
+      btn.classList.remove('active')
+    );
+
+    e.target.classList.add('active');
     const res = await data_api.getDataByFilter(selectedType);
     renderHtml(res);
-  } catch (error) {}
+  } catch (error) {
+    console.log('🚀 ~ error:', error);
+  }
 };
 
 refs.btnBox.addEventListener('click', onClickBtn);
