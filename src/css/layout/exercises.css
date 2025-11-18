@@ -1,0 +1,196 @@
+.exercises-title {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.35714;
+  letter-spacing: -0.02em;
+  color: #242424;
+  margin-bottom: 20px;
+}
+
+.exercises-thumb-btn {
+  display: flex;
+  column-gap: 20px;
+  margin-bottom: 20px;
+}
+
+.exercises-thumb-btn button {
+  flex-direction: row;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: rgba(36, 36, 36, 0.6);
+  background-color: transparent;
+  border: none;
+}
+
+/* .exercises-thumb-btn button:first-child {
+}
+
+.exercises-thumb-btn button:nth-child(2) {
+}
+
+.exercises-thumb-btn button:last-child {
+} */
+
+.exercises-list {
+  display: grid;
+  row-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.exercises-item {
+  position: relative;
+  border-radius: 12px;
+}
+
+.exercises-background-img {
+  position: relative;
+  width: 100%;
+  height: 225px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 12px;
+}
+
+.exercises-background-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(17, 17, 17, 0.5));
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+.exercises-wrap-info {
+  position: absolute;
+  font-family: 'DM Sans', sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.exercises-wrap-info p:first-child {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1;
+  text-align: center;
+  color: #f4f4f4;
+}
+
+.exercises-wrap-info p:last-child {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(244, 244, 244, 0.4);
+}
+
+.quote-wrapper {
+  display: grid;
+  row-gap: 20px;
+}
+.quote-card {
+  min-width: 250px;
+  background-color: #262626;
+  border-radius: 24px;
+  padding: 20px;
+  display: flex;
+  gap: 18px;
+  color: #f4f4f4;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.quote-card-background {
+  background-color: #fff;
+}
+
+.quote-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #3a3a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.quote-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-img {
+  width: 100%;
+  height: 242px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 20px;
+
+  background-image: url('../../img/exercises/women-workout@1.jpg');
+
+  background-image: image-set(
+    url('../../img/exercises/women-workout@1.jpg') 1x,
+    url('../../img/exercises/women-workout@2.jpg') 2x
+  );
+}
+
+.quote-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  /* margin-bottom: 8px; */
+}
+
+.quote-card-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-card-title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1;
+  color: #f4f4f4;
+}
+
+.quote-card-subtitle {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.28571;
+  color: rgba(36, 36, 36, 0.6);
+}
+
+.quote-card-mark {
+  font-size: 24px;
+}
+
+.quote-card-text {
+  margin-bottom: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.28571;
+  color: rgba(244, 244, 244, 0.6);
+}
+
+.quote-card-color {
+  color: rgba(36, 36, 36, 1);
+}
+
+.quote-card-author {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.28571;
+  color: #f4f4f4;
+  /* margin-top: auto; */
+}
+
+.quote-title-mr {
+  margin-bottom: 2px;
+}
