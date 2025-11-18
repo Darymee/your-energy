@@ -3,6 +3,9 @@ import axios from 'axios';
 axios.defaults.baseURL = 'https://your-energy.b.goit.study/api';
 
 class Api {
+  totalPages = 0;
+  currentPage = 0;
+
   #getSearchParams = (filter = 'Muscles') => {
     return {
       filter: filter,
@@ -16,6 +19,8 @@ class Api {
       params: this.#getSearchParams(typeFilter),
     });
 
+    this.totalPages = res.data.totalPages;
+    this.currentPage = res.data.page;
     console.log('res', res);
     return res.data;
   }
