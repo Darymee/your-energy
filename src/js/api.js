@@ -15,7 +15,6 @@ class Api {
     const res = await axios.get('/filters', {
       params: this.#getSearchParams('Muscles'),
     });
-    console.log('🚀 ~ res:', res);
     return res.data;
   }
 }
