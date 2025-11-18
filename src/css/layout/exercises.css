@@ -36,6 +36,7 @@
   display: grid;
   row-gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-bottom: 80px;
 }
 
 .exercises-item {
@@ -89,6 +90,7 @@
 .quote-wrapper {
   display: grid;
   row-gap: 20px;
+  padding-bottom: 80px;
 }
 .quote-card {
   min-width: 250px;
@@ -149,6 +151,7 @@
 .quote-card-wrap {
   display: flex;
   flex-direction: column;
+  margin-bottom: 16px;
 }
 
 .quote-card-title {
@@ -193,4 +196,45 @@
 
 .quote-title-mr {
   margin-bottom: 2px;
+}
+
+@media screen and (min-width: 768px) {
+  .exercises-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 15px;
+    margin-bottom: 64px;
+  }
+
+  .quote-card {
+    max-width: 400px;
+    min-height: 249px;
+  }
+
+  .quote-img {
+    width: 100%;
+    /* width: 288px; */
+    height: 249px;
+  }
+
+  .quote-card {
+    grid-area: q;
+  }
+
+  .quote-img {
+    grid-area: i;
+  }
+
+  .quote-suggest {
+    grid-area: s;
+  }
+
+  .quote-wrapper {
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: 249px 249px;
+    grid-template-areas:
+      'q i '
+      's .';
+    gap: 32px 16px;
+    padding-bottom: 100px;
+  }
 }
