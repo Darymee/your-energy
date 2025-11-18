@@ -4,15 +4,20 @@ axios.defaults.baseURL = 'https://your-energy.b.goit.study/api';
 
 class Api {
   totalPages = 0;
-  currentPage = 0;
+  currentPage = 1;
 
   #getSearchParams = (filter = 'Muscles') => {
     return {
       filter: filter,
-      page: 1,
+      page: this.currentPage,
       limit: 12,
     };
   };
+
+  incrementCurrentPage() {
+    if(this.currentPage>=this.totalPages) return
+    this.currentPage += 1;
+  }
 
   async getDataByFilter(typeFilter) {
     const res = await axios.get('/filters', {

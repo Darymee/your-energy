@@ -75,6 +75,9 @@ const onClickPaginationBox = e => {
     const clickedBtn = e.target.closest('button');
     if (!clickedBtn) return;
     const clickedNumPage = clickedBtn.textContent.trim();
+    // Закінчити логіку пагінації
+    data_api.incrementCurrentPage()
+    console.log()
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
