@@ -38,9 +38,9 @@ const onClickBtn = async e => {
       btn.classList.remove('active')
     );
 
-    e.target.classList.add('active');
     const res = await data_api.getDataByFilter(selectedType);
     renderHtml(res);
+    e.target.classList.add('active');
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
