@@ -1,60 +1,59 @@
 <section class="hero">
-  <div class="hero-content">
+  <div class="container hero-container">
     <h1 class="hero-title">
       <svg class="sun-icon" width="59" height="59" aria-hidden="true">
         <use href="../img/sprite.svg#icon-sun"></use>
       </svg>
-      Get <span>Body</span> in shape,<br />
-      Stay healthy
+      Get <span>Body</span> in shape, Stay healthy
     </h1>
 
     <p class="hero-subtitle">
       Transform your physique and embrace a healthier lifestyle with our
       comprehensive fitness and nutrition support.
     </p>
-  </div>
 
-  <div class="hero-media">
-    <picture>
-      <!-- Desktop -->
-      <source
-        srcset="../img/hero/hero-lg@1x.jpg 1x, ../img/hero/hero-lg@2x.jpg 2x"
-        media="(min-width: 1200px)"
-      />
-      <!-- Tablet -->
-      <source
-        srcset="../img/hero/hero-md@1x.jpg 1x, ../img/hero/hero-md@2x.jpg 2x"
-        media="(min-width: 768px)"
-      />
-      <!-- Mobile -->
-      <source
-        srcset="../img/hero/hero-sm@1x.jpg 1x, ../img/hero/hero-sm@1x.jpg 2x"
-        media="(max-width: 767px)"
-      />
+    <div class="hero-media">
+      <picture class="hero-picture">
+        <!-- Desktop -->
+        <source
+          srcset="../img/hero/hero-lg@1x.jpg 1x, ../img/hero/hero-lg@2x.jpg 2x"
+          media="(min-width: 1440px)"
+        />
+        <!-- Tablet -->
+        <source
+          srcset="../img/hero/hero-md@1x.jpg 1x, ../img/hero/hero-md@2x.jpg 2x"
+          media="(min-width: 768px)"
+        />
+        <!-- Mobile -->
+        <source
+          srcset="../img/hero/hero-sm@1x.jpg 1x, ../img/hero/hero-sm@2x.jpg 2x"
+          media="(max-width: 767px)"
+        />
 
-      <!-- Fallback -->
-      <img
-        src="../img/hero/hero-lg@1x.jpg"
-        alt="Two women doing workout outdoors"
-        class="hero-image"
-      />
-    </picture>
-    <div class="tag-container">
-      <div class="hero-mini-image">
+        <!-- Fallback -->
         <img
+          src="../img/hero/hero-lg@1x.jpg"
+          alt="Two women doing workout outdoors"
+          class="hero-image"
+        />
+      </picture>
+      <div class="tag-container">
+        <img
+          class="hero-mini-image"
           srcset="
             ../img/hero/yoga-legs-1x.jpg 1x,
-            ../img/hero/yoga-legs-1x.jpg 2x
+            ../img/hero/yoga-legs-2x.jpg 2x
           "
           src="../img/hero/yoga-legs-1x.jpg"
           alt="Workout preview"
         />
-      </div>
-      <div class="hero-tags">
-        <span class="hero-tag">#Sport</span>
-        <span class="hero-tag">#Healthy</span>
-        <span class="hero-tag">#Workout</span>
-        <span class="hero-tag">#Diet</span>
+
+        <div class="hero-tags">
+          <span class="hero-tag">#Sport</span>
+          <span class="hero-tag">#Healthy</span>
+          <span class="hero-tag">#Workout</span>
+          <span class="hero-tag">#Diet</span>
+        </div>
       </div>
     </div>
   </div>
