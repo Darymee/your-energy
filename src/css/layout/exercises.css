@@ -207,7 +207,6 @@
 }
 
 .quote-card-author {
-  margin: 0;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.28571;
@@ -258,14 +257,19 @@
     margin-bottom: 32px;
   }
 
+  .exercises-wrap-info p:first-child {
+    font-size: 24px;
+  }
+
   .quote-card {
     max-width: 400px;
     height: 249px;
+    padding: 40px;
+    gap: 16px;
   }
 
   .quote-img {
     width: 100%;
-    /* width: 288px; */
     height: 249px;
   }
 
