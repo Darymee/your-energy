@@ -1,11 +1,15 @@
 :root {
   --color-black: #242424;
   --color-white: #f4f4f4;
+  --color-white-10: #f4f4f41a; /* #f4f4f4 10% opacity */
   --color-white-20: #f4f4f433; /* #f4f4f4 20% opacity */
   --color-white-40: #f4f4f466; /* #f4f4f4 40% opacity */
+  --color-white-80: #f4f4f466; /* #f4f4f4 80% opacity */
+  --color-grey-80: #242424cc; /* #242424 80% opacity */
   --color-grey-60: #24242499; /* #242424 60% opacity */
   --color-grey-50: #24242480; /* #242424 50% opacity */
   --color-grey-40: #24242466; /* #242424 40% opacity */
+  --color-grey-10: #2424241a; /* #242424 10% opacity */
   --color-light-grey: #c6cdd1;
   --color-grey-pagination: #d4d4d4;
 
@@ -21,6 +25,7 @@
   --border-radius-15: 15px;
   --border-radius-20: 20px;
   --border-radius-30: 30px;
+  --border-radius-60: 60px;
 
   --transition: 300ms ease-in-out;
 }
