@@ -5,28 +5,43 @@ axios.defaults.baseURL = 'https://your-energy.b.goit.study/api';
 class Api {
   totalPages = 0;
   currentPage = 1;
+  limitPage = 12;
+  filterType = 'Muscles';
 
-  #getSearchParams = (filter = 'Muscles') => {
+  #getSearchParams = () => {
     return {
-      filter: filter,
+      filter: this.filterType,
       page: this.currentPage,
-      limit: 12,
+      limit: this.limitPage,
     };
   };
 
-  incrementCurrentPage() {
-    if(this.currentPage>=this.totalPages) return
-    this.currentPage += 1;
+  incrementPage() {
+    if (this.hasMorePages()) {
+      console.log(
+        'this.currentPage >= this.totalPages',
+        this.currentPage >= this.totalPages
+      );
+    } else {
+      this.currentPage += 1;
+    }
   }
 
-  async getDataByFilter(typeFilter) {
+  changeSearchType(field) {
+    this.filterType = field;
+  }
+
+  hasMorePages() {
+    return this.currentPage >= this.totalPages;
+  }
+
+  async getDataByFilter() {
     const res = await axios.get('/filters', {
-      params: this.#getSearchParams(typeFilter),
+      params: this.#getSearchParams(),
     });
 
     this.totalPages = res.data.totalPages;
-    this.currentPage = res.data.page;
-    console.log('res', res);
+
     return res.data;
   }
 }

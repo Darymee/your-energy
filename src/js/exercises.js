@@ -40,10 +40,11 @@ const renderListHtml = data => {
 };
 
 try {
-  const res = await data_api.getDataByFilter('Muscles');
+  const res = await data_api.getDataByFilter();
   refs.btnBox.children[0].classList.add('active');
   renderListHtml(res);
   renderPaginationList(data_api.totalPages);
+  console.log(data_api.currentPage);
   refs.paginationBox.children[data_api.currentPage - 1].classList.add(
     'pagination-item-active'
   );
@@ -54,30 +55,41 @@ try {
 const onClickFilterBtn = async e => {
   try {
     const selectedType = e.target.dataset.type;
+    data_api.changeSearchType(selectedType);
+
     [...e.currentTarget.children].forEach(btn =>
       btn.classList.remove('active')
     );
 
-    const res = await data_api.getDataByFilter(selectedType);
+    const res = await data_api.getDataByFilter();
     renderListHtml(res);
     renderPaginationList(data_api.totalPages);
     refs.paginationBox.children[data_api.currentPage - 1].classList.add(
-    'pagination-item-active'
-  );
+      'pagination-item-active'
+    );
     e.target.classList.add('active');
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
 };
 
-const onClickPaginationBox = e => {
+const onClickPaginationBox = async e => {
   try {
     const clickedBtn = e.target.closest('button');
     if (!clickedBtn) return;
-    const clickedNumPage = clickedBtn.textContent.trim();
-    // Закінчити логіку пагінації
-    data_api.incrementCurrentPage()
-    console.log()
+
+    const clickedNumPage = Number(clickedBtn.textContent.trim());
+
+    if (clickedNumPage === data_api.currentPage) {
+      console.log(
+        'clickedNumPage === data_api.currentPage',
+        clickedNumPage === data_api.currentPage
+      );
+    } else {
+      data_api.incrementPage();
+      const res = await data_api.getDataByFilter();
+      renderListHtml(res);
+    }
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
