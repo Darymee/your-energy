@@ -10,7 +10,7 @@ const refs = {
 const renderPaginationList = maxPage => {
   const arr = [];
   for (let i = 1; i <= maxPage; i++) {
-    arr.push(Template.templateItemPagination(i));
+    arr.push(Template.itemPagination(i));
   }
 
   const markHtml = arr.join('');
@@ -18,7 +18,7 @@ const renderPaginationList = maxPage => {
 };
 
 const renderListHtml = data => {
-  const list = data.results.map(i => Template.templateExCard(i)).join('');
+  const list = data.results.map(i => Template.exCard(i)).join('');
   refs.listEx.innerHTML = list;
 };
 
