@@ -1,7 +1,7 @@
 export const Template = {
   exCard({ filter, name, imgURL }) {
     const capitalizeStr = str => {
-      if (!str) return;
+      if (!str) return '';
       const parseStr = str
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
