@@ -17,22 +17,25 @@ class Api {
   };
 
   incrementPage() {
-    if (this.hasMorePages()) {
-      console.log(
-        'this.currentPage >= this.totalPages',
-        this.currentPage >= this.totalPages
-      );
-    } else {
+    if (this.currentPage < this.totalPages) {
       this.currentPage += 1;
+    }
+  }
+
+  decrementPage() {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
     }
   }
 
   changeSearchType(field) {
     this.filterType = field;
+
+    this.currentPage = 1;
   }
 
   hasMorePages() {
-    return this.currentPage >= this.totalPages;
+    return this.currentPage < this.totalPages;
   }
 
   async getDataByFilter() {

@@ -1,4 +1,5 @@
 import { data_api } from './api';
+import { Template } from './template';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -6,28 +7,10 @@ const refs = {
   paginationBox: document.querySelector('.pagination'),
 };
 
-const templateExCard = ({ filter, name, imgURL }) => {
-  return `<li class='exercises-item'>
-            <div class='exercises-background-img' style='background-image: url(${imgURL});'>
-              <div class="exercises-wrap-info">
-                <p>${name}</p>
-                <p>${filter}</p>
-              </div>
-            </div>
-          </li>
-`;
-};
-
-const templateItemPagination = numPage => {
-  return `<button class="pagination-item" type="button">
-          ${numPage}
-        </button>`;
-};
-
 const renderPaginationList = maxPage => {
   const arr = [];
   for (let i = 1; i <= maxPage; i++) {
-    arr.push(templateItemPagination(i));
+    arr.push(Template.templateItemPagination(i));
   }
 
   const markHtml = arr.join('');
@@ -35,39 +18,53 @@ const renderPaginationList = maxPage => {
 };
 
 const renderListHtml = data => {
-  const list = data.results.map(i => templateExCard(i)).join('');
+  const list = data.results.map(i => Template.templateExCard(i)).join('');
   refs.listEx.innerHTML = list;
+};
+
+const setActivePaginationButton = page => {
+  const buttons = [...refs.paginationBox.children];
+  if (!buttons.length) return;
+
+  buttons.forEach(btn => btn.classList.remove('pagination-item-active'));
+
+  const index = page - 1;
+  if (index >= 0 && index < buttons.length) {
+    buttons[index].classList.add('pagination-item-active');
+  }
 };
 
 try {
   const res = await data_api.getDataByFilter();
-  refs.btnBox.children[0].classList.add('active');
+  if (refs.btnBox.children[0]) {
+    refs.btnBox.children[0].classList.add('active');
+  }
   renderListHtml(res);
   renderPaginationList(data_api.totalPages);
-  console.log(data_api.currentPage);
-  refs.paginationBox.children[data_api.currentPage - 1].classList.add(
-    'pagination-item-active'
-  );
+  setActivePaginationButton(data_api.currentPage);
 } catch (error) {
   console.log('🚀 ~ error:', error);
 }
 
 const onClickFilterBtn = async e => {
   try {
-    const selectedType = e.target.dataset.type;
+    const clickedBtn = e.target.closest('button');
+    if (!clickedBtn) return;
+
+    const selectedType = clickedBtn.dataset.type;
+    if (!selectedType) return;
+
     data_api.changeSearchType(selectedType);
 
     [...e.currentTarget.children].forEach(btn =>
       btn.classList.remove('active')
     );
+    clickedBtn.classList.add('active');
 
     const res = await data_api.getDataByFilter();
     renderListHtml(res);
     renderPaginationList(data_api.totalPages);
-    refs.paginationBox.children[data_api.currentPage - 1].classList.add(
-      'pagination-item-active'
-    );
-    e.target.classList.add('active');
+    setActivePaginationButton(data_api.currentPage);
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
@@ -79,17 +76,15 @@ const onClickPaginationBox = async e => {
     if (!clickedBtn) return;
 
     const clickedNumPage = Number(clickedBtn.textContent.trim());
+    if (!Number.isFinite(clickedNumPage)) return;
 
-    if (clickedNumPage === data_api.currentPage) {
-      console.log(
-        'clickedNumPage === data_api.currentPage',
-        clickedNumPage === data_api.currentPage
-      );
-    } else {
-      data_api.incrementPage();
-      const res = await data_api.getDataByFilter();
-      renderListHtml(res);
-    }
+    if (clickedNumPage === data_api.currentPage) return;
+
+    data_api.currentPage = clickedNumPage;
+
+    const res = await data_api.getDataByFilter();
+    renderListHtml(res);
+    setActivePaginationButton(data_api.currentPage);
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
