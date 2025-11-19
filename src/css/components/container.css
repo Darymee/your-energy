@@ -5,13 +5,6 @@
   margin: 0 auto;
 }
 
-/* Styles for large Mobile devices */
-@media screen and (min-width: 375px) {
-  .container {
-    width: 375px;
-  }
-}
-
 /* Styles for Tablet devices */
 @media screen and (min-width: 768px) {
   .container {

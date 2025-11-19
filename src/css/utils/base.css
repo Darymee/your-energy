@@ -17,12 +17,20 @@
   -webkit-text-size-adjust: 100%;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
   min-width: 100vw;
   min-height: 100vh;
   margin: 0;
+}
+
+body:has(.is-open) {
+  overflow-y: hidden;
 }
 
 main {
