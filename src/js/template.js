@@ -24,4 +24,11 @@ export const Template = {
           ${numPage}
         </button>`;
   },
+
+  quote(author, quote) {
+    return `<p class="quote-card-text">
+             ${quote}
+            </p>
+            <p class="quote-card-author">${author}</p>`;
+  },
 };
