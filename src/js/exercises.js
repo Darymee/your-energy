@@ -24,20 +24,19 @@ const renderListHtml = data => {
   refs.listEx.innerHTML = list;
 };
 
-const isTomorrow = timeSession => {
-  if (!timeSession) return;
+const isFutureDay = timestampMs => {
   const now = new Date();
-  const target = new Date(timeSession);
+
+  const target = new Date(timestampMs);
 
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const tomorrow = new Date(today);
-  tomorrow.setDate(today.getDate() + 1);
-
-  const dayAfterTomorrow = new Date(today);
-  dayAfterTomorrow.setDate(today.getDate() + 2);
-
-  return target >= tomorrow && target < dayAfterTomorrow;
+  const targetDay = new Date(
+    target.getFullYear(),
+    target.getMonth(),
+    target.getDate()
+  );
+  return targetDay > today;
 };
 
 const renderQuote = async () => {
@@ -46,10 +45,9 @@ const renderQuote = async () => {
 
     if (hasLastSession) {
       const { author: lastAuthor, quote: lastQuote, time } = hasLastSession;
-      const isNextDay = isTomorrow(time);
+      const isFutureDate = isFutureDay(time);
 
-      if (isNextDay) {
-        console.log('fetch for next day');
+      if (isFutureDate) {
         const res = await data_api.getQuote();
         const itemQuote = Template.quote(res.author, res.quote);
         refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
@@ -60,12 +58,10 @@ const renderQuote = async () => {
           time: Date.now(),
         });
       } else {
-        console.log('get data');
         const itemQuote = Template.quote(lastAuthor, lastQuote);
         refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
       }
     } else {
-      console.log('new data');
       const res = await data_api.getQuote();
       const itemQuote = Template.quote(res.author, res.quote);
       refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
