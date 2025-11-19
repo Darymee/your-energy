@@ -1,0 +1,26 @@
+.hero-title {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 74px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #242424;
+  max-width: 700px;
+}
+
+.hero-title span {
+  font-style: italic;
+}
+
+.hero-title__icon {
+  flex-shrink: 0;
+  transform: translateY(4px);
+}
+.hero-subtitle {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.33333;
+  letter-spacing: -0.02em;
+  color: #242424;
+  max-width: 530px;
+}
