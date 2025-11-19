@@ -24,15 +24,26 @@
   background-color: var(--color-black);
 }
 
-.footer-socials {
-  display: flex;
-  gap: 12px;
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  margin-bottom: 20px;
+}
+
+.footer-left {
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 
 .footer-icon {
-  border: 1px solid rgba(244, 244, 244, 0.1);
-  border-radius: 10px;
+  fill: var(--color-white);
+  transition: fill var(--transition);
+}
+
+.footer-logo:hover .footer-icon,
+.footer-logo:focus .footer-icon {
+  fill: var(--color-white-80);
 }
 
 .footer-center {
@@ -44,7 +55,11 @@
 
   line-height: 1.16;
   letter-spacing: -0.02em;
-  color: #f4f4f4;
+  color: var(--color-white);
+}
+
+.footer-right {
+  margin-bottom: 120px;
 }
 
 .footer-right p {
@@ -52,9 +67,76 @@
   font-size: 14px;
 
   line-height: 1.29;
-  color: #f4f4f4;
+  color: var(--color-white);
 }
 
-.footer-right {
-  margin-bottom: 120px;
+.footer-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-form input {
+  max-width: 336px;
+  border: 1px solid var(--color-white);
+  border-radius: 30px;
+  padding-left: 14px;
+  height: 42px;
+  background-color: inherit;
+  margin-bottom: 20px;
+
+  line-height: 1.5;
+  color: var(--color-white);
+  transition: border-color var(--transition);
+}
+
+.footer-form input:hover,
+.footer-form input:focus {
+  border-color: var(--color-white-80);
+}
+
+.footer-form input::placeholder {
+  font-size: 14px;
+
+  line-height: 1.29;
+  color: rgba(244, 244, 244, 0.6);
+}
+
+.footer-form button {
+  max-width: 336px;
+  border-radius: 30px;
+
+  height: 42px;
+  background-color: var(--color-white);
+  font-size: 14px;
+  line-height: 1.29;
+  border: none;
+  transition: background-color var(--transition);
+}
+
+.footer-form button:hover,
+.footer-form button:focus {
+  background-color: var(--color-white-80);
+}
+
+.footer-bottom p,
+a,
+span {
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+  color: var(--color-light-grey);
+}
+
+.footer-bottom .footer-bottom-page {
+  margin-bottom: 10px;
+}
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links span {
+  padding-left: 8px;
+  padding-right: 8px;
 }

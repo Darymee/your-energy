@@ -2,24 +2,13 @@
   <div class="container">
     <!--left block-->
     <div class="footer-left">
-      <p class="footer-logo">YOUR ENERGY</p>
-      <ul class="footer-socials">
-        <li>
-          <svg class="footer-icon" width="40" height="40">
-            <use href="../img/sprite.svg#icon-facebook"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="footer-icon" width="40" height="40">
-            <use href="../img/sprite.svg#icon-instagram"></use>
-          </svg>
-        </li>
-        <li>
-          <svg class="footer-icon" width="40" height="40">
-            <use href="../img/sprite.svg#icon-youtube"></use>
-          </svg>
-        </li>
-      </ul>
+      <a class="footer-logo" href="index.html">
+        <svg class="footer-icon" width="132" height="24">
+          <use href="img/sprite.svg#icon-logo"></use>
+        </svg>
+      </a>
+
+      <load src="../components/social.html" location="footer" />
     </div>
 
     <!--center block-->
@@ -38,13 +27,15 @@
 
     <!--bottom block-->
     <div class="footer-bottom">
-      <p>Your Energy. All rights reserved.</p>
+      <p class="footer-bottom-page">Your Energy. All rights reserved.</p>
       <div class="footer-links">
-        <a href="#">Privacy Policy</a>
-        <span>/</span>
-        <a href="#">Terms of Service</a>
+        <div>
+          <a href="#">Privacy Policy</a>
+          <span>/</span>
+          <a href="#">Terms of Service</a>
+        </div>
+        <p>©2023</p>
       </div>
-      <p>©2023</p>
     </div>
   </div>
 </footer>
