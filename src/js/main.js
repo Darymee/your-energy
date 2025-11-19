@@ -1,1 +1,3 @@
-import * as a from './exercises';
+import './exercises';
+import './burger.js';
+import './router.js';

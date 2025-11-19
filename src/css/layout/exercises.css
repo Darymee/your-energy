@@ -306,6 +306,10 @@
     height: 242px;
   }
 
+  .exercises-list {
+    grid-area: list;
+  }
+
   .pagination {
     grid-area: pagination;
   }
@@ -314,13 +318,10 @@
     grid-template-columns: 444px 1fr;
     grid-template-areas:
       'quotes list '
-      'quotes list'
+      'quotes .'
       '. pagination ';
 
     column-gap: 32px;
-  }
-  .exercises-list {
-    grid-area: list;
   }
 
   .quote-img {

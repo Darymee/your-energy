@@ -1,2 +1,51 @@
 .header {
+  background-color: var(--card-bg);
+  padding: 20px 0;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 24px 0;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .header {
+    padding: 28px 0;
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.header-icon {
+  transition: fill var(--transition);
+}
+
+.header-logo:hover .header-icon,
+.header-logo:focus .header-icon {
+  fill: var(--color-grey-80);
+}
+
+.burger-btn {
+  border: none;
+  background-color: transparent;
+  display: block;
+  line-height: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .burger-btn {
+    display: none;
+  }
 }
