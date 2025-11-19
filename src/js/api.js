@@ -4,11 +4,16 @@ axios.defaults.baseURL = 'https://your-energy.b.goit.study/api';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 class Api {
-  #getSearchParams = (filter = 'Muscles', page = 1, limit = 12) => {
+  totalPages = 0;
+  currentPage = 1;
+  limitPage = 12;
+  filterType = 'Muscles';
+
+  #getSearchParams = () => {
     return {
-      filter,
-      page,
-      limit,
+      filter: this.filterType,
+      page: this.currentPage,
+      limit: this.limitPage,
     };
   };
 
@@ -21,11 +26,35 @@ class Api {
     );
   };
 
-  async getDataByFilter(typeFilter, page = 1, limit = 12) {
+  incrementPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage += 1;
+    }
+  }
+
+  decrementPage() {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+    }
+  }
+
+  changeSearchType(field) {
+    this.filterType = field;
+    this.currentPage = 1;
+  }
+
+  hasMorePages() {
+    return this.currentPage < this.totalPages;
+  }
+
+  async getDataByFilter() {
     try {
       const response = await axios.get('/filters', {
-        params: this.#getSearchParams(typeFilter, page, limit),
+        params: this.#getSearchParams(),
       });
+
+      this.totalPages = response.data.totalPages;
+
       return response.data;
     } catch (error) {
       return this.#handleError(error);
