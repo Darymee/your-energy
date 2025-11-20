@@ -10,8 +10,24 @@ const refs = {
 };
 
 let lastRenderCount = data_api.limitPage;
+let prevLimit = data_api.limitPage;
+let isResizingLoad = false;
 
 const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+
+const onResize = async () => {
+  updateIndicator();
+  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
+    isResizingLoad = true;
+    try {
+      prevLimit = data_api.limitPage;
+      lastRenderCount = prevLimit;
+      await loadAndRenderExercises({ updatePagination: true });
+    } finally {
+      isResizingLoad = false;
+    }
+  }
+};
 
 const updateIndicator = () => {
   const activeBtn = refs.btnBox.querySelector('button.active');
@@ -196,6 +212,6 @@ const onClickPaginationBox = async e => {
 
 /* ---------------- Listeners ---------------- */
 
-window.addEventListener('resize', updateIndicator);
+window.addEventListener('resize', onResize);
 refs.btnBox.addEventListener('click', onClickFilterBtn);
 refs.paginationBox.addEventListener('click', onClickPaginationBox);

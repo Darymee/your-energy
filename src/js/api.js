@@ -6,16 +6,35 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 class Api {
   totalPages = 0;
   currentPage = 1;
-  limitPage = 12;
+  limitPage = 9;
   filterType = 'Muscles';
 
-  #getSearchParams = () => {
+  constructor() {
+    this.#isMobileScreen();
+    window.addEventListener('resize', this.#onSizeScreen);
+  }
+
+  #isMobileScreen() {
+    const { matches: isMobileScreen } = window.matchMedia('(max-width: 767px)');
+    this.limitPage = isMobileScreen ? 9 : 12;
+  }
+
+  #onSizeScreen = () => {
+    const currWidthScreen = window.innerWidth;
+    const nextLimit = currWidthScreen >= 768 ? 12 : 9;
+    if (nextLimit !== this.limitPage) {
+      this.limitPage = nextLimit;
+      this.currentPage = 1;
+    }
+  };
+
+  #getSearchParams() {
     return {
       filter: this.filterType,
       page: this.currentPage,
       limit: this.limitPage,
     };
-  };
+  }
 
   #handleError = error => {
     console.error('API Error:', error);
