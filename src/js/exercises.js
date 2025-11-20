@@ -1,6 +1,6 @@
 import { data_api } from './api';
 import { Template } from './template';
-import { getDataLocalStorage, setDataToLocalStorage } from './local_storage';
+import { getLastSessionLS, setLastSessionLS } from './local_storage';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -82,7 +82,7 @@ const hasPassed24Hours = timestampMs => {
 
 const renderQuote = async () => {
   try {
-    const hasLastSession = getDataLocalStorage('last_session');
+    const hasLastSession = getLastSessionLS();
 
     if (hasLastSession) {
       const { author: lastAuthor, quote: lastQuote, time } = hasLastSession;
@@ -93,7 +93,7 @@ const renderQuote = async () => {
         const itemQuote = Template.quote(res.author, res.quote);
         refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
 
-        setDataToLocalStorage('last_session', {
+        setLastSessionLS({
           author: res.author,
           quote: res.quote,
           time: Date.now(),
@@ -107,7 +107,7 @@ const renderQuote = async () => {
       const itemQuote = Template.quote(res.author, res.quote);
       refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
 
-      setDataToLocalStorage('last_session', {
+      setLastSessionLS({
         author: res.author,
         quote: res.quote,
         time: Date.now(),

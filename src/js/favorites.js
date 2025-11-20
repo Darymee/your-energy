@@ -1,5 +1,7 @@
+import { data_api } from './api';
+import { getFavoritesLS, removeFavoriteLS } from './local_storage';
+
 const API_URL = 'https://your-energy.b.goit.study/api';
-const STORAGE_KEY = 'favorites';
 const iconPath = './img/sprite.svg';
 
 const refs = {
@@ -33,20 +35,21 @@ async function fetchQuote() {
   }
 }
 
-function getFavorites() {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error('Error parsing localStorage:', error);
-    return [];
-  }
+async function getFavoriteExercisesAsync() {
+  const ids = getFavoritesLS();
+
+  if (ids.length === 0) return [];
+
+  const requests = ids.map(id => data_api.getExerciseById(id));
+  const exercises = await Promise.all(requests);
+
+  return exercises;
 }
 
-function renderFavorites() {
+async function renderFavorites() {
   if (!refs.listContainer) return;
 
-  const favorites = getFavorites();
+  const favorites = await getFavoriteExercisesAsync();
 
   if (favorites.length === 0) {
     refs.listContainer.innerHTML = '';
@@ -131,10 +134,7 @@ function handleDelete(event) {
   const btn = event.currentTarget;
   const id = btn.dataset.id;
 
-  const favorites = getFavorites();
-  const updatedFavorites = favorites.filter(item => item._id !== id);
-
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFavorites));
+  removeFavoriteLS(id);
   renderFavorites();
 }
 
