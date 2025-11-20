@@ -1,0 +1,44 @@
+.anchor-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black, #242424);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0px 16px rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
+  z-index: 25;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+}
+
+.anchor-button:hover,
+.anchor-button:focus {
+  transform: scale(1.05);
+}
+
+.anchor-button.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.anchor-icon {
+  width: 50%;
+  height: 50%;
+  fill: var(--color-white, #f4f4f4);
+}
+
+/* Tablet and Desktop (≥768px) */
+@media screen and (min-width: 768px) {
+  .anchor-button {
+    width: 60px;
+    height: 60px;
+  }
+}
