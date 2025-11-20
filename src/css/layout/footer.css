@@ -98,6 +98,10 @@
   background-color: var(--color-white-80);
 }
 
+.footer-bottom {
+  margin-bottom: 10px;
+}
+
 .footer-bottom p,
 .footer-bottom a,
 .footer-bottom span {
@@ -175,6 +179,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 16px;
   }
   .footer-bottom .footer-bottom-page {
     margin-bottom: 0;
@@ -202,9 +207,6 @@
     margin-bottom: 0;
   }
 
-  .footer-bottom {
-    margin-bottom: 16px;
-  }
   .footer-links {
     margin-right: 308px;
   }
