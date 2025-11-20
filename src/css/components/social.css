@@ -75,5 +75,12 @@
 
 .social-icon-footer,
 .social-icon-mob-menu {
-  fill: var(--color-white-80);
+  fill: var(--color-white);
+}
+
+@media screen and (max-width: 767px) {
+  .social-icon-footer {
+    width: 24px;
+    height: 24px;
+  }
 }
