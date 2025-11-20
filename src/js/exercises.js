@@ -11,6 +11,22 @@ const refs = {
 
 let lastRenderCount = data_api.limitPage;
 
+const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+
+const updateIndicator = () => {
+  const activeBtn = refs.btnBox.querySelector('button.active');
+  if (!activeBtn || !indicator) return;
+
+  const boxRect = refs.btnBox.getBoundingClientRect();
+  const btnRect = activeBtn.getBoundingClientRect();
+
+  const left = btnRect.left - boxRect.left;
+  const width = btnRect.width;
+
+  indicator.style.transform = `translateX(${left}px)`;
+  indicator.style.width = `${width}px`;
+};
+
 /* ---------------- Skeleton ---------------- */
 
 const renderSkeletonList = () => {
@@ -136,7 +152,7 @@ try {
   if (refs.btnBox.children[0]) {
     refs.btnBox.children[0].classList.add('active');
   }
-
+  requestAnimationFrame(updateIndicator);
   await loadAndRenderExercises({ updatePagination: true });
   renderQuote();
 } catch (error) {
@@ -155,13 +171,13 @@ const onClickFilterBtn = async e => {
 
     data_api.changeSearchType(selectedType);
 
-    // новий фільтр — стартуємо з дефолтних 12
     lastRenderCount = data_api.limitPage;
 
     [...e.currentTarget.children].forEach(btn =>
       btn.classList.remove('active')
     );
     clickedBtn.classList.add('active');
+    requestAnimationFrame(updateIndicator);
 
     await loadAndRenderExercises({ updatePagination: true });
   } catch (error) {
@@ -181,11 +197,12 @@ const onClickPaginationBox = async e => {
 
     data_api.currentPage = clickedNumPage;
 
-    await loadAndRenderExercises(); // pagination НЕ міняє totalPages
+    await loadAndRenderExercises();
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
 };
 
+window.addEventListener('resize', updateIndicator);
 refs.btnBox.addEventListener('click', onClickFilterBtn);
 refs.paginationBox.addEventListener('click', onClickPaginationBox);
