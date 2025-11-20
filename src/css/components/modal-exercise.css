@@ -1,4 +1,8 @@
-.overlay.is-open {
+.full-overlay {
+  display: none;
+}
+
+.full-overlay.is-open {
   background-color: var(--color-grey-40);
   position: fixed;
   top: 0;
