@@ -153,11 +153,12 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
   setActivePaginationButton(data_api.currentPage);
 };
 
-async function getFilteredData() {
+const getFilteredData = async () => {
   try {
     const res = await data_api.getDataByFilter();
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
+      requestAnimationFrame(updateIndicator);
     }
     renderListHtml(res);
     renderPaginationList(data_api.totalPages);
@@ -165,9 +166,10 @@ async function getFilteredData() {
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
-}
+};
 
 getFilteredData();
+
 const onClickFilterBtn = async e => {
   try {
     const clickedBtn = e.target.closest('button');
