@@ -75,18 +75,11 @@ const renderListHtml = data => {
 
 /* ---------------- Quote ---------------- */
 
-const isFutureDay = timestampMs => {
-  const now = new Date();
-  const target = new Date(timestampMs);
-
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const targetDay = new Date(
-    target.getFullYear(),
-    target.getMonth(),
-    target.getDate()
-  );
-
-  return targetDay > today;
+const hasPassed24Hours = timestampMs => {
+  const nowMs = Date.now();
+  const diffMs = nowMs - timestampMs;
+  const hours24Ms = 24 * 60 * 60 * 1000;
+  return diffMs >= hours24Ms;
 };
 
 const renderQuote = async () => {
@@ -95,7 +88,7 @@ const renderQuote = async () => {
 
     if (hasLastSession) {
       const { author: lastAuthor, quote: lastQuote, time } = hasLastSession;
-      const isFutureDate = isFutureDay(time);
+      const isFutureDate = hasPassed24Hours(time);
 
       if (isFutureDate) {
         const res = await data_api.getQuote();
