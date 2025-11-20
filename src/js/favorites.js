@@ -1,8 +1,8 @@
 import { data_api } from './api';
 import { getFavoritesLS, removeFavoriteLS } from './local_storage';
+import { Template } from './template';
 
 const API_URL = 'https://your-energy.b.goit.study/api';
-const iconPath = './img/sprite.svg';
 
 const refs = {
   quoteText: document.querySelector('.js-quote-text'),
@@ -62,59 +62,7 @@ async function renderFavorites() {
 }
 
 function createMarkup(arr) {
-  return arr
-    .map(
-      ({ _id, name, burnedCalories, time, bodyPart, target }) => `
-      <li class="favorites-item">
-        <div class="card-header">
-          <div class="card-badge">WORKOUT</div>
-          
-          <button class="card-btn-delete js-delete-btn" data-id="${_id}" type="button" aria-label="Remove">
-            <svg class="card-icon-trash" width="16" height="16">
-              <use href="${iconPath}#icon-trash"></use>
-            </svg>
-          </button>
-          
-          <button class="card-btn-start js-start-btn" data-id="${_id}" type="button">
-              Start
-              <svg class="card-icon-arrow" width="16" height="16">
-                  <use href="${iconPath}#icon-arrow-right"></use>
-              </svg>
-          </button>
-        </div>
-  
-        <div class="card-title-wrapper">
-          <div class="card-icon-run-bg">
-              <svg class="card-icon-run" width="14" height="16">
-                  <use href="${iconPath}#icon-running-stick-figure"></use>
-              </svg>
-          </div>
-          <h3 class="card-title">${capitalize(name)}</h3>
-        </div>
-  
-        <ul class="card-info-list">
-          <li class="card-info-item">
-              <span class="info-label">Burned calories:</span>
-              <span class="info-value">${burnedCalories} / ${time} min</span>
-          </li>
-          <li class="card-info-item">
-              <span class="info-label">Body part:</span>
-              <span class="info-value">${capitalize(bodyPart)}</span>
-          </li>
-          <li class="card-info-item">
-              <span class="info-label">Target:</span>
-              <span class="info-value">${capitalize(target)}</span>
-          </li>
-        </ul>
-      </li>
-    `
-    )
-    .join('');
-}
-
-function capitalize(str) {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return arr.map(card => Template.favoriteCard(card)).join('');
 }
 
 function addEventListeners() {
