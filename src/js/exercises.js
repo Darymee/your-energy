@@ -194,6 +194,8 @@ const onClickPaginationBox = async e => {
   }
 };
 
+/* ---------------- Listeners ---------------- */
+
 window.addEventListener('resize', updateIndicator);
 refs.btnBox.addEventListener('click', onClickFilterBtn);
 refs.paginationBox.addEventListener('click', onClickPaginationBox);
