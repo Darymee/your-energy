@@ -65,10 +65,13 @@
     color: var(--color-black);
   }
 
-  .nav-link:not(.is-active):hover,
-  .nav-link:not(.is-active):focus,
   .nav-link.is-active:not(.is-current):hover,
   .nav-link.is-active:not(.is-current):focus {
+    color: var(--color-white);
+  }
+
+  .nav-link:not(.is-active):hover,
+  .nav-link:not(.is-active):focus {
     color: var(--color-black);
   }
 }
