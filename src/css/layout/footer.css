@@ -1,21 +1,219 @@
 .footer {
-  padding: 20px 0;
+  background-color: var(--color-black);
 }
-.footer-desc {
-  text-align: center;
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  margin-bottom: 20px;
 }
-.footer-link {
-  position: relative;
+
+.footer-left {
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
-.footer-link::before {
-  content: '';
-  position: absolute;
-  bottom: 6%;
-  left: 50%;
-  transform: translateX(-50%) skewX(-12deg);
-  z-index: -1;
-  width: 110%;
-  height: 24%;
-  background-color: #41d1ff;
-  transition: 200ms ease;
+
+.footer-icon {
+  fill: var(--color-white);
+  transition: fill var(--transition);
+}
+
+.footer-logo:hover .footer-icon,
+.footer-logo:focus .footer-icon {
+  fill: var(--color-white-80);
+}
+
+.footer-center {
+  margin-bottom: 20px;
+  max-width: 336px;
+}
+
+.footer-center h2 {
+  font-size: 38px;
+  font-style: italic;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  font-weight: 400;
+}
+
+.footer-right {
+  margin-bottom: 120px;
+}
+
+.footer-right p {
+  margin-bottom: 20px;
+  font-size: 14px;
+
+  line-height: 1.29;
+  color: var(--color-white);
+}
+
+.footer-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-form input {
+  max-width: 336px;
+  border: 1px solid var(--color-white);
+  border-radius: 30px;
+  padding-left: 14px;
+  height: 42px;
+  background-color: inherit;
+  margin-bottom: 20px;
+
+  line-height: 1.5;
+  color: var(--color-white);
+  transition: border-color var(--transition);
+}
+
+.footer-form input:hover,
+.footer-form input:focus {
+  border-color: var(--color-white-80);
+}
+
+.footer-form input::placeholder {
+  font-size: 14px;
+
+  line-height: 1.29;
+  color: rgba(244, 244, 244, 0.6);
+}
+
+.footer-form button {
+  max-width: 336px;
+  border-radius: 30px;
+
+  height: 42px;
+  background-color: var(--color-white);
+  font-size: 14px;
+  line-height: 1.29;
+  border: none;
+  transition: background-color var(--transition);
+}
+
+.footer-form button:hover,
+.footer-form button:focus {
+  background-color: var(--color-white-80);
+}
+
+.footer-bottom {
+  margin-bottom: 10px;
+}
+
+.footer-bottom p,
+.footer-bottom a,
+.footer-bottom span {
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+  color: var(--color-light-grey);
+}
+
+.footer-bottom .footer-bottom-page {
+  margin-bottom: 10px;
+}
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-links span {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+@media screen and (max-width: 767px) {
+  .right-and-center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 336px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .footer-top {
+    display: flex;
+    margin-top: 64px;
+    justify-content: space-between;
+  }
+  .footer-left {
+    margin-top: 0;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    margin-bottom: 32px;
+  }
+  .footer-center {
+    max-width: 434px;
+    margin-bottom: 32px;
+  }
+  .footer-center h2 {
+    font-size: 56px;
+    line-height: 1.07;
+  }
+  .footer-right p {
+    font-size: 18px;
+    line-height: 1.33;
+  }
+  .footer-form input,
+  .footer-form button {
+    max-width: 352px;
+    height: 48px;
+  }
+  .footer-form input::placeholder {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .footer-form button {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .footer-right {
+    margin-bottom: 64px;
+  }
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .footer-bottom .footer-bottom-page {
+    margin-bottom: 0;
+  }
+  .footer-links p {
+    margin-left: 178px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .footer-top {
+    margin-bottom: 70px;
+  }
+  .right-and-center-block {
+    display: flex;
+  }
+  .footer-center {
+    margin-right: 115px;
+  }
+  .footer-center {
+    max-width: 595px;
+    margin-bottom: 0;
+  }
+  .footer-right {
+    margin-bottom: 0;
+  }
+
+  .footer-links {
+    margin-right: 308px;
+  }
+  .footer-links p {
+    margin-left: 498px;
+  }
+  .footer-form input {
+    width: 352px;
+  }
 }

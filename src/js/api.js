@@ -114,7 +114,7 @@ class Api {
   async subscribe(email) {
     try {
       const response = await axios.post('/subscription', { email });
-      return response.data;
+      return response;
     } catch (error) {
       return this.#handleError(error);
     }
