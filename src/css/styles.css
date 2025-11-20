@@ -21,6 +21,8 @@
 @import url('./components/overlay.css');
 @import url('./components/gallery.css');
 @import url('./components/pagination.css');
+@import url('./components/mob-menu.css');
+@import url('./components/scrollbar.css');
 
 /* Layout style */
 @import url('./layout/header.css');
