@@ -1,3 +1,5 @@
+import { data_api } from './api';
+
 export const Template = {
   exCard({ filter, name, imgURL }) {
     const capitalizeStr = str => {
@@ -30,5 +32,20 @@ export const Template = {
              ${quote}
             </p>
             <p class="quote-card-author">${author}</p>`;
+  },
+
+  skeletonExMarkup(count = data_api.limitPage) {
+    return Array.from({ length: count })
+      .map(
+        () => `
+      <li class="exercises-item is-skeleton">
+        <div class="exercises-background-img skeleton-bg"></div>
+        <div class="exercises-wrap-info skeleton-info">
+          <div class="skeleton-line skeleton-title"></div>
+          <div class="skeleton-line skeleton-subtitle"></div>
+        </div>
+      </li>`
+      )
+      .join('');
   },
 };

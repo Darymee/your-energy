@@ -9,33 +9,67 @@ const refs = {
   quoteBody: document.querySelector('.quote-card-body'),
 };
 
+let lastRenderCount = data_api.limitPage;
+
+/* ---------------- Skeleton ---------------- */
+
+const renderSkeletonList = () => {
+  refs.listEx.innerHTML = Template.skeletonExMarkup(lastRenderCount);
+};
+
+/* ---------------- Pagination ---------------- */
+
 const renderPaginationList = maxPage => {
   const arr = [];
   for (let i = 1; i <= maxPage; i++) {
     arr.push(Template.itemPagination(i));
   }
-
-  const markHtml = arr.join('');
-  refs.paginationBox.innerHTML = markHtml;
+  refs.paginationBox.innerHTML = arr.join('');
 };
+
+const setActivePaginationButton = page => {
+  const buttons = [...refs.paginationBox.children];
+  if (!buttons.length) return;
+
+  buttons.forEach(btn => btn.classList.remove('pagination-item-active'));
+
+  const index = page - 1;
+  if (index >= 0 && index < buttons.length) {
+    buttons[index].classList.add('pagination-item-active');
+  }
+};
+
+/* ---------------- List render + fillers ---------------- */
 
 const renderListHtml = data => {
-  const list = data.results.map(i => Template.exCard(i)).join('');
-  refs.listEx.innerHTML = list;
+  const cards = data.results.map(i => Template.exCard(i));
+
+  const missing = Math.max(0, lastRenderCount - cards.length);
+
+  const fillers = Array.from({ length: missing }).map(
+    () => `<li class="exercises-item is-filler"></li>`
+  );
+
+  refs.listEx.innerHTML = [...cards, ...fillers].join('');
+
+  if (cards.length > 0) {
+    lastRenderCount = cards.length;
+  }
 };
+
+/* ---------------- Quote ---------------- */
 
 const isFutureDay = timestampMs => {
   const now = new Date();
-
   const target = new Date(timestampMs);
 
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
   const targetDay = new Date(
     target.getFullYear(),
     target.getMonth(),
     target.getDate()
   );
+
   return targetDay > today;
 };
 
@@ -80,30 +114,36 @@ const renderQuote = async () => {
   }
 };
 
-const setActivePaginationButton = page => {
-  const buttons = [...refs.paginationBox.children];
-  if (!buttons.length) return;
+/* ----------------Loader ---------------- */
 
-  buttons.forEach(btn => btn.classList.remove('pagination-item-active'));
+const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
+  renderSkeletonList();
 
-  const index = page - 1;
-  if (index >= 0 && index < buttons.length) {
-    buttons[index].classList.add('pagination-item-active');
+  const res = await data_api.getDataByFilter();
+
+  renderListHtml(res);
+
+  if (updatePagination) {
+    renderPaginationList(data_api.totalPages);
   }
+
+  setActivePaginationButton(data_api.currentPage);
 };
 
+/* ---------------- Initial load ---------------- */
+
 try {
-  const res = await data_api.getDataByFilter();
   if (refs.btnBox.children[0]) {
     refs.btnBox.children[0].classList.add('active');
   }
-  renderListHtml(res);
-  renderPaginationList(data_api.totalPages);
+
+  await loadAndRenderExercises({ updatePagination: true });
   renderQuote();
-  setActivePaginationButton(data_api.currentPage);
 } catch (error) {
   console.log('🚀 ~ error:', error);
 }
+
+/* ---------------- OnHandlers ---------------- */
 
 const onClickFilterBtn = async e => {
   try {
@@ -115,15 +155,15 @@ const onClickFilterBtn = async e => {
 
     data_api.changeSearchType(selectedType);
 
+    // новий фільтр — стартуємо з дефолтних 12
+    lastRenderCount = data_api.limitPage;
+
     [...e.currentTarget.children].forEach(btn =>
       btn.classList.remove('active')
     );
     clickedBtn.classList.add('active');
 
-    const res = await data_api.getDataByFilter();
-    renderListHtml(res);
-    renderPaginationList(data_api.totalPages);
-    setActivePaginationButton(data_api.currentPage);
+    await loadAndRenderExercises({ updatePagination: true });
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
@@ -141,9 +181,7 @@ const onClickPaginationBox = async e => {
 
     data_api.currentPage = clickedNumPage;
 
-    const res = await data_api.getDataByFilter();
-    renderListHtml(res);
-    setActivePaginationButton(data_api.currentPage);
+    await loadAndRenderExercises(); // pagination НЕ міняє totalPages
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }

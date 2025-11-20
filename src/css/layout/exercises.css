@@ -236,6 +236,78 @@
   justify-content: center;
 }
 
+.exercises-item.is-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.exercises-background-img.skeleton-bg {
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  height: 225px;
+}
+
+.exercises-wrap-info.skeleton-info {
+  width: 70%;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.18);
+  margin: 8px auto;
+}
+
+.skeleton-title {
+  height: 20px;
+  width: 60%;
+}
+.skeleton-subtitle {
+  height: 12px;
+  width: 40%;
+}
+
+/* skeleton */
+.exercises-item.is-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.2s infinite;
+}
+
+.exercises-item.is-filler {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .exercises-background-img.skeleton-bg {
+    height: 225px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .exercises-background-img.skeleton-bg {
+    height: 242px;
+  }
+}
+
+/* skeleton */
+
 @media screen and (min-width: 768px) {
   .pagination {
     margin-bottom: 64px;
