@@ -34,17 +34,21 @@ const setActivePaginationButton = page => {
   }
 };
 
-try {
-  const res = await data_api.getDataByFilter();
-  if (refs.btnBox.children[0]) {
-    refs.btnBox.children[0].classList.add('active');
+async function getFilteredData() {
+  try {
+    const res = await data_api.getDataByFilter();
+    if (refs.btnBox.children[0]) {
+      refs.btnBox.children[0].classList.add('active');
+    }
+    renderListHtml(res);
+    renderPaginationList(data_api.totalPages);
+    setActivePaginationButton(data_api.currentPage);
+  } catch (error) {
+    console.log('🚀 ~ error:', error);
   }
-  renderListHtml(res);
-  renderPaginationList(data_api.totalPages);
-  setActivePaginationButton(data_api.currentPage);
-} catch (error) {
-  console.log('🚀 ~ error:', error);
 }
+
+getFilteredData();
 
 const onClickFilterBtn = async e => {
   try {
