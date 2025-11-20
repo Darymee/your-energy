@@ -73,7 +73,10 @@ const renderQuote = async () => {
       });
     }
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    const errorAuthor = 'Tom Brady';
+    const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
+    const itemQuote = Template.quote(errorAuthor, errorQuote);
+    refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
   }
 };
 
