@@ -22,9 +22,11 @@
 @import url('./components/gallery.css');
 @import url('./components/pagination.css');
 @import url('./components/mob-menu.css');
+@import url('./components/scrollbar.css');
 
 /* Layout style */
 @import url('./layout/header.css');
 @import url('./layout/hero.css');
 @import url('./layout/exercises.css');
+@import url('./layout/favorites.css');
 @import url('./layout/footer.css');
