@@ -155,6 +155,7 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
 
 const getFilteredData = async () => {
   try {
+    renderQuote();
     const res = await data_api.getDataByFilter();
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
