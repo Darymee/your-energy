@@ -136,7 +136,80 @@ span {
   align-items: center;
 }
 
+.footer-links a,
+.footer-links span,
+.footer-links p {
+  font-size: 14px;
+
+  line-height: 1.29;
+  letter-spacing: -0.02em;
+}
+
 .footer-links span {
   padding-left: 8px;
   padding-right: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .footer-top {
+    display: flex;
+    margin-top: 64px;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    margin-top: 0;
+    margin-bottom: 40px;
+  }
+  .footer-logo {
+    margin-bottom: 32px;
+  }
+
+  .footer-center {
+    max-width: 434px;
+    margin-bottom: 32px;
+  }
+
+  .footer-center h2 {
+    font-size: 56px;
+    line-height: 1.07;
+  }
+
+  .footer-right p {
+    font-size: 18px;
+    line-height: 1.33;
+  }
+  .footer-form input,
+  .footer-form button {
+    max-width: 352px;
+    height: 48px;
+  }
+
+  .footer-form input::placeholder {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .footer-form button {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .footer-right {
+    margin-bottom: 64px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-bottom .footer-bottom-page {
+    margin-bottom: 0;
+  }
+
+  .footer-links p {
+    margin-left: 178px;
+  }
 }
