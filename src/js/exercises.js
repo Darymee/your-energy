@@ -68,9 +68,7 @@ const renderListHtml = data => {
 
   refs.listEx.innerHTML = [...cards, ...fillers].join('');
 
-  if (cards.length > 0) {
-    lastRenderCount = cards.length;
-  }
+  lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
 
 /* ---------------- Quote ---------------- */
