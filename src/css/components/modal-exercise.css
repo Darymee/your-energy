@@ -15,6 +15,16 @@
   z-index: 9;
 }
 
+.modal-exercises {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.overlay-content {
+  width: 100%;
+}
+
 .modal {
   background: var(--color-black);
   border-radius: 20px;
