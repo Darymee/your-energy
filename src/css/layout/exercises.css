@@ -3,7 +3,7 @@
   font-size: 28px;
   line-height: 1.35714;
   letter-spacing: -0.02em;
-  color: #242424;
+  color: var(--color-black);
   margin-bottom: 20px;
 }
 
@@ -21,33 +21,23 @@
   bottom: -7px;
   left: 0;
   width: 100%;
-  background-color: #242424;
+  background-color: var(--color-black);
 }
 
 .exercises-thumb-btn button {
   position: relative;
-  flex-direction: row;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.42857;
-  color: rgba(36, 36, 36, 0.6);
+  color: var(--color-grey-60);
   background-color: transparent;
   border: none;
   padding: 0;
 }
 
 .exercises-thumb-btn button.active {
-  color: #242424;
+  color: var(--color-black);
 }
-
-/* .exercises-thumb-btn button:first-child {
-}
-
-.exercises-thumb-btn button:nth-child(2) {
-}
-
-.exercises-thumb-btn button:last-child {
-} */
 
 .exercises-list {
   display: grid;
@@ -75,7 +65,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(17, 17, 17, 0.5));
+  background: linear-gradient(var(--card-overlay-bg));
   pointer-events: none;
   border-radius: 12px;
 }
@@ -94,14 +84,14 @@
   font-size: 20px;
   line-height: 1;
   text-align: center;
-  color: #f4f4f4;
+  color: var(--color-white);
 }
 
 .exercises-wrap-info p:last-child {
   font-weight: 400;
   font-size: 12px;
   line-height: 1.5;
-  color: rgba(244, 244, 244, 0.4);
+  color: var(--color-white-40);
 }
 
 .quote-wrapper {
@@ -109,19 +99,20 @@
   row-gap: 20px;
   padding-bottom: 80px;
 }
+
 .quote-card {
   min-width: 250px;
-  background-color: #262626;
+  background-color: var(--color-black);
   border-radius: 24px;
   padding: 20px;
   display: flex;
   gap: 18px;
-  color: #f4f4f4;
+  color: var(--color-white);
   font-family: 'DM Sans', system-ui, sans-serif;
 }
 
 .quote-card-background {
-  background-color: #fff;
+  background-color: var(--card-bg);
 }
 
 .quote-card-icon {
@@ -137,7 +128,7 @@
 }
 
 .quote-card-svg {
-  fill: #f4f4f4;
+  fill: var(--color-white);
 }
 
 .quote-card-body {
@@ -180,14 +171,14 @@
   font-weight: 500;
   font-size: 20px;
   line-height: 1;
-  color: #f4f4f4;
+  color: var(--color-white);
 }
 
 .quote-card-subtitle {
   font-weight: 400;
   font-size: 14px;
   line-height: 1.28571;
-  color: rgba(36, 36, 36, 0.6);
+  color: var(--color-grey-60);
 }
 
 .quote-card-mark {
@@ -199,19 +190,18 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.28571;
-  color: rgba(244, 244, 244, 0.6);
+  color: var(--color-white-60);
 }
 
 .quote-card-color {
-  color: rgba(36, 36, 36, 1);
+  color: var(--color-black);
 }
 
 .quote-card-author {
   font-weight: 400;
   font-size: 14px;
   line-height: 1.28571;
-  color: #f4f4f4;
-  /* margin-top: auto; */
+  color: var(--color-white);
 }
 
 .quote-title-mr {
@@ -231,11 +221,10 @@
   font-family: inherit;
   font-size: 16px;
   line-height: 1;
-  color: rgba(0, 0, 0, 0.25); /* неактивна цифра як на макеті */
+  color: #00000040;
   cursor: pointer;
 }
 
-/* активна сторінка — в кружечку */
 .pagination-item-active {
   color: #000;
   border: 1px solid #000;
