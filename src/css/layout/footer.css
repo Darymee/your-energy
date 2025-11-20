@@ -31,11 +31,14 @@
 
 .footer-center h2 {
   font-size: 38px;
-  font-style: italic;
   line-height: 1.16;
   letter-spacing: -0.02em;
   color: var(--color-white);
   font-weight: 400;
+}
+
+.footer-center span {
+  font-style: italic;
 }
 
 .footer-right {
@@ -152,7 +155,7 @@
     margin-bottom: 32px;
   }
   .footer-center h2 {
-    font-size: 56px;
+    font-size: 54px;
     line-height: 1.07;
   }
   .footer-right p {
@@ -185,7 +188,7 @@
     margin-bottom: 0;
   }
   .footer-links p {
-    margin-left: 178px;
+    margin-left: 172px;
   }
 }
 
@@ -211,7 +214,7 @@
     margin-right: 308px;
   }
   .footer-links p {
-    margin-left: 498px;
+    margin-left: 494px;
   }
   .footer-form input {
     width: 352px;

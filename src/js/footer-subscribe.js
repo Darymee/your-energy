@@ -1,3 +1,4 @@
+import iziToast from 'izitoast';
 import { data_api } from '../js/api';
 
 const refs = {
@@ -6,19 +7,41 @@ const refs = {
 
 const onSubscribeSubmit = async e => {
   e.preventDefault();
-  const email = e.target.elements.email.value;
+  const email = e.target.elements.email.value.trim();
+  const emailRegex = /^\w+(\.\w+)?@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+  if (!email) {
+    iziToast.info({
+      message: 'Email is required',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    iziToast.info({
+      message: 'Invalid email format',
+      position: 'topRight',
+    });
+    return;
+  }
 
   try {
     const response = await data_api.subscribe(email);
-    console.log(response);
 
     if (response.status === 201) {
-      alert('Subscription successful!');
+      iziToast.success({
+        message: response.data.message,
+        position: 'topRight',
+      });
       refs.form.reset();
       return;
     }
   } catch (err) {
-    console.log(err);
+    iziToast.error({
+      message: err,
+      position: 'topRight',
+    });
     refs.form.reset();
   }
 };
