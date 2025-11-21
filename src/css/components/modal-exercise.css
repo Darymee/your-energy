@@ -15,17 +15,12 @@
   z-index: 9;
 }
 
-.modal-exercises {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-}
 
 .overlay-content {
   width: 100%;
 }
 
-.modal {
+.modal-exercises {
   background: var(--color-black);
   border-radius: 20px;
   width: 335px;
@@ -36,6 +31,9 @@
   position: relative;
 }
 
+.modal{
+  position: relative;
+}
 .modal-close {
   position: absolute;
   top: 24px;
@@ -111,24 +109,46 @@
   padding-bottom: 10px;
 }
 
+
+.section-btn {
+ margin-top: 40px;
+}
+
 .modal-btn {
-  background: var(--color-white);
-  border: 1px solid var(--color-white);
-  border-radius: 30px;
-  margin-top: 40px;
-  width: 295px;
+   border-radius: 30px;
+   width: 295px;
   height: 42px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.29;
-  color: var(--color-black);
-  transition: background 250ms ease, color 250ms ease;
+ transition: background 250ms ease, color 250ms ease;
 }
 
-.modal-btn:hover,
-.modal-btn:focus {
+.favorite-btn{
+   background: var(--color-white);
+  border: 1px solid var(--color-white);
+ color: var(--color-black);
+ margin-bottom: 10px;
+  
+}
+
+.favorite-btn:hover,
+.favorite-btn:focus {
   background: transparent;
+  border: 1px solid var(--color-white);
   color: var(--color-white);
+}
+
+.rating-btn{
+   background: transparent;
+  color: var(--color-white);
+    border: 1px solid var(--color-white);
+}
+
+.rating-btn:hover,
+.rating-btn:focus{
+  background: var(--color-white);
+  color: var(--color-black);
 }
 
 .modal-btn-icon {
@@ -164,7 +184,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .modal {
+  .modal-exercises {
     width: 708px;
     display: flex;
     gap: 32px;
