@@ -7,7 +7,7 @@ function capitalize(str) {
 }
 
 export const Template = {
-  exCard({ filter, name, imgURL }) {
+  exerciseCard({ filter, name, imgURL }) {
     const capitalizeStr = str => {
       if (!str) return '';
       const parseStr = str
@@ -67,7 +67,7 @@ export const Template = {
             </svg>
           </button>
           
-          <button class="card-btn-start js-start-btn" data-id="${_id}" type="button">
+          <button class="card-btn-start js-start-btn" data-id="${_id}" data-open-overlay="exercise" type="button">
               Start
               <svg class="card-icon-arrow" width="16" height="16">
                   <use href="${iconPath}#icon-arrow-right"></use>

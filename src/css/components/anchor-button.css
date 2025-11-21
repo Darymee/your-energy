@@ -1,6 +1,6 @@
 .anchor-button {
   position: fixed;
-  bottom: 30px;
+  bottom: 40px;
   right: 30px;
   display: flex;
   align-items: center;
@@ -35,10 +35,20 @@
   fill: var(--color-white, #f4f4f4);
 }
 
-/* Tablet and Desktop (≥768px) */
+/* Styles for Tablet devices */
 @media screen and (min-width: 768px) {
+  .anchor-button {
+    width: 50px;
+    height: 50px;
+    bottom: 45px;
+  }
+}
+
+/* Styles for Desktop devices */
+@media screen and (min-width: 1440px) {
   .anchor-button {
     width: 60px;
     height: 60px;
+    bottom: 25px;
   }
 }

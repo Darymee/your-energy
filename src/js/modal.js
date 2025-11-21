@@ -1,11 +1,13 @@
 const modalStore = {};
 
+let refs = null;
+
 export function Modal(name, content) {
   modalStore[name] = content;
 }
 
 export function initModalSystem() {
-  const refs = {
+  refs = {
     modal: document.querySelector('[data-overlay]'),
     modalContent: document.querySelector('[data-overlay-content]'),
   };
@@ -16,29 +18,34 @@ export function initModalSystem() {
       openModal(key);
     });
   });
+}
 
-  function openModal(key) {
-    const content = modalStore[key];
-    if (!content) return console.warn(`No modal found for key: ${key}`);
-
-    refs.modalContent.innerHTML = content;
-    refs.modal.classList.add('is-open');
-
-    const closeBtn = refs.modal.querySelector('[data-close-overlay]');
-    closeBtn?.addEventListener('click', closeModal);
-
-    refs.modal.addEventListener('click', backdropClose);
+export function openModal(key) {
+  if (!refs) {
+    console.warn('Modal system is not initialized');
+    return;
   }
 
-  function closeModal() {
-    refs.modalContent.innerHTML = '';
-    refs.modal.classList.remove('is-open');
-    refs.modal.removeEventListener('click', backdropClose);
-  }
+  const content = modalStore[key];
+  if (!content) return console.warn(`No modal found for key: ${key}`);
 
-  function backdropClose(e) {
-    if (e.target === refs.modal) closeModal();
-  }
+  refs.modalContent.innerHTML = content;
+  refs.modal.classList.add('is-open');
+
+  const closeBtn = refs.modal.querySelector('[data-close-overlay]');
+  closeBtn?.addEventListener('click', closeModal);
+
+  refs.modal.addEventListener('click', backdropClose);
+}
+
+function closeModal() {
+  refs.modalContent.innerHTML = '';
+  refs.modal.classList.remove('is-open');
+  refs.modal.removeEventListener('click', backdropClose);
+}
+
+function backdropClose(e) {
+  if (e.target === refs.modal) closeModal();
 }
 
 initModalSystem();
