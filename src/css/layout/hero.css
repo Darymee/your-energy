@@ -6,8 +6,9 @@
   font-weight: 400;
   font-size: 38px;
   line-height: 1.158;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.06em;
   margin-bottom: 20px;
+  max-width: 335px;
   color: var(--color-black);
 }
 
@@ -26,6 +27,8 @@
 .hero-subtitle {
   font-weight: 400;
   font-size: 14px;
+  letter-spacing: -0.02em;
+  max-width: 335px;
   line-height: 1.28571;
   margin-bottom: 20px;
   color: var(--color-black);
@@ -61,11 +64,19 @@
 
 .hero-picture {
   display: block;
+  width: 100%;
+  height: 460px;
   border-radius: var(--border-radius-60);
   overflow: hidden;
   margin-bottom: 20px;
 }
-
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
 @media screen and (min-width: 768px) {
   .hero {
     margin-bottom: 64px;
@@ -93,6 +104,7 @@
   }
   .hero-picture {
     margin-bottom: 16px;
+    height: 550px;
   }
   .hero-tag {
     padding: 4px 16px;
@@ -129,5 +141,6 @@
   }
   .hero-picture {
     margin-bottom: 0px;
+    height: 350px;
   }
 }
