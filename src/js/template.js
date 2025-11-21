@@ -6,8 +6,17 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+export const getTemplate = filter => {
+  switch (filter) {
+    case 'Body parts':
+      return 'favoriteCard';
+    default:
+      return 'exerciseCard';
+  }
+};
+
 export const Template = {
-  exCard({ filter, name, imgURL }) {
+  exerciseCard({ filter, name, imgURL }) {
     const capitalizeStr = str => {
       if (!str) return '';
       const parseStr = str
@@ -35,7 +44,7 @@ export const Template = {
 
   quote(author, quote) {
     return `<p class="quote-card-text">
-             ${quote}
+              ${quote}
             </p>
             <p class="quote-card-author">${author}</p>`;
   },

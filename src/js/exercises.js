@@ -1,5 +1,5 @@
 import { data_api } from './api';
-import { Template } from './template';
+import { Template, getTemplate } from './template';
 import { getLastSessionLS, setLastSessionLS } from './local_storage';
 
 const refs = {
@@ -22,7 +22,7 @@ const onResize = async () => {
     try {
       prevLimit = data_api.limitPage;
       lastRenderCount = prevLimit;
-      await loadAndRenderExercises({ updatePagination: true });
+      await loadAndRenderCard({ updatePagination: true });
     } finally {
       isResizingLoad = false;
     }
@@ -73,16 +73,16 @@ const setActivePaginationButton = page => {
 
 /* ---------------- List render + fillers ---------------- */
 
-const renderListHtml = data => {
-  const cards = data.results.map(i => Template.exCard(i));
+const renderListHtml = (data, filter) => {
+  const cards = data.results.map(item => Template[getTemplate(filter)](item));
 
   const missing = Math.max(0, lastRenderCount - cards.length);
 
-  const fillers = Array.from({ length: missing }).map(
-    () => `<li class="exercises-item is-filler"></li>`
-  );
+  console.log(filter === 'Body parts');
 
-  refs.listEx.innerHTML = [...cards, ...fillers].join('');
+  if (filter === 'Body parts') refs.listEx.classList.add('body-parts-list');
+
+  refs.listEx.innerHTML = cards.join('');
 
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
@@ -139,12 +139,14 @@ const renderQuote = async () => {
 
 /* ----------------Loader ---------------- */
 
-const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
+const loadAndRenderCard = async ({ updatePagination = false } = {}) => {
   renderSkeletonList();
 
   const res = await data_api.getDataByFilter();
 
-  renderListHtml(res);
+  const filter = data_api.filterType;
+
+  renderListHtml(res, filter);
 
   if (updatePagination) {
     renderPaginationList(data_api.totalPages);
@@ -181,6 +183,10 @@ const onClickFilterBtn = async e => {
 
     data_api.changeSearchType(selectedType);
 
+    if (selectedType === 'Body parts') {
+      data_api.set;
+    }
+
     lastRenderCount = data_api.limitPage;
 
     [...e.currentTarget.children].forEach(btn =>
@@ -189,7 +195,7 @@ const onClickFilterBtn = async e => {
     clickedBtn.classList.add('active');
     requestAnimationFrame(updateIndicator);
 
-    await loadAndRenderExercises({ updatePagination: true });
+    await loadAndRenderCard({ updatePagination: true });
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
@@ -207,7 +213,7 @@ const onClickPaginationBox = async e => {
 
     data_api.currentPage = clickedNumPage;
 
-    await loadAndRenderExercises();
+    await loadAndRenderCard();
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
