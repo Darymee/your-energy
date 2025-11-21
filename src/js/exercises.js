@@ -73,16 +73,27 @@ const setActivePaginationButton = page => {
 
 /* ---------------- List render + fillers ---------------- */
 
-const renderListHtml = data => {
-  const cards = data.results.map(i => Template.exCard(i));
-
-  const missing = Math.max(0, lastRenderCount - cards.length);
-
-  const fillers = Array.from({ length: missing }).map(
-    () => `<li class="exercises-item is-filler"></li>`
+const renderExerciseList = async e => {
+  const res = await data_api.getExerciseByCategory(
+    data_api.filterType,
+    e.currentTarget.dataset.name
   );
 
-  refs.listEx.innerHTML = [...cards, ...fillers].join('');
+  refs.listEx.classList.add('body-parts-list');
+  const cards = res.results.map(item => Template.favoriteCard(item));
+  refs.listEx.innerHTML = cards.join('');
+};
+
+const renderListHtml = data => {
+  const cards = data.results.map(i => Template.exerciseCard(i));
+
+  refs.listEx.innerHTML = cards.join('');
+
+  const exerciseCards = document.querySelectorAll('.exercises-item');
+
+  exerciseCards.forEach(card =>
+    card.addEventListener('click', e => renderExerciseList(e))
+  );
 
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
