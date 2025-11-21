@@ -1,5 +1,5 @@
 import { data_api } from './api';
-const iconPath = './img/sprite.svg';
+const iconPath = 'img/sprite.svg';
 
 function capitalize(str) {
   if (!str) return '';

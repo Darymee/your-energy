@@ -23,14 +23,14 @@ function makeStars(rating) {
   const full = Array(safeRating)
     .fill(
       `<svg class="full" width="18" height="18">
-        <use href="./img/sprite.svg#icon-star"></use>
+        <use href="/img/sprite.svg#icon-star"></use>
         </svg>`
     )
     .join('');
   const empty = Array(5 - safeRating)
     .fill(
       `<svg class="empty" width="18" height="18">
-        <use href="./img/sprite.svg#icon-star"></use>
+        <use href="/img/sprite.svg#icon-star"></use>
         </svg>`
     )
     .join('');
@@ -94,7 +94,7 @@ function modalExerciseTemplate(data) {
                     <button type="button" class="modal-btn">
                       Add to favorites
                         <svg class="modal-btn-icon" width="18" height="18">
-                        <use href="./img/sprite.svg#icon-heart"></use>
+                        <use href="img/sprite.svg#icon-heart"></use>
                         </svg>
                     
                     <button type="button" class="modal-btn-rating">
