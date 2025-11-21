@@ -1,5 +1,4 @@
 .header {
-  background-color: var(--card-bg);
   padding: 20px 0;
 }
 
@@ -28,6 +27,7 @@
 }
 
 .header-icon {
+  fill: var(--color-black);
   transition: fill var(--transition);
 }
 
@@ -47,5 +47,19 @@
 @media screen and (min-width: 768px) {
   .burger-btn {
     display: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .header-right-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .header-right-wrapper {
+    gap: 36px;
   }
 }

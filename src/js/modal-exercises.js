@@ -90,12 +90,17 @@ function modalExerciseTemplate(data) {
 
                 <p class="modal-description">${description}</p>
 
-                    <button type="button" class="modal-btn">Add to favorites
-                    <svg class="modal-btn-icon" width="18" height="18">
-                    <use href="./img/sprite.svg#icon-heart"></use>
-                    </svg>
+                <div class="modal-btn-wrapper">
+                    <button type="button" class="modal-btn">
+                      Add to favorites
+                        <svg class="modal-btn-icon" width="18" height="18">
+                        <use href="./img/sprite.svg#icon-heart"></use>
+                        </svg>
+                    
+                    <button type="button" class="modal-btn-rating">
+                      Give a rating
                     </button>
-
+                </div>  
             </div>
         </div>`;
 }

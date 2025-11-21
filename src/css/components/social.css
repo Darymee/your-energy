@@ -84,3 +84,16 @@
     height: 24px;
   }
 }
+
+html[data-theme='dark'] .social-icon-footer {
+  fill: #ffffff;
+}
+
+html[data-theme='dark'] .social-link-footer:hover,
+html[data-theme='dark'] .social-link-footer:focus {
+  background-color: #ffffff;
+}
+html[data-theme='dark'] .social-link-footer:hover .social-icon-footer,
+html[data-theme='dark'] .social-link-footer:focus .social-icon-footer {
+  fill: #0b1020;
+}

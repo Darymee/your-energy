@@ -23,6 +23,7 @@
 @import url('./components/pagination.css');
 @import url('./components/mob-menu.css');
 @import url('./components/scrollbar.css');
+@import url('./components/theme-switcher.css');
 
 /* Layout style */
 @import url('./layout/header.css');
