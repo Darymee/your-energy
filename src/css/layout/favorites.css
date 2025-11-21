@@ -192,8 +192,8 @@
 }
 
 .favorites-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
@@ -208,14 +208,10 @@
 }
 
 @media screen and (min-width: 768px) {
-  .favorites-item {
-    width: calc((100% - 20px) / 2);
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .favorites-item {
-    width: 100%;
+  .exercises-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 16px;
+    margin-bottom: 32px;
   }
 }
 

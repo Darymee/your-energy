@@ -7,7 +7,7 @@ function capitalize(str) {
 }
 
 export const Template = {
-  exCard({ filter, name, imgURL }) {
+  exerciseCard({ filter, name, imgURL }) {
     const capitalizeStr = str => {
       if (!str) return '';
       const parseStr = str
@@ -17,7 +17,7 @@ export const Template = {
       return parseStr;
     };
 
-    return `<li class='exercises-item'>
+    return `<li class='exercises-item' data-name="${name}">
             <div class='exercises-background-img' style='background-image: url(${imgURL});'>
               <div class="exercises-wrap-info">
                 <p>${capitalizeStr(name)}</p>

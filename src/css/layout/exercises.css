@@ -438,3 +438,8 @@
     row-gap: 32px;
   }
 }
+
+.exercises-list.body-parts-list {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px 16px;
+}
