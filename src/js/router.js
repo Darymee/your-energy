@@ -33,18 +33,29 @@ links.forEach(link => {
   link.addEventListener('mouseenter', () => {
     moveIndicator(link);
 
-    activeLink.classList.remove('is-current');
+    if (link !== activeLink) {
+      activeLink.classList.remove('is-current');
+    } else {
+      activeLink.classList.add('is-current');
+    }
   });
 
   link.addEventListener('click', event => {
-    if (link.dataset.page === currentPage) {
+    if (link === activeLink) {
       event.preventDefault();
-      moveIndicator(link);
       return;
     }
 
-    links.forEach(l => l.classList.remove('is-active'));
-    link.classList.add('is-active');
+    if (link.dataset.page === currentPage) {
+      event.preventDefault();
+      activeLink = link;
+      activeLink.classList.add('is-current');
+      moveIndicator(activeLink);
+      return;
+    }
+
+    links.forEach(l => l.classList.remove('is-active', 'is-current'));
+    link.classList.add('is-active', 'is-current');
     activeLink = link;
   });
 });
