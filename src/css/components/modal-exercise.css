@@ -115,9 +115,10 @@
 }
 
 .modal-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
    border-radius: 30px;
-   width: 295px;
-  height: 42px;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.29;
@@ -181,6 +182,10 @@
   .modal-details {
     gap: 20px;
   }
+  .modal-btn{
+       width: 295px;
+  height: 42px;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -195,6 +200,21 @@
     width: 270px;
     height: 259px;
   }
+
+  .section-btn {
+ margin-top: 64px;
+ display: flex;
+ justify-content: center;
+ gap: 8px;
+}
+
+.modal-btn{
+  height: 48px;
+}
+.rating-btn,
+.favorite-btn{
+  padding: 12px 22px;
+}
 
   .modal-details {
     max-width: 338px;

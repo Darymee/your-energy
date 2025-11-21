@@ -2,23 +2,59 @@ import { Modal, initModalSystem } from './modal';
 import axios from 'axios';
 
 const BASE_URL = 'https://your-energy.b.goit.study/api';
+const LS_KEY = 'favoriteExercises';
 const overlay = document.querySelector('[data-overlay]');
 const overlayContent = document.querySelector('[data-overlay-content]');
 
-onOpenModal();
+onOpenModal('64f389465ae26083f39b17a4');
 initModalSystem();
 
-async function onOpenModal(e) {
+function getFavoriteIds() {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+}
+
+function setFavorites(ids) {
+    localStorage.setItem(LS_KEY, JSON.stringify(ids));
+}
+
+async function onOpenModal(id) {
     try {
-        const { data } = await axios.get(
-            `${BASE_URL}/exercises/64f389465ae26083f39b17a4`
-        );
+        const { data } = await axios.get(`${BASE_URL}/exercises/${id}`);
 
-        const html = modalExerciseTemplate(data);
-        console.log('data', data);
+        const exerciseId = data._id || id;
 
+        const favoriteIds = getFavoriteIds();
+
+        const isFavorite = favoriteIds.includes(exerciseId);
+
+        const textBtn = textForBtn(isFavorite);
+
+        const html = modalExerciseTemplate(data, textBtn);
         overlayContent.innerHTML = html;
         overlay.classList.add('is-open');
+
+        const favoriteBtn = overlayContent.querySelector('.favorite-btn');
+        const favoriteBtnText = favoriteBtn?.querySelector('.favorite-btn-text');
+
+        if (favoriteBtn && favoriteBtnText) {
+            favoriteBtn.addEventListener('click', () => {
+                console.log('click');
+                const ids = getFavoriteIds();
+
+                if (ids.includes(exerciseId)) {
+                    const newIds = ids.filter(storeId => storeId !== exerciseId);
+                    setFavorites(newIds);
+                    favoriteBtnText.textContent = 'Add to favorites';
+                } else {
+                    const newIds = [...ids, exerciseId];
+                    setFavorites(newIds);
+                    favoriteBtnText.textContent = 'Delete to favorites';
+                }
+            });
+        }
     } catch (err) {
         console.error(err);
     }
@@ -45,7 +81,19 @@ function makeStars(rating) {
     return full + empty;
 }
 
-function modalExerciseTemplate(data) {
+function textForBtn(isFavorite) {
+    return isFavorite
+        ? `<span class="favorite-btn-text">Delete to fovorites</span>
+          <svg class="modal-btn-icon" width="18" height="18">
+                    <use href="./img/sprite.svg#icon-trash"></use>
+                    </svg>`
+        : `<span class="favorite-btn-text">Add to favorites</span>
+                    <svg class="modal-btn-icon" width="18" height="18">
+                    <use href="./img/sprite.svg#icon-heart"></use>
+                    </svg>`;
+}
+
+function modalExerciseTemplate(data, textBtn) {
     const {
         name,
         rating,
@@ -100,11 +148,8 @@ function modalExerciseTemplate(data) {
 
                 <p class="modal-description">${description}</p>
 <div class="section-btn">
-                    <button type="button" class="modal-btn favorite-btn">Add to favorites
-                    <svg class="modal-btn-icon" width="18" height="18">
-                    <use href="./img/sprite.svg#icon-heart"></use>
-                    </svg>
-                    </button>
+                    <button type="button" class="modal-btn favorite-btn">${textBtn}
+                                        </button>
                      <button type="button" class="modal-btn rating-btn">Give a rating
                    
                     </button>
