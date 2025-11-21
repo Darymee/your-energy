@@ -220,3 +220,37 @@
     width: 352px;
   }
 }
+
+html[data-theme='dark'] .footer {
+  background-color: #0b1020;
+}
+
+html[data-theme='dark'] .footer-right p,
+html[data-theme='dark'] .footer-center h2 {
+  color: #f6f6f6;
+}
+
+html[data-theme='dark'] .footer-icon {
+  fill: #f6f6f6;
+}
+
+html[data-theme='dark'] .footer-form input {
+  border-color: var(--color-white-10);
+  color: #f6f6f6;
+}
+
+html[data-theme='dark'] .footer-form button {
+  background-color: var(--color-white-10);
+  color: #f6f6f6;
+}
+
+html[data-theme='dark'] .footer-form input:hover,
+html[data-theme='dark'] .footer-form input:focus {
+  border-color: var(--color-white-80);
+}
+
+html[data-theme='dark'] .footer-form button:hover,
+html[data-theme='dark'] .footer-form button:focus {
+  background-color: var(--color-white-80);
+  color: var(--color-white);
+}
