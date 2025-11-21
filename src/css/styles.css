@@ -30,3 +30,5 @@
 @import url('./layout/exercises.css');
 @import url('./layout/favorites.css');
 @import url('./layout/footer.css');
+
+@import url('izitoast/dist/css/iziToast.min.css');
