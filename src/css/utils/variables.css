@@ -20,8 +20,10 @@
   --modal-overlay-bg: #04040466;
   --card-overlay-bg: #11111180;
   --card-bg: #ffffff;
+  --quote-icon: #FFFFFF80
 
   --card-border-color: #efede833;
+  --card-quote-icon: #3a3a3a;
 
   --border-radius-12: 12px;
   --border-radius-15: 15px;
@@ -30,4 +32,32 @@
   --border-radius-60: 60px;
 
   --transition: 300ms ease-in-out;
+}
+
+[data-theme='dark'] {
+  --color-black: #f9fafb;
+  --color-white: #050816;
+
+  --color-white-10: #f9fafb1a;
+  --color-white-20: #f9fafb33;
+  --color-white-40: #f9fafb66;
+  --color-white-60: #f9fafb99;
+  --color-white-80: #f9fafbcc;
+
+  --color-grey-80: #cbd5f5cc;
+  --color-grey-60: #a0aec099;
+  --color-grey-50: #94a3b880;
+  --color-grey-40: #4a556866;
+  --color-grey-10: #f9fafb1a;
+
+  --color-light-grey: #94a3b8;
+  --color-grey-pagination: #e2e8f0;
+  --color-yellow: #f6ad55;
+
+  --modal-overlay-bg: #050816cc;
+  --card-overlay-bg: #111827cc;
+  --card-bg: #0b1020;
+  --card-border-color: #2d3748;
+
+  --card-quote-icon: #f9fafb1a
 }

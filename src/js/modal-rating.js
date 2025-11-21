@@ -1,184 +1,203 @@
-/*import { Modal } from './modal';
+import { data_api } from './api';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
-Modal('rating', modalRatingTemplate());
-
-function modalRatingTemplate() {
-  const data = {
-    rate: 5,
-    email: 'test@gmail.com',
-    review: 'My best exercise',
-  };
-
-  return `
-    <div class="modal-rating-overlay">
-      <p class="rating-label">Rating</p>
-
-      <div class="rating-stars">
-        <span class="rating-value">0.0</span>
-        <div class="stars">
-          <span data-rate="1">★</span>
-          <span data-rate="2">★</span>
-          <span data-rate="3">★</span>
-          <span data-rate="4">★</span>
-          <span data-rate="5">★</span>
-        </div>
-      </div>
-
-      <input class="rating-email" type="email" placeholder="Email">
-
-      <textarea class="rating-text" placeholder="Your comment"></textarea>
-
-      <button class="rating-send">Send</button>
-    </div>
-  `;
-}
-
-export function initModalRating() {
-  const modal = document.querySelector('.modal-rating');
-  if (!modal) return;
-
-  const stars = modal.querySelectorAll('.stars span');
-  const ratingValue = modal.querySelector('.rating-value');
-  const emailInput = modal.querySelector('.rating-email');
-  const reviewInput = modal.querySelector('.rating-text');
-  const sendBtn = modal.querySelector('.rating-send');
-
-  let currentRate = 0;
-
-  // Hover + active star logic
-  stars.forEach(star => {
-    star.addEventListener('mouseover', () => {
-      highlight(parseInt(star.dataset.rate));
-    });
-
-    star.addEventListener('mouseout', () => {
-      highlight(currentRate);
-    });
-
-    star.addEventListener('click', () => {
-      currentRate = parseInt(star.dataset.rate);
-      ratingValue.textContent = currentRate.toFixed(1);
-      highlight(currentRate);
-    });
-  });
-
-  function highlight(rate) {
-    stars.forEach(star => {
-      star.classList.toggle('active', parseInt(star.dataset.rate) <= rate);
-    });
-  }
-
-  // Send handler
-  sendBtn.addEventListener('click', () => {
-    const email = emailInput.value.trim();
-    const review = reviewInput.value.trim();
-
-    if (!currentRate) return alert('Please choose a rating');
-    if (!email) return alert('Email is required');
-    if (!review) return alert('Please write a comment');
-
-    const payload = { rate: currentRate, email, review };
-    console.log('Review sent:', payload);
-
-    alert('Review successfully sent!');
-
-    // reset
-    currentRate = 0;
-    highlight(0);
-    ratingValue.textContent = '0.0';
-    emailInput.value = '';
-    reviewInput.value = '';
-  });
-}
-*/
-
-
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const ratingModal = document.querySelector('[data-rating-modal]');
-  const closeBtn = document.querySelector('.modal-close-btn');
-  const openBtn = document.querySelector('.give-rating-btn');
+  const closeBtn = document.querySelector('[data-rating-close]');
   const form = document.querySelector('.rating-form');
   const ratingDisplay = document.querySelector('.rating-form-value');
 
-  if (!ratingModal) return;
+  let currentExerciseId = null;
 
-  function openModal() {
+
+  function openRatingModal(exerciseId) {
+    currentExerciseId = exerciseId || null;
+
     ratingModal.classList.remove('is-hidden');
     document.body.style.overflow = 'hidden';
+
     if (form) form.reset();
-    document.querySelectorAll('.rating-form-radio').forEach(r => r.checked = false);
+    document.querySelectorAll('.rating-form-radio').forEach(r => (r.checked = false));
     updateRatingDisplay('0.0');
   }
 
-  function closeModal() {
+  window.openRatingModal = openRatingModal;
+
+
+
+  function closeRatingModal() {
     ratingModal.classList.add('is-hidden');
     document.body.style.overflow = 'auto';
     if (form) form.reset();
-    document.querySelectorAll('.rating-form-radio').forEach(r => r.checked = false);
-    updateRatingDisplay('0.0');
+    currentExerciseId = null;
   }
+
+
+  
 
   function updateRatingDisplay(value) {
-    if (ratingDisplay) ratingDisplay.textContent = parseFloat(value).toFixed(1);
+    if (ratingDisplay) {
+      ratingDisplay.textContent = parseFloat(value).toFixed(1);
+    }
   }
 
-  if (openBtn) openBtn.addEventListener('click', openModal);
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
-  ratingModal.addEventListener('click', function(e) {
-    if (e.target === ratingModal) closeModal();
+  
+
+  const openRatingBtns = document.querySelectorAll('[data-open-overlay="rating"]');
+
+  openRatingBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id || null;
+      openRatingModal(id);
+    });
   });
 
+
+  
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeRatingModal);
+  }
+
+
+
+
+  ratingModal.addEventListener('click', e => {
+    if (e.target === ratingModal) {
+      closeRatingModal();
+    }
+  });
+
+
+  
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && !ratingModal.classList.contains('is-hidden')) {
+      closeRatingModal();
+    }
+  });
+
+
+  
+
+  const starRadios = document.querySelectorAll('.rating-form-radio');
   const starLabels = document.querySelectorAll('.rating-form-stars label');
+
+  starRadios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      if (this.checked) {
+        updateRatingDisplay(this.value);
+      }
+    });
+  });
+
   starLabels.forEach(label => {
-    const radio = document.getElementById(label.getAttribute('for'));
-    label.addEventListener('click', function(e) {
-      e.preventDefault();
-      if (!radio) return;
-      document.querySelectorAll('.rating-form-radio').forEach(r => r.checked = false);
-      radio.checked = true;
-      updateRatingDisplay(radio.value);
+    label.addEventListener('click', () => {
+      const id = label.getAttribute('for');
+      const radio = document.getElementById(id);
+
+      if (radio) {
+        starRadios.forEach(r => (r.checked = false));
+        radio.checked = true;
+        updateRatingDisplay(radio.value);
+      }
     });
+
     label.addEventListener('mouseenter', () => {
-      if (radio) updateRatingDisplay(radio.value);
+      const id = label.getAttribute('for');
+      const radio = document.getElementById(id);
+      if (radio && !radio.checked) updateRatingDisplay(radio.value);
     });
+
     label.addEventListener('mouseleave', () => {
       const selected = document.querySelector('.rating-form-radio:checked');
       updateRatingDisplay(selected ? selected.value : '0.0');
     });
   });
 
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = form.querySelector('#rating-email').value.trim();
-      const comment = form.querySelector('#rating-comment').value.trim();
-      const selected = form.querySelector('.rating-form-radio:checked');
 
-      if (!email || !comment || !selected) {
-        alert('Пожалуйста, заполните все поля и выберите рейтинг');
+  
+  
+  if (form) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = form.querySelector('#rating-email').value.trim();
+      const review = form.querySelector('#rating-comment').value.trim();
+      const selectedRating = form.querySelector('.rating-form-radio:checked');
+
+      if (!selectedRating) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Please select a rating',
+          position: 'topRight',
+        });
+        return;
+      }
+
+      if (!email) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Please enter your email',
+          position: 'topRight',
+        });
         return;
       }
 
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailPattern.test(email)) {
-        alert('Введите корректный email');
+        iziToast.error({
+          title: 'Error',
+          message: 'Please enter a valid email address',
+          position: 'topRight',
+        });
         return;
       }
 
-      console.log('Rating submitted:', {
-        rating: parseFloat(selected.value),
-        email,
-        comment
-      });
+      if (!review) {
+        iziToast.error({
+          title: 'Error',
+          message: 'Please enter your review',
+          position: 'topRight',
+        });
+        return;
+      }
 
-      alert('Спасибо за ваш отзыв!');
-      closeModal();
+      const rating = parseFloat(selectedRating.value);
+
+      try {
+        await data_api.rateExercise(currentExerciseId, rating, email, review);
+
+        iziToast.success({
+          title: 'Success!',
+          message: 'Thank you for your rating!',
+          position: 'topRight',
+          timeout: 3000,
+        });
+
+        setTimeout(() => {
+          closeRatingModal();
+        }, 800);
+
+      } catch (error) {
+        console.error('Rating submission error:', error);
+
+        let message = 'Failed to submit rating. Please try again.';
+
+        if (error.message?.includes('1 and 5')) {
+          message = 'Rating must be between 1 and 5 stars';
+        } else if (error.response?.status === 404) {
+          message = 'Exercise not found.';
+        }
+
+        iziToast.error({
+          title: 'Error',
+          message,
+          position: 'topRight',
+        });
+      }
     });
   }
-
-  window.openRatingModal = openModal;
 });

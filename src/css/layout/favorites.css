@@ -10,11 +10,29 @@
   }
 }
 
+.favorites-title {
+  color: var(--color-black);
+  font-size: 28px;
+  line-height: 1.357;
+  letter-spacing: -0.02em;
+
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .favorites-title {
+    font-size: 44px;
+    line-height: 1.09;
+
+    margin-bottom: 32px;
+  }
+}
+
 .favorites-quote-wrapper {
-  background-color: #242424;
+  background-color: var(--color-black);
   border-radius: 20px;
   padding: 20px;
-  color: #fff;
+  color: var(--card-bg);
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -41,7 +59,7 @@
 }
 
 .quote-icon-run svg {
-  fill: #fff;
+  fill: var(--card-bg);
 }
 
 .quote-content {
@@ -58,7 +76,7 @@
   font-size: 14px;
   line-height: 1.5;
   margin-bottom: 16px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #ffffff99;
 }
 
 .quote-author {
@@ -73,7 +91,7 @@
 }
 
 .quote-icon svg {
-  fill: #fff;
+  fill: var(--quote-icon);
 }
 
 .favorites-info-container {
@@ -99,11 +117,10 @@
 }
 
 .favorites-daily-norm {
-  background-color: #fff;
-  border: 1px solid #ececec;
+  background-color: var(--card-bg);
   border-radius: 20px;
   padding: 20px;
-  color: #242424;
+  color: var(--color-black);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -121,19 +138,19 @@
 }
 
 .daily-norm-icon-wrapper svg {
-  fill: #242424;
+  fill: var(--color-black);
 }
 
 .daily-norm-value {
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 6px;
-  color: #242424;
+  color: var(--color-black);
 }
 
 .daily-norm-text {
   font-size: 12px;
-  color: rgba(36, 36, 36, 0.6);
+  color: var(--color-grey-60);
 }
 
 .favorites-hero-image {
@@ -158,7 +175,7 @@
   text-align: center;
   max-width: 500px;
   margin: 0 auto;
-  color: #242424;
+  color: var(--color-black);
 }
 
 @media screen and (min-width: 1440px) {
@@ -199,7 +216,7 @@
 
 .favorites-item {
   width: 100%;
-  background-color: #fff;
+  background-color: var(--card-bg);
   border-radius: 15px;
   padding: 16px;
   border: 1px solid #ececec;
@@ -227,12 +244,12 @@
 }
 
 .card-badge {
-  background-color: #f4f4f4;
+  background-color: var(--color-white);
   padding: 5px 10px;
   border-radius: 15px;
   font-size: 12px;
   font-weight: 500;
-  color: #242424;
+  color: var(--color-black);
 }
 
 .card-btn-delete {
@@ -244,7 +261,7 @@
   margin-right: 16px;
   display: flex;
   align-items: center;
-  transition: transform 0.2s;
+  transition: transform var(--transition);
 }
 
 .card-btn-delete:hover {
@@ -252,7 +269,7 @@
 }
 
 .card-icon-trash {
-  stroke: #242424;
+  stroke: var(--color-black);
   fill: transparent;
 }
 
@@ -264,8 +281,8 @@
   gap: 4px;
   cursor: pointer;
   font-size: 14px;
-  color: #242424;
-  transition: opacity 0.2s;
+  color: var(--color-black);
+  transition: opacity var(--transition);
 }
 
 .card-btn-start:hover {
@@ -285,7 +302,7 @@
 }
 
 .card-icon-run-bg {
-  background-color: #242424;
+  background-color: var(--color-black);
   width: 24px;
   height: 24px;
   border-radius: 50%;
@@ -296,7 +313,7 @@
 }
 
 .card-icon-run {
-  fill: #fff;
+  fill: var(--card-bg);
 }
 
 .card-title {
@@ -305,7 +322,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #242424;
+  color: var(--color-black);
 }
 
 .card-info-list {
@@ -322,6 +339,10 @@
 }
 
 .info-value {
-  color: #242424;
+  color: var(--color-black);
   margin-left: 2px;
+}
+
+html[data-theme='dark'] .favorites-text {
+  color: #ffffff;
 }

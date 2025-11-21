@@ -84,3 +84,21 @@
     height: 24px;
   }
 }
+
+html[data-theme='dark'] .social-icon-footer,
+html[data-theme='dark'] .social-icon-mob-menu {
+  fill: #ffffff;
+}
+
+html[data-theme='dark'] .social-link-footer:hover,
+html[data-theme='dark'] .social-link-footer:focus,
+html[data-theme='dark'] .social-link-mob-menu:hover,
+html[data-theme='dark'] .social-link-mob-menu:focus {
+  background-color: #ffffff;
+}
+html[data-theme='dark'] .social-link-footer:hover .social-icon-footer,
+html[data-theme='dark'] .social-link-footer:focus .social-icon-footer,
+html[data-theme='dark'] .social-link-mob-menu:hover .social-icon-mob-menu,
+html[data-theme='dark'] .social-link-mob-menu:focus .social-icon-mob-menu {
+  fill: #0b1020;
+}

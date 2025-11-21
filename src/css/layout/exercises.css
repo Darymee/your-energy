@@ -100,6 +100,10 @@
   color: var(--color-white);
 }
 
+html[data-theme='dark'] .exercises-wrap-info p:first-child {
+  color: #ffffff;
+}
+
 .exercises-wrap-info p:last-child {
   font-weight: 400;
   font-size: 12px;
@@ -132,7 +136,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #3a3a3a;
+  background: var(--card-quote-icon);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,6 +146,10 @@
 
 .quote-card-svg {
   fill: var(--color-white);
+}
+
+html[data-theme='dark'] .quote-card-svg {
+  fill: var(--color-grey-80);
 }
 
 .quote-card-body {
