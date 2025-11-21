@@ -83,7 +83,7 @@ function makeStars(rating) {
 
 function textForBtn(isFavorite) {
     return isFavorite
-        ? `<span class="favorite-btn-text">Delete to fovorites</span>
+        ? `<span class="favorite-btn-text">Delete to favorites</span>
           <svg class="modal-btn-icon" width="18" height="18">
                     <use href="./img/sprite.svg#icon-trash"></use>
                     </svg>`
