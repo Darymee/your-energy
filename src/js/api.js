@@ -16,24 +16,12 @@ class Api {
 
   #isMobileScreen() {
     const { matches: isMobileScreen } = window.matchMedia('(max-width: 767px)');
-    if (this.filterType === 'Body parts') {
-      this.limitPage = isMobileScreen ? 8 : 10;
-    } else {
-      this.limitPage = isMobileScreen ? 9 : 12;
-    }
+    this.limitPage = isMobileScreen ? 9 : 12;
   }
 
   #onSizeScreen = () => {
     const currWidthScreen = window.innerWidth;
-
-    let nextLimit;
-
-    if (this.filterType === 'Body parts') {
-      nextLimit = currWidthScreen >= 768 ? 10 : 8;
-    } else {
-      nextLimit = currWidthScreen >= 768 ? 12 : 9;
-    }
-
+    const nextLimit = currWidthScreen >= 768 ? 12 : 9;
     if (nextLimit !== this.limitPage) {
       this.limitPage = nextLimit;
       this.currentPage = 1;

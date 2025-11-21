@@ -1,6 +1,6 @@
 import { data_api } from './api';
 import { getFavoritesLS, removeFavoriteLS } from './local_storage';
-import { getTemplate, Template } from './template';
+import { Template } from './template';
 
 const API_URL = 'https://your-energy.b.goit.study/api';
 
@@ -61,8 +61,8 @@ async function renderFavorites() {
   }
 }
 
-export function createMarkup(arr) {
-  return arr.map(card => Template[getTemplate('favorite')](card)).join('');
+function createMarkup(arr) {
+  return arr.map(card => Template.favoriteCard(card)).join('');
 }
 
 function addEventListeners() {
