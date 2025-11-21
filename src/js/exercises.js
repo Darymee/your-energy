@@ -12,22 +12,11 @@ const refs = {
 let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
+let viewMode = 'filters';
 
 const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
 
-const onResize = async () => {
-  updateIndicator();
-  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
-    isResizingLoad = true;
-    try {
-      prevLimit = data_api.limitPage;
-      lastRenderCount = prevLimit;
-      await loadAndRenderExercises({ updatePagination: true });
-    } finally {
-      isResizingLoad = false;
-    }
-  }
-};
+/* ---------------- Indicator ---------------- */
 
 const updateIndicator = () => {
   const activeBtn = refs.btnBox.querySelector('button.active');
@@ -64,38 +53,67 @@ const setActivePaginationButton = page => {
   if (!buttons.length) return;
 
   buttons.forEach(btn => btn.classList.remove('pagination-item-active'));
-
   const index = page - 1;
-  if (index >= 0 && index < buttons.length) {
+  if (buttons[index]) {
     buttons[index].classList.add('pagination-item-active');
   }
 };
 
-/* ---------------- List render + fillers ---------------- */
+/* ---------------- Render Filters list ---------------- */
 
-const renderExerciseList = async e => {
-  const res = await data_api.getExerciseByCategory(
-    data_api.filterType,
-    e.currentTarget.dataset.name
-  );
+const renderFiltersList = data => {
+  refs.listEx.classList.remove('body-parts-list');
 
-  refs.listEx.classList.add('body-parts-list');
-  const cards = res.results.map(item => Template.favoriteCard(item));
-  refs.listEx.innerHTML = cards.join('');
-};
+  const cards = data.results.map(i => Template.exerciseCard(i)).join('');
+  refs.listEx.innerHTML = cards;
 
-const renderListHtml = data => {
-  const cards = data.results.map(i => Template.exerciseCard(i));
-
-  refs.listEx.innerHTML = cards.join('');
-
-  const exerciseCards = document.querySelectorAll('.exercises-item');
-
-  exerciseCards.forEach(card =>
-    card.addEventListener('click', e => renderExerciseList(e))
-  );
+  //тут можна виправити поставити слухач на список (на разі тут просто тест)
+  document
+    .querySelectorAll('.exercises-item')
+    .forEach(card => card.addEventListener('click', onCategoryClick));
 
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
+};
+
+/* ---------------- Render Exercises list ---------------- */
+
+const renderExercisesList = data => {
+  refs.listEx.classList.add('body-parts-list');
+
+  const cards = data.results.map(item => Template.favoriteCard(item));
+  refs.listEx.innerHTML = cards.join('');
+
+  lastRenderCount = Math.max(cards.length, data_api.limitPage);
+};
+
+/* ---------------- Loaders ---------------- */
+
+const loadFiltersPage = async ({ updatePagination = false } = {}) => {
+  renderSkeletonList();
+
+  const res = await data_api.getDataByFilter();
+  renderFiltersList(res);
+
+  if (updatePagination) renderPaginationList(data_api.totalPages);
+  setActivePaginationButton(data_api.currentPage);
+};
+
+const loadExercisesPage = async ({ updatePagination = false } = {}) => {
+  renderSkeletonList();
+
+  const res = await data_api.getExercises();
+  renderExercisesList(res);
+
+  if (updatePagination) renderPaginationList(data_api.totalPages);
+  setActivePaginationButton(data_api.currentPage);
+};
+
+const loadCurrentView = async ({ updatePagination = false } = {}) => {
+  if (viewMode === 'filters') {
+    await loadFiltersPage({ updatePagination });
+  } else {
+    await loadExercisesPage({ updatePagination });
+  }
 };
 
 /* ---------------- Quote ---------------- */
@@ -109,118 +127,104 @@ const hasPassed24Hours = timestampMs => {
 
 const renderQuote = async () => {
   try {
-    const hasLastSession = getLastSessionLS();
+    const lastSession = getLastSessionLS();
 
-    if (hasLastSession) {
-      const { author: lastAuthor, quote: lastQuote, time } = hasLastSession;
-      const isFutureDate = hasPassed24Hours(time);
-
-      if (isFutureDate) {
-        const res = await data_api.getQuote();
-        const itemQuote = Template.quote(res.author, res.quote);
-        refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
-
-        setLastSessionLS({
-          author: res.author,
-          quote: res.quote,
-          time: Date.now(),
-        });
-      } else {
-        const itemQuote = Template.quote(lastAuthor, lastQuote);
-        refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
-      }
-    } else {
-      const res = await data_api.getQuote();
-      const itemQuote = Template.quote(res.author, res.quote);
-      refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
-
-      setLastSessionLS({
-        author: res.author,
-        quote: res.quote,
-        time: Date.now(),
-      });
+    if (lastSession && !hasPassed24Hours(lastSession.time)) {
+      refs.quoteBody.innerHTML = Template.quote(
+        lastSession.author,
+        lastSession.quote
+      );
+      return;
     }
-  } catch (error) {
-    const errorAuthor = 'Tom Brady';
-    const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
-    const itemQuote = Template.quote(errorAuthor, errorQuote);
-    refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
+
+    const res = await data_api.getQuote();
+    const { author = 'Unknown', quote = 'No quote available' } = res;
+
+    refs.quoteBody.innerHTML = Template.quote(author, quote);
+
+    setLastSessionLS({
+      author,
+      quote,
+      time: Date.now(),
+    });
+  } catch {}
+};
+/* ---------------- Init ---------------- */
+
+const init = async () => {
+  renderQuote();
+
+  if (refs.btnBox.children[0]) {
+    refs.btnBox.children[0].classList.add('active');
+    requestAnimationFrame(updateIndicator);
   }
+
+  viewMode = 'filters';
+  await loadFiltersPage({ updatePagination: true });
 };
 
-/* ----------------Loader ---------------- */
+init();
 
-const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
-  renderSkeletonList();
-
-  const res = await data_api.getDataByFilter();
-
-  renderListHtml(res);
-
-  if (updatePagination) {
-    renderPaginationList(data_api.totalPages);
-  }
-
-  setActivePaginationButton(data_api.currentPage);
-};
-
-const getFilteredData = async () => {
-  try {
-    renderQuote();
-    const res = await data_api.getDataByFilter();
-    if (refs.btnBox.children[0]) {
-      refs.btnBox.children[0].classList.add('active');
-      requestAnimationFrame(updateIndicator);
-    }
-    renderListHtml(res);
-    renderPaginationList(data_api.totalPages);
-    setActivePaginationButton(data_api.currentPage);
-  } catch (error) {
-    console.log('🚀 ~ error:', error);
-  }
-};
-
-getFilteredData();
+/* ---------------- Handlers ---------------- */
 
 const onClickFilterBtn = async e => {
-  try {
-    const clickedBtn = e.target.closest('button');
-    if (!clickedBtn) return;
+  const clickedBtn = e.target.closest('button');
+  if (!clickedBtn) return;
 
-    const selectedType = clickedBtn.dataset.type;
-    if (!selectedType) return;
+  const selectedType = clickedBtn.dataset.type;
+  if (!selectedType) return;
 
-    data_api.changeSearchType(selectedType);
+  viewMode = 'filters';
+  data_api.changeSearchType(selectedType);
 
-    lastRenderCount = data_api.limitPage;
+  lastRenderCount = data_api.limitPage;
 
-    [...e.currentTarget.children].forEach(btn =>
-      btn.classList.remove('active')
-    );
-    clickedBtn.classList.add('active');
-    requestAnimationFrame(updateIndicator);
+  [...refs.btnBox.children].forEach(btn => btn.classList.remove('active'));
+  clickedBtn.classList.add('active');
+  requestAnimationFrame(updateIndicator);
 
-    await loadAndRenderExercises({ updatePagination: true });
-  } catch (error) {
-    console.log('🚀 ~ error:', error);
-  }
+  await loadFiltersPage({ updatePagination: true });
 };
 
 const onClickPaginationBox = async e => {
-  try {
-    const clickedBtn = e.target.closest('button');
-    if (!clickedBtn) return;
+  const clickedBtn = e.target.closest('button');
+  if (!clickedBtn) return;
 
-    const clickedNumPage = Number(clickedBtn.textContent.trim());
-    if (!Number.isFinite(clickedNumPage)) return;
+  const clickedNumPage = Number(clickedBtn.textContent.trim());
+  if (!Number.isFinite(clickedNumPage)) return;
+  if (clickedNumPage === data_api.currentPage) return;
 
-    if (clickedNumPage === data_api.currentPage) return;
+  data_api.setPage(clickedNumPage);
+  await loadCurrentView();
+};
 
-    data_api.currentPage = clickedNumPage;
+const onCategoryClick = async e => {
+  const name = e.currentTarget.dataset.name;
+  console.log('🚀 ~ name:', name);
+  if (!name) return;
 
-    await loadAndRenderExercises();
-  } catch (error) {
-    console.log('🚀 ~ error:', error);
+  viewMode = 'exercises';
+
+  data_api.setCategoryFilter(data_api.filterType, name);
+
+  await loadExercisesPage({ updatePagination: true });
+};
+/* ---------------- Resize ---------------- */
+
+const onResize = async () => {
+  updateIndicator();
+
+  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
+    isResizingLoad = true;
+    try {
+      prevLimit = data_api.limitPage;
+      lastRenderCount = prevLimit;
+
+      data_api.resetPage();
+      await loadCurrentView({ updatePagination: true });
+    } finally {
+      isResizingLoad = false;
+    }
   }
 };
 
