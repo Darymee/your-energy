@@ -1,6 +1,6 @@
 import { Modal } from './modal';
 
-Modal(modalRatingTemplate());
+Modal('rating', modalRatingTemplate());
 
 function modalRatingTemplate() {
   const data = {

@@ -1,6 +1,7 @@
 import { Modal } from './modal';
 
 Modal(
+  'exercise',
   modalExerciseTemplate({
     _id: '64f389465ae26083f39b17a5',
     bodyPart: 'waist',
