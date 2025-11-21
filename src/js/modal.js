@@ -1,7 +1,7 @@
 const modalStore = {};
 
 export function Modal(name, content) {
-  modalStore[name] = content;
+  modalStore[name] = content; 
 }
 
 export function initModalSystem() {

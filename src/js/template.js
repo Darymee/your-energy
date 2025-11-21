@@ -17,7 +17,7 @@ export const Template = {
       return parseStr;
     };
 
-    return `<li class='exercises-item' data-name="${name}">
+    return `<li class='exercises-item'>
             <div class='exercises-background-img' style='background-image: url(${imgURL});'>
               <div class="exercises-wrap-info">
                 <p>${capitalizeStr(name)}</p>
@@ -61,7 +61,7 @@ export const Template = {
         <div class="card-header">
           <div class="card-badge">WORKOUT</div>
           
-          <button class="card-btn-delete js-delete-btn" data-id="${_id}" type="button" aria-label="Remove">
+          <button class="card-btn-delete js-delete-btn" data-id="${_id}" data-open-overlay="exercise" type="button" aria-label="Remove">
             <svg class="card-icon-trash" width="16" height="16">
               <use href="${iconPath}#icon-trash"></use>
             </svg>

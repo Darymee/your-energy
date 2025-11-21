@@ -1,6 +1,8 @@
 import { data_api } from './api';
 import { Template } from './template';
 import { getLastSessionLS, setLastSessionLS } from './local_storage';
+import { Modal } from './modal';
+import { modalExerciseTemplate } from './modal-exercises';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -72,6 +74,15 @@ const setActivePaginationButton = page => {
 };
 
 /* ---------------- List render + fillers ---------------- */
+const renderExerciseItem = async e => {
+  const id = e.target.dataset.id;
+
+  const res = await data_api.getExerciseById(id);
+
+  console.log(res);
+
+  Modal('exercise', modalExerciseTemplate(res));
+};
 
 const renderExerciseList = async e => {
   const res = await data_api.getExerciseByCategory(
@@ -82,6 +93,12 @@ const renderExerciseList = async e => {
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
+
+  const exerciseCards = document.querySelectorAll('.card-btn-start');
+
+  exerciseCards.forEach(card =>
+    card.addEventListener('click', e => renderExerciseItem(e))
+  );
 };
 
 const renderListHtml = data => {
