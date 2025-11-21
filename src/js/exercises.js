@@ -1,6 +1,8 @@
 import { data_api } from './api';
 import { Template } from './template';
 import { getLastSessionLS, setLastSessionLS } from './local_storage';
+import { Modal, openModal } from './modal';
+import { modalExerciseTemplate } from './modal-exercises';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -10,8 +12,24 @@ const refs = {
 };
 
 let lastRenderCount = data_api.limitPage;
+let prevLimit = data_api.limitPage;
+let isResizingLoad = false;
 
 const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+
+const onResize = async () => {
+  updateIndicator();
+  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
+    isResizingLoad = true;
+    try {
+      prevLimit = data_api.limitPage;
+      lastRenderCount = prevLimit;
+      await loadAndRenderExercises({ updatePagination: true });
+    } finally {
+      isResizingLoad = false;
+    }
+  }
+};
 
 const updateIndicator = () => {
   const activeBtn = refs.btnBox.querySelector('button.active');
@@ -56,17 +74,44 @@ const setActivePaginationButton = page => {
 };
 
 /* ---------------- List render + fillers ---------------- */
+const renderExerciseItem = async e => {
+  const id = e.target.dataset.id;
 
-const renderListHtml = data => {
-  const cards = data.results.map(i => Template.exCard(i));
+  const res = await data_api.getExerciseById(id);
 
-  const missing = Math.max(0, lastRenderCount - cards.length);
+  console.log(res);
 
-  const fillers = Array.from({ length: missing }).map(
-    () => `<li class="exercises-item is-filler"></li>`
+  Modal('exercise', modalExerciseTemplate(res));
+  openModal('exercise');
+};
+
+const renderExerciseList = async e => {
+  const res = await data_api.getExerciseByCategory(
+    data_api.filterType,
+    e.currentTarget.dataset.name
   );
 
-  refs.listEx.innerHTML = [...cards, ...fillers].join('');
+  refs.listEx.classList.add('body-parts-list');
+  const cards = res.results.map(item => Template.favoriteCard(item));
+  refs.listEx.innerHTML = cards.join('');
+
+  const exerciseCards = document.querySelectorAll('.card-btn-start');
+
+  exerciseCards.forEach(card =>
+    card.addEventListener('click', e => renderExerciseItem(e))
+  );
+};
+
+const renderListHtml = data => {
+  const cards = data.results.map(i => Template.exerciseCard(i));
+
+  refs.listEx.innerHTML = cards.join('');
+
+  const exerciseCards = document.querySelectorAll('.exercises-item');
+
+  exerciseCards.forEach(card =>
+    card.addEventListener('click', e => renderExerciseList(e))
+  );
 
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
@@ -137,11 +182,13 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
   setActivePaginationButton(data_api.currentPage);
 };
 
-async function getFilteredData() {
+const getFilteredData = async () => {
   try {
+    renderQuote();
     const res = await data_api.getDataByFilter();
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
+      requestAnimationFrame(updateIndicator);
     }
     renderListHtml(res);
     renderPaginationList(data_api.totalPages);
@@ -149,9 +196,10 @@ async function getFilteredData() {
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
-}
+};
 
 getFilteredData();
+
 const onClickFilterBtn = async e => {
   try {
     const clickedBtn = e.target.closest('button');
@@ -196,6 +244,6 @@ const onClickPaginationBox = async e => {
 
 /* ---------------- Listeners ---------------- */
 
-window.addEventListener('resize', updateIndicator);
+window.addEventListener('resize', onResize);
 refs.btnBox.addEventListener('click', onClickFilterBtn);
 refs.paginationBox.addEventListener('click', onClickPaginationBox);
