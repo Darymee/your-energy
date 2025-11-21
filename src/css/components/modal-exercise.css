@@ -49,8 +49,15 @@ html[data-theme='dark'] .modal {
   border: none;
 }
 
+.modal-close:hover .icon-close,
+.modal-close:focus .icon-close {
+  stroke: var(--color-white-20);
+}
+
 .icon-close {
   stroke: var(--color-white);
+
+  transition: stroke var(--transition);
 }
 
 html[data-theme='dark'] .icon-close {
