@@ -1,7 +1,7 @@
 import { data_api } from './api';
 import { Template } from './template';
 import { getLastSessionLS, setLastSessionLS } from './local_storage';
-import { Modal } from './modal';
+import { Modal, openModal } from './modal';
 import { modalExerciseTemplate } from './modal-exercises';
 
 const refs = {
@@ -82,6 +82,7 @@ const renderExerciseItem = async e => {
   console.log(res);
 
   Modal('exercise', modalExerciseTemplate(res));
+  openModal('exercise');
 };
 
 const renderExerciseList = async e => {

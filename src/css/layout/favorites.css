@@ -321,3 +321,7 @@
   color: #242424;
   margin-left: 2px;
 }
+
+html[data-theme='dark'] .favorites-text {
+  color: #ffffff;
+}

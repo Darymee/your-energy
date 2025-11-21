@@ -61,13 +61,13 @@ export const Template = {
         <div class="card-header">
           <div class="card-badge">WORKOUT</div>
           
-          <button class="card-btn-delete js-delete-btn" data-id="${_id}" data-open-overlay="exercise" type="button" aria-label="Remove">
+          <button class="card-btn-delete js-delete-btn" data-id="${_id}" type="button" aria-label="Remove">
             <svg class="card-icon-trash" width="16" height="16">
               <use href="${iconPath}#icon-trash"></use>
             </svg>
           </button>
           
-          <button class="card-btn-start js-start-btn" data-id="${_id}" type="button">
+          <button class="card-btn-start js-start-btn" data-id="${_id}" data-open-overlay="exercise" type="button">
               Start
               <svg class="card-icon-arrow" width="16" height="16">
                   <use href="${iconPath}#icon-arrow-right"></use>
