@@ -136,7 +136,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    max-width: 205px;
+    max-width: 300px;
     margin-left: auto;
   }
   .hero-picture {

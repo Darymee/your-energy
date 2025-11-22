@@ -221,6 +221,10 @@ html[data-theme='dark'] .quote-card-text {
   color: var(--color-white);
 }
 
+html[data-theme='dark'] .quote-card-text.quote-card-color {
+  color: var(--color-black);
+}
+
 .quote-card-color {
   color: var(--color-black);
 }
