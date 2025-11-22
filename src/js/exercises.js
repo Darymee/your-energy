@@ -1,8 +1,13 @@
 import { data_api } from './api';
 import { Template } from './template';
-import { getLastSessionLS, setLastSessionLS } from './local_storage';
+import {
+  getLastSessionLS,
+  setLastSessionLS,
+  toggleFavoriteLS,
+  removeFavoriteLS,
+} from './local_storage';
 import { Modal, openModal } from './modal';
-import { modalExerciseTemplate } from './modal-exercises';
+import iziToast from 'izitoast';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -15,9 +20,13 @@ let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
 
-const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+const indicator = refs.btnBox
+  ? refs.btnBox.querySelector('.exercises-thumb-indicator')
+  : null;
 
 const onResize = async () => {
+  if (!indicator) return;
+
   updateIndicator();
   if (data_api.limitPage !== prevLimit && !isResizingLoad) {
     isResizingLoad = true;
@@ -32,6 +41,8 @@ const onResize = async () => {
 };
 
 const updateIndicator = () => {
+  if (!indicator) return;
+
   const activeBtn = refs.btnBox.querySelector('button.active');
   if (!activeBtn || !indicator) return;
 
@@ -73,19 +84,166 @@ const setActivePaginationButton = page => {
   }
 };
 
-/* ---------------- List render + fillers ---------------- */
-const renderExerciseItem = async e => {
-  const id = e.target.dataset.id;
+/* ---------------- Handlers ---------------- */
 
-  const res = await data_api.getExerciseById(id);
+const handleRemoveFavorite = e => {
+  e.stopPropagation();
+  const id = e.currentTarget.dataset.id;
+  removeFavoriteLS(id);
+  e.currentTarget.remove();
 
-  console.log(res);
-
-  Modal('exercise', modalExerciseTemplate(res));
-  openModal('exercise');
+  const modal = document.querySelector('.modal-exercises');
+  if (modal) {
+    const modalFavoriteBtn = modal.querySelector('[data-btn-favorites]');
+    if (modalFavoriteBtn) {
+      modalFavoriteBtn.textContent = 'Add to favorites';
+      modalFavoriteBtn.classList.remove('active');
+      const useElement = modalFavoriteBtn.querySelector('use');
+      if (useElement) {
+        useElement.setAttribute('href', 'img/sprite.svg#icon-heart');
+      }
+    }
+  }
 };
 
-const renderExerciseList = async e => {
+/* ---------------- Update card favorite state ---------------- */
+
+const handleSubmitRating = async (e, exerciseId) => {
+  e.preventDefault();
+
+  const form = e.target.closest('form');
+  if (!form) return;
+
+  const email = form.querySelector('#rating-email')?.value.trim() || '';
+  const review = form.querySelector('#rating-comment')?.value.trim() || '';
+  const rateInput = form.querySelector('input[name="rate"]:checked');
+  const rate = rateInput ? parseFloat(rateInput.value) : null;
+
+  if (!rate) {
+    iziToast.info({
+      message: 'Please select your rating.',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  if (!email) {
+    iziToast.info({
+      message: 'Please enter your email',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  if (!review) {
+    iziToast.info({
+      message: 'Please enter your review',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  try {
+    const response = await data_api.rateExercise(
+      exerciseId,
+      rate,
+      email,
+      review
+    );
+
+    if (response) {
+      iziToast.success({
+        message: 'Rating submitted successfully!',
+        position: 'topRight',
+      });
+      const container = document.querySelector('.full-overlay.is-open');
+      container.remove();
+    }
+  } catch (err) {
+    iziToast.error({
+      message: err,
+      position: 'topRight',
+    });
+  }
+};
+
+const handleExerciseItemClick = async e => {
+  const id = e.currentTarget.dataset.id;
+  const res = await data_api.getExerciseById(id);
+
+  Modal('exercise', Template.exerciseModal(res));
+  openModal('exercise');
+
+  const btnAddToFavorites = document.querySelector('[data-btn-favorites]');
+  const btnAddRating = document.querySelector('[data-btn-rating]');
+
+  btnAddToFavorites.addEventListener('click', () => {
+    const id = res._id;
+    const wasAdded = toggleFavoriteLS(id);
+
+    const icon = btnAddToFavorites.querySelector('[data-fav-icon]');
+
+    if (wasAdded) {
+      btnAddToFavorites.textContent = 'Remove from favorites';
+      btnAddToFavorites.appendChild(icon.closest('svg'));
+      icon.setAttribute('href', 'img/sprite.svg#icon-trash');
+
+      const favoriteCard = document.querySelector(
+        `.favorites-item[data-id="${id}"] [data-open-overlay]`
+      );
+
+      const trashBtnTemplate = `<button
+                 class="card-btn-delete js-delete-btn"
+                 data-id="${id}"
+                 data-btn-remove-favorites
+                 type="button"
+                 aria-label="Remove"
+               >
+                 <svg class="card-icon-trash" width="16" height="16">
+                   <use href="img/sprite.svg#icon-trash"></use>
+                 </svg>
+               </button>`;
+
+      favoriteCard.insertAdjacentHTML('beforebegin', trashBtnTemplate);
+
+      const deleteBtn = document.querySelector(
+        `[data-btn-remove-favorites][data-id="${id}"]`
+      );
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', handleRemoveFavorite);
+      }
+    } else {
+      btnAddToFavorites.textContent = 'Add to favorites';
+      btnAddToFavorites.appendChild(icon.closest('svg'));
+      icon.setAttribute('href', 'img/sprite.svg#icon-heart');
+
+      const deleteBtn = document.querySelector(
+        `[data-btn-remove-favorites][data-id="${id}"]`
+      );
+      if (deleteBtn) {
+        deleteBtn.remove();
+      }
+    }
+  });
+
+  btnAddRating.addEventListener('click', () => {
+    const openedModal = document.querySelector('.modal-exercises');
+    if (openedModal) {
+      openedModal.remove();
+    }
+
+    const ratingModalMarkup = Template.ratingModal();
+    Modal('rating', ratingModalMarkup);
+    openModal('rating');
+
+    const submitRatingBtn = document.querySelector('[data-btn-submit-rating]');
+    submitRatingBtn.addEventListener('click', event =>
+      handleSubmitRating(event, id)
+    );
+  });
+};
+
+const handleCategoryClick = async e => {
   const res = await data_api.getExerciseByCategory(
     data_api.filterType,
     e.currentTarget.dataset.name
@@ -95,24 +253,40 @@ const renderExerciseList = async e => {
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
 
+  addEventListenersToCards();
+};
+
+/* ---------------- Event listeners management ---------------- */
+
+const addEventListenersToCards = () => {
   const exerciseCards = document.querySelectorAll('.card-btn-start');
+  const btnsRemoveFromFavorites = document.querySelectorAll(
+    '[data-btn-remove-favorites]'
+  );
 
   exerciseCards.forEach(card =>
-    card.addEventListener('click', e => renderExerciseItem(e))
+    card.addEventListener('click', handleExerciseItemClick)
+  );
+
+  btnsRemoveFromFavorites.forEach(btn =>
+    btn.addEventListener('click', handleRemoveFavorite)
   );
 };
 
+const addEventListenersToExerciseCards = () => {
+  const exerciseCards = document.querySelectorAll('.exercises-item');
+  exerciseCards.forEach(card =>
+    card.addEventListener('click', handleCategoryClick)
+  );
+};
+
+/* ---------------- List render ---------------- */
+
 const renderListHtml = data => {
   const cards = data.results.map(i => Template.exerciseCard(i));
-
   refs.listEx.innerHTML = cards.join('');
 
-  const exerciseCards = document.querySelectorAll('.exercises-item');
-
-  exerciseCards.forEach(card =>
-    card.addEventListener('click', e => renderExerciseList(e))
-  );
-
+  addEventListenersToExerciseCards();
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
 
@@ -136,7 +310,7 @@ const renderQuote = async () => {
       if (isFutureDate) {
         const res = await data_api.getQuote();
         const itemQuote = Template.quote(res.author, res.quote);
-        refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
+        refs.quoteBody.innerHTML = itemQuote;
 
         setLastSessionLS({
           author: res.author,
@@ -145,12 +319,12 @@ const renderQuote = async () => {
         });
       } else {
         const itemQuote = Template.quote(lastAuthor, lastQuote);
-        refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
+        refs.quoteBody.innerHTML = itemQuote;
       }
     } else {
       const res = await data_api.getQuote();
       const itemQuote = Template.quote(res.author, res.quote);
-      refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
+      refs.quoteBody.innerHTML = itemQuote;
 
       setLastSessionLS({
         author: res.author,
@@ -162,11 +336,14 @@ const renderQuote = async () => {
     const errorAuthor = 'Tom Brady';
     const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
     const itemQuote = Template.quote(errorAuthor, errorQuote);
-    refs.quoteBody.insertAdjacentHTML('beforeend', itemQuote);
+
+    if (!indicator) return;
+
+    refs.quoteBody.innerHTML = itemQuote;
   }
 };
 
-/* ----------------Loader ---------------- */
+/* ---------------- Loader ---------------- */
 
 const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
   renderSkeletonList();
@@ -183,6 +360,8 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
 };
 
 const getFilteredData = async () => {
+  if (!indicator) return;
+
   try {
     renderQuote();
     const res = await data_api.getDataByFilter();
@@ -198,7 +377,7 @@ const getFilteredData = async () => {
   }
 };
 
-getFilteredData();
+/* ---------------- Filter and Pagination handlers ---------------- */
 
 const onClickFilterBtn = async e => {
   try {
@@ -242,8 +421,16 @@ const onClickPaginationBox = async e => {
   }
 };
 
+/* ---------------- Initialize ---------------- */
+
+getFilteredData();
+
 /* ---------------- Listeners ---------------- */
 
-window.addEventListener('resize', onResize);
-refs.btnBox.addEventListener('click', onClickFilterBtn);
-refs.paginationBox.addEventListener('click', onClickPaginationBox);
+if (refs.btnBox) {
+  window.addEventListener('resize', onResize);
+  refs.btnBox.addEventListener('click', onClickFilterBtn);
+}
+if (refs.paginationBox) {
+  refs.paginationBox.addEventListener('click', onClickPaginationBox);
+}
