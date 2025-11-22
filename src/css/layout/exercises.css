@@ -72,6 +72,12 @@
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 12px;
+  transition: box-shadow var(--transition), background var(--transition);
+}
+
+.exercises-background-img:hover,
+.exercises-background-img:focus {
+  box-shadow: 0 4px 20px #242424cc;
 }
 
 .exercises-background-img::before {
@@ -81,6 +87,13 @@
   background: linear-gradient(var(--card-overlay-bg));
   pointer-events: none;
   border-radius: 12px;
+
+  transition: background var(--transition);
+}
+
+.exercises-background-img:hover::before,
+.exercises-background-img:focus::before {
+  background: transparent;
 }
 
 .exercises-wrap-info {
