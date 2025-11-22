@@ -99,7 +99,7 @@ html[data-theme='dark'] .quote-text {
 }
 
 .quote-icon svg {
-  fill: var(--quote-icon);
+  fill: var(--color-white);
 }
 
 .favorites-info-container {
