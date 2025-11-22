@@ -29,7 +29,7 @@
 @media screen and (min-width: 768px) {
   .nav {
     display: block;
-    background: var(--color-black);
+    background-color: var(--color-black);
     border-radius: var(--border-radius-60);
     padding: 8px 50px;
     width: 233px;
@@ -59,7 +59,7 @@
     left: 0;
     height: 100%;
     border-radius: 30px;
-    background: var(--color-white);
+    background-color: var(--color-white);
     z-index: 0;
     transition: transform 0.25s ease, width 0.25s ease;
     pointer-events: none;

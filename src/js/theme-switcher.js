@@ -1,5 +1,5 @@
 const checkbox = document.querySelector('.theme-switch .checkbox');
-const root = document.documentElement; // <html>
+const root = document.documentElement;
 
 const storedTheme = localStorage.getItem('theme');
 const prefersDark =

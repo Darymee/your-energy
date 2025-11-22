@@ -29,7 +29,7 @@
 
   border-radius: 10px;
 
-  transition: background var(--transition);
+  transition: background-color var(--transition);
 }
 
 .social-link-header {
@@ -43,14 +43,14 @@
 
 .social-link-header:hover,
 .social-link-header:focus {
-  background: var(--color-grey-80);
+  background-color: var(--color-grey-80);
 }
 
 .social-link-footer:hover,
 .social-link-footer:focus,
 .social-link-mob-menu:hover,
 .social-link-mob-menu:focus {
-  background: var(--color-white);
+  background-color: var(--color-white);
 }
 
 .social-link-header:hover .social-icon-header,
