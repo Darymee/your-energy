@@ -81,7 +81,7 @@
   font-size: 14px;
 
   line-height: 1.29;
-  color: rgba(244, 244, 244, 0.6);
+  color: var(--color-white-60);
 }
 
 .footer-form button {
