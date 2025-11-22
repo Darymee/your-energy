@@ -19,6 +19,10 @@ const refs = {
 let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
+let currentView = 'categories'; // 'categories' або 'exercises'
+let currentCategoryName = null;
+let exercisesCurrentPage = 1;
+let exercisesTotalPages = 1;
 
 const indicator = refs.btnBox
   ? refs.btnBox.querySelector('.exercises-thumb-indicator')
@@ -162,7 +166,7 @@ const handleSubmitRating = async (e, exerciseId) => {
       );
 
       if (container) {
-        container.click(); 
+        container.click();
       }
     }
   } catch (err) {
@@ -250,14 +254,29 @@ const handleExerciseItemClick = async e => {
 };
 
 const handleCategoryClick = async e => {
+  currentCategoryName = e.currentTarget.dataset.name;
+  currentView = 'exercises';
+  exercisesCurrentPage = 1;
+
+  await loadExercisesByCategory();
+};
+
+const loadExercisesByCategory = async () => {
   const res = await data_api.getExerciseByCategory(
     data_api.filterType,
-    e.currentTarget.dataset.name
+    currentCategoryName,
+    exercisesCurrentPage,
+    10
   );
+
+  exercisesTotalPages = res.totalPages || 1;
 
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
+
+  renderPaginationList(exercisesTotalPages);
+  setActivePaginationButton(exercisesCurrentPage);
 
   addEventListenersToCards();
 };
@@ -387,6 +406,9 @@ const getFilteredData = async () => {
 
 const onClickFilterBtn = async e => {
   try {
+    currentView = 'categories';
+    currentCategoryName = null;
+    refs.listEx.classList.remove('body-parts-list');
     const clickedBtn = e.target.closest('button');
     if (!clickedBtn) return;
 
@@ -417,11 +439,16 @@ const onClickPaginationBox = async e => {
     const clickedNumPage = Number(clickedBtn.textContent.trim());
     if (!Number.isFinite(clickedNumPage)) return;
 
-    if (clickedNumPage === data_api.currentPage) return;
-
-    data_api.currentPage = clickedNumPage;
-
-    await loadAndRenderExercises();
+    // Перевіряємо який режим перегляду
+    if (currentView === 'exercises') {
+      if (clickedNumPage === exercisesCurrentPage) return;
+      exercisesCurrentPage = clickedNumPage;
+      await loadExercisesByCategory();
+    } else {
+      if (clickedNumPage === data_api.currentPage) return;
+      data_api.currentPage = clickedNumPage;
+      await loadAndRenderExercises();
+    }
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }
