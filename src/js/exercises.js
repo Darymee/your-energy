@@ -352,6 +352,7 @@ const onClickPaginationBox = async e => {
 /* ---------------- Initialize ---------------- */
 
 getFilteredData();
+console.log('ffff');
 
 /* ---------------- Listeners ---------------- */
 
