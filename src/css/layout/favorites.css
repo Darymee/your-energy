@@ -58,6 +58,10 @@
   height: 40px;
 }
 
+html[data-theme='dark'] .quote-icon-run {
+  background-color: var(--color-grey-60);
+}
+
 .quote-icon-run svg {
   fill: var(--card-bg);
 }
@@ -77,6 +81,10 @@
   line-height: 1.5;
   margin-bottom: 16px;
   color: #ffffff99;
+}
+
+html[data-theme='dark'] .quote-text {
+  color: var(--color-white);
 }
 
 .quote-author {
