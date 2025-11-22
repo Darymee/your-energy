@@ -1,5 +1,5 @@
 import { data_api } from './api';
-const iconPath = './../img/sprite.svg';
+const iconPath = `${import.meta.env.BASE_URL}img/sprite.svg`;
 import { hasFavoriteLS } from './local_storage';
 
 function capitalize(str) {
@@ -80,7 +80,7 @@ export const Template = {
       <li class="favorites-item" data-id=${_id}>
         <div class="card-header">
           <div class="card-badge">WORKOUT</div>
-          
+
            ${
              hasFavoriteLS(_id)
                ? `<button
@@ -96,7 +96,7 @@ export const Template = {
                </button>`
                : ''
            }
-          
+
           <button class="card-btn-start js-start-btn" data-id="${_id}" data-open-overlay="exercise" type="button">
               Start
               <svg class="card-icon-arrow" width="16" height="16">
@@ -104,7 +104,7 @@ export const Template = {
               </svg>
           </button>
         </div>
-  
+
         <div class="card-title-wrapper">
           <div class="card-icon-run-bg">
               <svg class="card-icon-run" width="14" height="16">
@@ -113,7 +113,7 @@ export const Template = {
           </div>
           <h3 class="card-title">${capitalize(name)}</h3>
         </div>
-  
+
         <ul class="card-info-list">
           <li class="card-info-item">
               <span class="info-label">Burned calories:</span>
@@ -197,11 +197,11 @@ export const Template = {
                         hasFavoriteLS(_id) ? 'icon-trash' : 'icon-heart'
                       }"  data-fav-icon></use>
                     </svg>
-                
+
                 <button type="button" class="modal-btn-rating" data-btn-rating>
                   Give a rating
                 </button>
-            </div>  
+            </div>
         </div>
       </div>`;
   },
