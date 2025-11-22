@@ -133,7 +133,9 @@ html[data-theme='dark'] .icon-close {
   background: var(--color-white);
   border: 1px solid var(--color-white);
   border-radius: 30px;
-  width: 295px;
+  width: 225px;
+  padding-left: 10px;
+  padding-right: 10px;
   height: 42px;
   font-weight: 400;
   font-size: 14px;
@@ -152,10 +154,23 @@ html[data-theme='dark'] .modal-btn {
   color: var(--color-white);
 }
 
+.modal-btn-rating {
+  background: transparent;
+  color: var(--color-white);
+  width: auto;
+}
+
+.modal-btn-rating:hover,
+.modal-btn-rating:focus {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
 .modal-btn-icon {
   vertical-align: middle;
   margin-left: 8px;
   stroke: var(--color-black);
+  fill: var(--color-white);
   transition: stroke var(--transition);
 }
 
