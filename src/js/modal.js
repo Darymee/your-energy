@@ -1,6 +1,8 @@
 const modalStore = {};
 
 let refs = null;
+let backdropHandler = null;
+let closeBtnHandler = null;
 
 export function Modal(name, content) {
   modalStore[name] = content;
@@ -29,19 +31,46 @@ export function openModal(key) {
   const content = modalStore[key];
   if (!content) return console.warn(`No modal found for key: ${key}`);
 
+  // Очищення попередніх обробників
+  cleanupListeners();
+
   refs.modalContent.innerHTML = content;
   refs.modal.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
 
+  // Додаємо обробник кнопки закриття
   const closeBtn = refs.modal.querySelector('[data-close-overlay]');
-  closeBtn?.addEventListener('click', closeModal);
+  if (closeBtn) {
+    closeBtnHandler = closeModal;
+    closeBtn.addEventListener('click', closeBtnHandler);
+  }
 
-  refs.modal.addEventListener('click', backdropClose);
+  // Додаємо обробник backdrop
+  backdropHandler = backdropClose;
+  refs.modal.addEventListener('click', backdropHandler);
 }
 
-function closeModal() {
+export function closeModal() {
+  if (!refs) return;
+
   refs.modalContent.innerHTML = '';
   refs.modal.classList.remove('is-open');
-  refs.modal.removeEventListener('click', backdropClose);
+  document.body.style.overflow = '';
+
+  cleanupListeners();
+}
+
+function cleanupListeners() {
+  if (backdropHandler) {
+    refs.modal.removeEventListener('click', backdropHandler);
+    backdropHandler = null;
+  }
+
+  if (closeBtnHandler) {
+    const closeBtn = refs.modal.querySelector('[data-close-overlay]');
+    closeBtn?.removeEventListener('click', closeBtnHandler);
+    closeBtnHandler = null;
+  }
 }
 
 function backdropClose(e) {
