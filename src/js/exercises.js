@@ -156,8 +156,14 @@ const handleSubmitRating = async (e, exerciseId) => {
         message: 'Rating submitted successfully!',
         position: 'topRight',
       });
-      const container = document.querySelector('.full-overlay.is-open');
-      container.remove();
+
+      const container = document.querySelector(
+        '.full-overlay.is-open [data-close-overlay]'
+      );
+
+      if (container) {
+        container.click(); 
+      }
     }
   } catch (err) {
     iziToast.error({
