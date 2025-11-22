@@ -75,12 +75,19 @@ export const Template = {
       .join('');
   },
 
-  favoriteCard({ _id, name, burnedCalories, time, bodyPart, target }) {
+  favoriteCard({ _id, name, burnedCalories, time, bodyPart, target, rating }) {
     return `
       <li class="favorites-item" data-id=${_id}>
         <div class="card-header">
-          <div class="card-badge">WORKOUT</div>
-
+          <div class="card-header-info">
+            <div class="card-badge">WORKOUT</div>
+            <div class="card-rating">
+              <span class="card-rating-value">${rating}</span>
+                  <svg class="card-rating-icon" width="18" height="18">
+                   <use href="${iconPath}#icon-star"></use>
+                 </svg>
+            </div>
+          </div>
            ${
              hasFavoriteLS(_id)
                ? `<button
