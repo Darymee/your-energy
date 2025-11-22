@@ -150,6 +150,7 @@ html[data-theme='dark'] .rating-form-textarea:focus {
   border-radius: 30px;
   padding: 12px 0;
   font-size: 14px;
+  width: 100%;
   transition: background-color var(--transition), color var(--transition),
     border-color var(--transition);
 }
