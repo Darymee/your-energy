@@ -4,8 +4,9 @@ let refs = null;
 let backdropHandler = null;
 let closeBtnHandler = null;
 
-export function Modal(name, content) {
+export function Modal(name, content, cssClass = null) {
   modalStore[name] = content;
+  if (cssClass !== null) refs.modal.classList.add(cssClass);
 }
 
 export function initModalSystem() {
