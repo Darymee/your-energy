@@ -40,8 +40,8 @@ class Api {
     console.error('API Error:', error);
     return Promise.reject(
       error.response?.data?.message ||
-        error.message ||
-        'An unexpected error occurred'
+      error.message ||
+      'An unexpected error occurred'
     );
   };
 
@@ -95,12 +95,25 @@ class Api {
     }
   }
 
-  async getExerciseByCategory(filter, name, page = 1, limit = 10) {
+  // FIX #4: Properly map filterType + name to correct API parameter
+  async getExerciseByCategory(filterType, name, page = 1, limit = 10) {
     try {
+      // Map the UI filter type to the correct API query parameter
+      const filterKeyMap = {
+        'Muscles': 'muscles',
+        'Body parts': 'bodypart',
+        'Equipment': 'equipment',
+      };
+
+      const paramKey = filterKeyMap[filterType];
+
+      if (!paramKey) {
+        throw new Error(`Unknown filter type: ${filterType}`);
+      }
+
       const params = {
-        ...filter,
-        ...name,
-        ...page,
+        [paramKey]: name.toLowerCase(),
+        page,
         limit,
       };
 
