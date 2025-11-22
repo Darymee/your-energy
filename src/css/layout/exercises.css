@@ -144,6 +144,10 @@ html[data-theme='dark'] .exercises-wrap-info p:first-child {
   font-size: 20px;
 }
 
+html[data-theme='dark'] .quote-card-icon {
+  background: var(--color-white);
+}
+
 .quote-card-svg {
   fill: var(--color-white);
 }
@@ -211,6 +215,10 @@ html[data-theme='dark'] .quote-card-svg {
   font-size: 14px;
   line-height: 1.28571;
   color: var(--color-white-60);
+}
+
+html[data-theme='dark'] .quote-card-text {
+  color: var(--color-white);
 }
 
 .quote-card-color {

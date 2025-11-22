@@ -141,7 +141,8 @@ html[data-theme='dark'] .icon-close {
   font-size: 14px;
   line-height: 1.29;
   color: var(--color-black);
-  transition: background var(--transition), color var(--transition);
+  transition: background var(--transition), color var(--transition),
+    border-color var(--transition);
 }
 
 html[data-theme='dark'] .modal-btn {
@@ -170,7 +171,6 @@ html[data-theme='dark'] .modal-btn {
   vertical-align: middle;
   margin-left: 8px;
   stroke: var(--color-black);
-  fill: var(--color-white);
   transition: stroke var(--transition);
 }
 
@@ -181,7 +181,27 @@ html[data-theme='dark'] .modal-btn {
 
 html[data-theme='dark'] .modal-btn:hover,
 html[data-theme='dark'] .modal-btn:focus {
-  background: var(--color-white-80);
+  background-color: #0b1020;
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+html[data-theme='dark'] .modal-btn-rating {
+  background-color: #0b1020;
+  border-color: var(--color-black);
+  color: var(--color-black);
+}
+
+html[data-theme='dark'] .modal-btn:hover .modal-btn-icon,
+html[data-theme='dark'] .modal-btn:focus .modal-btn-icon {
+  stroke: var(--color-black);
+}
+
+html[data-theme='dark'] .modal-btn-rating:hover,
+html[data-theme='dark'] .modal-btn-rating:focus {
+  background-color: var(--color-white-10);
+  border-color: transparent;
+  color: var(--color-black);
 }
 
 /* stars */
@@ -219,8 +239,34 @@ html[data-theme='dark'] .modal-rating-stars .empty {
 }
 
 @media screen and (max-width: 767px) {
+  .modal {
+    max-height: 98vh;
+    overflow-y: scroll;
+  }
+
+  .modal-exercises {
+    flex-direction: column;
+  }
+
   .modal-details {
     gap: 20px;
+  }
+
+  .modal-btn {
+    width: 100%;
+  }
+
+  .modal-close {
+    top: 14px;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+  }
+
+  .icon-close {
+    width: 24px;
+    height: 24px;
   }
 }
 
