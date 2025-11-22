@@ -3,7 +3,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background: var(--color-black);
+  background-color: var(--color-black);
   border-radius: 12px;
 }
 

@@ -1,3 +1,3 @@
 .overlay {
-  background: var(--overlay-bg);
+  background-color: var(--overlay-bg);
 }

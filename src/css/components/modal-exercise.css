@@ -26,7 +26,7 @@
 }
 
 .modal {
-  background: var(--color-black);
+  background-color: var(--color-black);
   border-radius: 20px;
   width: 335px;
   padding: 40px 20px;
@@ -45,7 +45,7 @@ html[data-theme='dark'] .modal {
   position: absolute;
   top: 24px;
   right: 24px;
-  background: transparent;
+  background-color: transparent;
   border: none;
 }
 
@@ -130,7 +130,7 @@ html[data-theme='dark'] .icon-close {
 }
 
 .modal-btn {
-  background: var(--color-white);
+  background-color: var(--color-white);
   border: 1px solid var(--color-white);
   border-radius: 30px;
   width: 225px;
@@ -141,29 +141,29 @@ html[data-theme='dark'] .icon-close {
   font-size: 14px;
   line-height: 1.29;
   color: var(--color-black);
-  transition: background var(--transition), color var(--transition),
+  transition: background-color var(--transition), color var(--transition),
     border-color var(--transition);
 }
 
 html[data-theme='dark'] .modal-btn {
-  background: var(--color-white-10);
+  background-color: var(--color-white-10);
 }
 
 .modal-btn:hover,
 .modal-btn:focus {
-  background: transparent;
+  background-color: transparent;
   color: var(--color-white);
 }
 
 .modal-btn-rating {
-  background: transparent;
+  background-color: transparent;
   color: var(--color-white);
   width: auto;
 }
 
 .modal-btn-rating:hover,
 .modal-btn-rating:focus {
-  background: var(--color-white);
+  background-color: var(--color-white);
   color: var(--color-black);
 }
 

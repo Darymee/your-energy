@@ -121,7 +121,6 @@ html[data-theme='dark'] .rating-form-textarea {
 
 .rating-form-input:focus,
 .rating-form-textarea:focus {
-  outline: none;
   border-color: var(--color-white-80);
   transition: border-color var(--transition);
 }
@@ -146,9 +145,6 @@ html[data-theme='dark'] .rating-form-textarea:focus {
   padding: 12px 0;
   font-size: 14px;
   cursor: pointer;
-  outline: none;
-  box-shadow: none;
-  transform: none;
   transition: background-color var(--transition),
     color var(--transition) border-color var(--transition);
 }

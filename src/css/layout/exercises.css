@@ -136,7 +136,7 @@ html[data-theme='dark'] .exercises-wrap-info p:first-child {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--card-quote-icon);
+  background-color: var(--card-quote-icon);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -145,7 +145,7 @@ html[data-theme='dark'] .exercises-wrap-info p:first-child {
 }
 
 html[data-theme='dark'] .quote-card-icon {
-  background: var(--color-white);
+  background-color: var(--color-white);
 }
 
 .quote-card-svg {
@@ -245,7 +245,7 @@ html[data-theme='dark'] .quote-card-text {
 
 .pagination-item {
   border: none;
-  background: transparent;
+  background-color: transparent;
   font-family: inherit;
   font-size: 16px;
   line-height: 1;

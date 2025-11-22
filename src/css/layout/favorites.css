@@ -249,7 +249,7 @@
 }
 
 .card-btn-delete {
-  background: transparent;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
@@ -270,7 +270,7 @@
 }
 
 .card-btn-start {
-  background: transparent;
+  background-color: transparent;
   border: none;
   display: flex;
   align-items: center;
