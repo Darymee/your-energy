@@ -71,7 +71,6 @@ const renderFiltersList = data => {
   document
     .querySelectorAll('.exercises-item')
     .forEach(card => card.addEventListener('click', onCategoryClick));
-
   lastRenderCount = Math.max(cards.length, data_api.limitPage);
 };
 
