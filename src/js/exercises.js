@@ -349,6 +349,7 @@ const onClickPaginationBox = async e => {
 
 getFilteredData();
 
+console.log('start');
 /* ---------------- Listeners ---------------- */
 
 window.addEventListener('resize', onResize);
