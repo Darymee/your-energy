@@ -206,3 +206,4 @@ export const Template = {
       </div>`;
   },
 };
+
