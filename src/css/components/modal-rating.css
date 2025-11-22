@@ -111,6 +111,7 @@
 html[data-theme='dark'] .rating-form-input,
 html[data-theme='dark'] .rating-form-textarea {
   border-color: var(--color-white-10);
+  color: var(--color-black);
 }
 
 .rating-form-textarea {
@@ -130,6 +131,7 @@ html[data-theme='dark'] .rating-form-input:focus,
 html[data-theme='dark'] .rating-form-textarea:hover,
 html[data-theme='dark'] .rating-form-textarea:focus {
   border-color: var(--color-white-80);
+  color: var(--color-black);
 }
 
 .rating-form-input::placeholder,
@@ -144,9 +146,8 @@ html[data-theme='dark'] .rating-form-textarea:focus {
   border-radius: 30px;
   padding: 12px 0;
   font-size: 14px;
-  cursor: pointer;
-  transition: background-color var(--transition),
-    color var(--transition) border-color var(--transition);
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition);
 }
 
 .rating-form-btn:hover,
