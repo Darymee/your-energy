@@ -1,13 +1,21 @@
-import { Modal, initModalSystem } from './modal';
 import axios from 'axios';
+import { initModalRating } from './modal-rating';
+import { Modal, initModalSystem } from './modal';
 
 const BASE_URL = 'https://your-energy.b.goit.study/api';
 const LS_KEY = 'favoriteExercises';
-const overlay = document.querySelector('[data-overlay]');
 const overlayContent = document.querySelector('[data-overlay-content]');
 
-onOpenModal('64f389465ae26083f39b17a4');
 initModalSystem();
+
+const exerciseTrigger = document.querySelector(
+    '[data-open-overlay="exercise"]'
+);
+if (exerciseTrigger) {
+    exerciseTrigger.addEventListener('click', () => {
+        onOpenModal('64f389465ae26083f39b17a4');
+    });
+}
 
 function getFavoriteIds() {
     const raw = localStorage.getItem(LS_KEY);
@@ -33,26 +41,27 @@ async function onOpenModal(id) {
         const textBtn = textForBtn(isFavorite);
 
         const html = modalExerciseTemplate(data, textBtn);
-        overlayContent.innerHTML = html;
-        overlay.classList.add('is-open');
+
+        Modal('exercise', html);
+
+        const ratingBtn = overlayContent.querySelector('.rating-btn');
+        if (ratingBtn) {
+            ratingBtn.addEventListener('click', () => {
+                const ratingTrigger = document.querySelector(
+                    '[data-open-overlay="rating"]'
+                );
+                if (!ratingTrigger) return;
+                ratingTrigger.click();
+                initModalRating();
+            });
+        }
 
         const favoriteBtn = overlayContent.querySelector('.favorite-btn');
         const favoriteBtnText = favoriteBtn?.querySelector('.favorite-btn-text');
 
         if (favoriteBtn && favoriteBtnText) {
             favoriteBtn.addEventListener('click', () => {
-                console.log('click');
-                const ids = getFavoriteIds();
-
-                if (ids.includes(exerciseId)) {
-                    const newIds = ids.filter(storeId => storeId !== exerciseId);
-                    setFavorites(newIds);
-                    favoriteBtnText.textContent = 'Add to favorites';
-                } else {
-                    const newIds = [...ids, exerciseId];
-                    setFavorites(newIds);
-                    favoriteBtnText.textContent = 'Delete to favorites';
-                }
+                toggleFavorite(exerciseId, favoriteBtnText);
             });
         }
     } catch (err) {
@@ -60,25 +69,17 @@ async function onOpenModal(id) {
     }
 }
 
-function makeStars(rating) {
-    const safeRating = Math.max(0, Math.min(5, rating));
-    const fullCount = Math.floor(safeRating);
-    const emptyCount = 5 - fullCount;
-    const full = Array(fullCount)
-        .fill(
-            `<svg class="full" width="18" height="18">
-        <use href="./img/sprite.svg#icon-star"></use>
-        </svg>`
-        )
-        .join('');
-    const empty = Array(emptyCount)
-        .fill(
-            `<svg class="empty" width="18" height="18">
-        <use href="./img/sprite.svg#icon-star"></use>
-        </svg>`
-        )
-        .join('');
-    return full + empty;
+function toggleFavorite(exerciseId, favoriteBtnText) {
+    let ids = getFavoriteIds();
+    if (ids.includes(exerciseId)) {
+        const newIds = ids.filter(storeId => storeId !== exerciseId);
+        setFavorites(newIds);
+        favoriteBtnText.textContent = 'Add to favorites';
+    } else {
+        ids.push(exerciseId);
+        setFavorites(ids);
+        favoriteBtnText.textContent = 'Delete to favorites';
+    }
 }
 
 function textForBtn(isFavorite) {
@@ -97,19 +98,18 @@ function makeRatingStarsMarkup(rating) {
     const num = Number(rating) || 0;
     const safeRating = Math.max(0, Math.min(5, num));
 
-    const fullStars = Math.floor(safeRating)
+    const fullStars = Math.floor(safeRating);
     let starsHTML = '';
     for (let i = 1; i <= 5; i += 1) {
-        const isActive = i <= fullStars ? "active" : "";
+        const isActive = i <= fullStars ? 'active' : '';
         starsHTML += `<span data-rate="${i}" class="${isActive}">★</span>`;
     }
     return `
     <div class="rating-stars">
     <span class="rating-value">${safeRating.toFixed(1)}</span>
     <div class="stars">${starsHTML}</div>
-    </div>`
+    </div>`;
 }
-
 
 function modalExerciseTemplate(data, textBtn) {
     const {
