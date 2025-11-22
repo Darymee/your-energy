@@ -1,5 +1,5 @@
 import { data_api } from './api';
-const iconPath = 'img/sprite.svg';
+const iconPath = './../img/sprite.svg';
 import { hasFavoriteLS } from './local_storage';
 
 function capitalize(str) {
@@ -12,14 +12,14 @@ function makeStars(rating) {
   const full = Array(safeRating)
     .fill(
       `<svg class="full" width="18" height="18">
-        <use href="/img/sprite.svg#icon-star"></use>
+        <use href="${iconPath}#icon-star"></use>
         </svg>`
     )
     .join('');
   const empty = Array(5 - safeRating)
     .fill(
       `<svg class="empty" width="18" height="18">
-        <use href="/img/sprite.svg#icon-star"></use>
+        <use href="${iconPath}#icon-star"></use>
         </svg>`
     )
     .join('');
@@ -100,7 +100,7 @@ export const Template = {
           <button class="card-btn-start js-start-btn" data-id="${_id}" data-open-overlay="exercise" type="button">
               Start
               <svg class="card-icon-arrow" width="16" height="16">
-                  <use href="${iconPath}#icon-arrow-right"></use>
+                  <use href="${iconPath}#icon-arrow-start"></use>
               </svg>
           </button>
         </div>

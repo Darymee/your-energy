@@ -19,9 +19,13 @@ let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
 
-const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+const indicator = refs.btnBox
+  ? refs.btnBox.querySelector('.exercises-thumb-indicator')
+  : null;
 
 const onResize = async () => {
+  if (!indicator) return;
+
   updateIndicator();
   if (data_api.limitPage !== prevLimit && !isResizingLoad) {
     isResizingLoad = true;
@@ -36,6 +40,8 @@ const onResize = async () => {
 };
 
 const updateIndicator = () => {
+  if (!indicator) return;
+
   const activeBtn = refs.btnBox.querySelector('button.active');
   if (!activeBtn || !indicator) return;
 
@@ -258,6 +264,9 @@ const renderQuote = async () => {
     const errorAuthor = 'Tom Brady';
     const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
     const itemQuote = Template.quote(errorAuthor, errorQuote);
+
+    if (!indicator) return;
+
     refs.quoteBody.innerHTML = itemQuote;
   }
 };
@@ -279,6 +288,8 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
 };
 
 const getFilteredData = async () => {
+  if (!indicator) return;
+
   try {
     renderQuote();
     const res = await data_api.getDataByFilter();
@@ -342,9 +353,12 @@ const onClickPaginationBox = async e => {
 
 getFilteredData();
 
-console.log('start');
 /* ---------------- Listeners ---------------- */
 
-window.addEventListener('resize', onResize);
-refs.btnBox.addEventListener('click', onClickFilterBtn);
-refs.paginationBox.addEventListener('click', onClickPaginationBox);
+if (refs.btnBox) {
+  window.addEventListener('resize', onResize);
+  refs.btnBox.addEventListener('click', onClickFilterBtn);
+}
+if (refs.paginationBox) {
+  refs.paginationBox.addEventListener('click', onClickPaginationBox);
+}
