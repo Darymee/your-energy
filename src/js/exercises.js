@@ -71,7 +71,7 @@ const renderCategoryList = data => {
   document
     .querySelectorAll('.exercises-item')
     .forEach(card => card.addEventListener('click', onCategoryClick));
-  lastRenderCount = Math.max(cards.length, data_api.limitPage);
+  lastRenderCount = Math.max(data.results.length, data_api.limitPage);
 };
 
 /* ---------------- Render Exercises list ---------------- */
@@ -82,7 +82,7 @@ const renderExercisesList = data => {
   const cards = data.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
 
-  lastRenderCount = Math.max(cards.length, data_api.limitPage);
+  lastRenderCount = Math.max(data.results.length, data_api.limitPage);
 };
 
 /* ---------------- Loaders ---------------- */
@@ -204,7 +204,7 @@ const onCategoryClick = async e => {
 
   viewMode = 'exercises';
 
-  data_api.setCategoryFilter(data_api.filterType, name);
+  data_api.setCategoryFilter(data_api.categoryType, name);
 
   await loadExercisesPage({ updatePagination: true });
 };

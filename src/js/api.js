@@ -128,6 +128,7 @@ class Api {
         [key]: name || null,
       };
     }
+    this.resetPage();
   }
 
   async getExercises(extraFilters = {}) {
