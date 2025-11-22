@@ -93,6 +93,24 @@ function textForBtn(isFavorite) {
                     </svg>`;
 }
 
+function makeRatingStarsMarkup(rating) {
+    const num = Number(rating) || 0;
+    const safeRating = Math.max(0, Math.min(5, num));
+
+    const fullStars = Math.floor(safeRating)
+    let starsHTML = '';
+    for (let i = 1; i <= 5; i += 1) {
+        const isActive = i <= fullStars ? "active" : "";
+        starsHTML += `<span data-rate="${i}" class="${isActive}">★</span>`;
+    }
+    return `
+    <div class="rating-stars">
+    <span class="rating-value">${safeRating.toFixed(1)}</span>
+    <div class="stars">${starsHTML}</div>
+    </div>`
+}
+
+
 function modalExerciseTemplate(data, textBtn) {
     const {
         name,
@@ -106,7 +124,7 @@ function modalExerciseTemplate(data, textBtn) {
         description,
         time,
     } = data;
-    const starsHtml = makeStars(rating);
+    const starsHtml = makeRatingStarsMarkup(rating);
     return `
         <div class="modal-exercises">
                 <div class="modal-img-wrapper">
@@ -114,13 +132,8 @@ function modalExerciseTemplate(data, textBtn) {
             </div>
             <div class="modal-details">
                 <p class="modal-title">${name}</p>
-                <div class="modal-rating">
-
-
-                    <div class="modal-rating-value">${rating}</div>
-                    <div class="modal-rating-stars">${starsHtml}</div>
-                </div>
-                <div class="info-grid">
+             ${starsHtml}
+                    <div class="info-grid">
                     <div class="info-row">
                         <div class="info-grid-item">
                             <div class="info-grid-label">Target</div>
