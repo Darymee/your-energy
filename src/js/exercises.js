@@ -19,9 +19,11 @@ let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
 
-const indicator = refs.btnBox.querySelector('.exercises-thumb-indicator');
+const indicator = refs.btnBox?.querySelector('.exercises-thumb-indicator');
 
 const onResize = async () => {
+  if (!refs.btnBox) return;
+
   updateIndicator();
   if (data_api.limitPage !== prevLimit && !isResizingLoad) {
     isResizingLoad = true;
@@ -36,8 +38,10 @@ const onResize = async () => {
 };
 
 const updateIndicator = () => {
+  if (!refs.btnBox || !indicator) return;
+
   const activeBtn = refs.btnBox.querySelector('button.active');
-  if (!activeBtn || !indicator) return;
+  if (!activeBtn) return;
 
   const boxRect = refs.btnBox.getBoundingClientRect();
   const btnRect = activeBtn.getBoundingClientRect();
@@ -52,12 +56,14 @@ const updateIndicator = () => {
 /* ---------------- Skeleton ---------------- */
 
 const renderSkeletonList = () => {
+  if (!refs.listEx) return;
   refs.listEx.innerHTML = Template.skeletonExMarkup(lastRenderCount);
 };
 
 /* ---------------- Pagination ---------------- */
 
 const renderPaginationList = maxPage => {
+  if (!refs.paginationBox) return;
   const arr = [];
   for (let i = 1; i <= maxPage; i++) {
     arr.push(Template.itemPagination(i));
@@ -66,6 +72,7 @@ const renderPaginationList = maxPage => {
 };
 
 const setActivePaginationButton = page => {
+  if (!refs.paginationBox) return;
   const buttons = [...refs.paginationBox.children];
   if (!buttons.length) return;
 
