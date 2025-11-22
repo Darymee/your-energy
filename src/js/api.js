@@ -7,7 +7,7 @@ class Api {
   currentPage = 1;
   totalPages = 1;
   limitPage = 9;
-  filterType = 'Muscles';
+  categoryType = 'Muscles';
 
   exercisesFilters = {
     bodypart: null,
@@ -73,14 +73,14 @@ class Api {
   }
 
   changeSearchType(field) {
-    this.filterType = field;
+    this.categoryType = field;
     this.resetPage();
   }
 
   async getDataByFilter() {
     try {
       const response = await axios.get('/filters', {
-        params: this.#paginationParams({ filter: this.filterType }),
+        params: this.#paginationParams({ filter: this.categoryType }),
       });
 
       this.totalPages = response.data.totalPages || 1;
@@ -109,8 +109,8 @@ class Api {
     this.resetPage();
   }
 
-  setCategoryFilter(filterType, name, { resetOthers = true } = {}) {
-    const key = this.#mapFilterTypeToKey(filterType);
+  setCategoryFilter(categoryType, name, { resetOthers = true } = {}) {
+    const key = this.#mapFilterTypeToKey(categoryType);
     if (!key) return;
 
     if (resetOthers) {

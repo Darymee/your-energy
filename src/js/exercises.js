@@ -59,9 +59,9 @@ const setActivePaginationButton = page => {
   }
 };
 
-/* ---------------- Render Filters list ---------------- */
+/* ---------------- Render Category list ---------------- */
 
-const renderFiltersList = data => {
+const renderCategoryList = data => {
   refs.listEx.classList.remove('body-parts-list');
 
   const cards = data.results.map(i => Template.exerciseCard(i)).join('');
@@ -91,7 +91,7 @@ const loadFiltersPage = async ({ updatePagination = false } = {}) => {
   renderSkeletonList();
 
   const res = await data_api.getDataByFilter();
-  renderFiltersList(res);
+  renderCategoryList(res);
 
   if (updatePagination) renderPaginationList(data_api.totalPages);
   setActivePaginationButton(data_api.currentPage);
