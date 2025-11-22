@@ -1,0 +1,12 @@
+html {
+  cursor: url('../../public/neon-water-cursor.png'), auto;
+}
+
+a,
+a:hover,
+a span,
+a span:hover,
+button,
+button:hover {
+  cursor: url('../../public/neon-dumbbell-cursor.png'), auto;
+}
