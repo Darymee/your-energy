@@ -61,7 +61,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 18px 18px;
-  transition: transform var(---transition), filter var(---transition);
+  transition: transform var(--transition), filter var(--transition);
 }
 
 .rating-form-radio:hover + label,
@@ -80,7 +80,7 @@
 
 .rating-form-radio:active + label {
   transform: scale(0.95);
-  transition: transform var(---transition);
+  transition: transform var(--transition);
 }
 
 .rating-form-group-container {
@@ -123,7 +123,7 @@ html[data-theme='dark'] .rating-form-textarea {
 .rating-form-textarea:focus {
   outline: none;
   border-color: var(--color-white-80);
-  transition: border-color var(--transition) box-shadow var(---transition);
+  transition: border-color var(--transition);
 }
 
 html[data-theme='dark'] .rating-form-input:hover,
@@ -149,8 +149,8 @@ html[data-theme='dark'] .rating-form-textarea:focus {
   outline: none;
   box-shadow: none;
   transform: none;
-  transition: background-color var(--transition), color var(---transition),
-    box-shadow var(--transition);
+  transition: background-color var(--transition),
+    color var(--transition) border-color var(--transition);
 }
 
 .rating-form-btn:hover,
