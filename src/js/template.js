@@ -221,8 +221,11 @@ export const Template = {
                 class="rating-form-radio"
                 id="star5"
               />
-              <label for="star5"></label>
-
+              <label for="star5">
+                <svg class="card-icon-run" width="24" height="24">
+                  <use href="${iconPath}#icon-star"></use>
+                </svg>
+              </label>
               <input
                 type="radio"
                 name="rate"
@@ -230,7 +233,11 @@ export const Template = {
                 class="rating-form-radio"
                 id="star4"
               />
-              <label for="star4"></label>
+              <label for="star4">
+                <svg class="card-icon-run" width="24" height="24">
+                  <use href="${iconPath}#icon-star"></use>
+                </svg>
+              </label>
 
               <input
                 type="radio"
@@ -239,7 +246,11 @@ export const Template = {
                 class="rating-form-radio"
                 id="star3"
               />
-              <label for="star3"></label>
+              <label for="star3">
+                <svg class="card-icon-run" width="24" height="24">
+                  <use href="${iconPath}#icon-star"></use>
+                </svg>
+              </label>
 
               <input
                 type="radio"
@@ -248,7 +259,11 @@ export const Template = {
                 class="rating-form-radio"
                 id="star2"
               />
-              <label for="star2"></label>
+              <label for="star2">
+                <svg class="card-icon-run" width="24" height="24">
+                  <use href="${iconPath}#icon-star"></use>
+                </svg>
+              </label>
 
               <input
                 type="radio"
@@ -257,7 +272,11 @@ export const Template = {
                 class="rating-form-radio"
                 id="star1"
               />
-              <label for="star1"></label>
+              <label for="star1">
+                <svg class="card-icon-run" width="24" height="24">
+                  <use href="${iconPath}#icon-star"></use>
+                </svg>
+              </label>
             </div>
           </div>
         </div>

@@ -162,7 +162,7 @@ const handleSubmitRating = async (e, exerciseId) => {
       );
 
       if (container) {
-        container.click(); 
+        container.click();
       }
     }
   } catch (err) {
@@ -177,7 +177,7 @@ const handleExerciseItemClick = async e => {
   const id = e.currentTarget.dataset.id;
   const res = await data_api.getExerciseById(id);
 
-  Modal('exercise', Template.exerciseModal(res));
+  Modal('exercise', Template.exerciseModal(res), 'overlay-exersices');
   openModal('exercise');
 
   const btnAddToFavorites = document.querySelector('[data-btn-favorites]');
@@ -246,6 +246,16 @@ const handleExerciseItemClick = async e => {
     submitRatingBtn.addEventListener('click', event =>
       handleSubmitRating(event, id)
     );
+
+    const form = document.querySelector('.rating-form'); // форма зірочного рейтингу
+    const rateInputs = form.querySelectorAll('input[name="rate"]');
+    const rateValue = form.querySelector('.rating-form-value');
+
+    rateInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        rateValue.textContent = input.value; // оновлюємо текст
+      });
+    });
   });
 };
 
