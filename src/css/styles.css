@@ -8,6 +8,7 @@
 @import url('./utils/reset.css');
 @import url('./utils/base.css');
 @import url('./utils/variables.css');
+@import url('./utils/cursor.css');
 
 /* Component styles */
 @import url('./components/anchor-button.css');
