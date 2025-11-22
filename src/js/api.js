@@ -132,6 +132,9 @@ class Api {
   }
 
   async getExercises(extraFilters = {}) {
+    const prevLimit = this.limitPage;
+    this.limitPage = 10;
+
     try {
       const merged = {
         ...this.exercisesFilters,
@@ -154,6 +157,8 @@ class Api {
       return response.data;
     } catch (error) {
       return this.#handleError(error);
+    } finally {
+      this.limitPage = prevLimit;
     }
   }
 

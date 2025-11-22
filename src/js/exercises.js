@@ -2,6 +2,8 @@ import { data_api } from './api';
 import { Template } from './template';
 import { getLastSessionLS, setLastSessionLS } from './local_storage';
 
+const EXERCISES_LIMIT = 10;
+
 const refs = {
   listEx: document.querySelector('.exercises-list'),
   btnBox: document.querySelector('.exercises-thumb-btn'),
@@ -71,7 +73,7 @@ const renderCategoryList = data => {
   document
     .querySelectorAll('.exercises-item')
     .forEach(card => card.addEventListener('click', onCategoryClick));
-  lastRenderCount = Math.max(data.results.length, data_api.limitPage);
+  lastRenderCount = Math.max(data.results.length, EXERCISES_LIMIT);
 };
 
 /* ---------------- Render Exercises list ---------------- */
@@ -98,6 +100,7 @@ const loadFiltersPage = async ({ updatePagination = false } = {}) => {
 };
 
 const loadExercisesPage = async ({ updatePagination = false } = {}) => {
+  lastRenderCount = EXERCISES_LIMIT;
   renderSkeletonList();
 
   const res = await data_api.getExercises();
@@ -213,7 +216,11 @@ const onCategoryClick = async e => {
 const onResize = async () => {
   updateIndicator();
 
-  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
+  if (
+    viewMode === 'filters' &&
+    data_api.limitPage !== prevLimit &&
+    !isResizingLoad
+  ) {
     isResizingLoad = true;
     try {
       prevLimit = data_api.limitPage;
