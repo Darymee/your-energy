@@ -1,5 +1,5 @@
 const STORAGE_KEY = {
-  FAVOTIRES: 'favorites',
+  FAVORITES: 'favorites',
   UI_THEME: 'ui-theme',
   LAST_SESSION: 'last_session',
 };
@@ -29,7 +29,7 @@ export const setLastSessionLS = value => {
 
 export const getFavoritesLS = () => {
   try {
-    const data = localStorage.getItem(STORAGE_KEY.FAVOTIRES);
+    const data = localStorage.getItem(STORAGE_KEY.FAVORITES);
     return data ? JSON.parse(data) : [];
   } catch (error) {
     console.error('Error parsing favorites from localStorage:', error);
@@ -37,16 +37,20 @@ export const getFavoritesLS = () => {
   }
 };
 
+export const hasFavoriteLS = id => {
+  const list = getFavoritesLS();
+  return list.includes(id);
+};
+
 export const addFavoriteLS = id => {
   try {
     const data = getFavoritesLS();
-
     if (!data.includes(id)) {
       data.push(id);
-      localStorage.setItem(STORAGE_KEY.FAVOTIRES, JSON.stringify(data));
+      localStorage.setItem(STORAGE_KEY.FAVORITES, JSON.stringify(data));
     }
   } catch (error) {
-    console.error('Error adding favorites to localStorage:', error);
+    console.error('Error adding favorite:', error);
   }
 };
 
@@ -54,9 +58,19 @@ export const removeFavoriteLS = id => {
   try {
     const data = getFavoritesLS();
     const updatedData = data.filter(item => item !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+    localStorage.setItem(STORAGE_KEY.FAVORITES, JSON.stringify(updatedData));
   } catch (error) {
-    console.error('Error removing favorite item from localStorage:', error);
+    console.error('Error removing favorite:', error);
+  }
+};
+
+export const toggleFavoriteLS = id => {
+  if (hasFavoriteLS(id)) {
+    removeFavoriteLS(id);
+    return false;
+  } else {
+    addFavoriteLS(id);
+    return true;
   }
 };
 
