@@ -131,7 +131,7 @@ class Api {
     this.resetPage();
   }
 
-  async getExercises(extraFilters = {}) {
+  async getExerciseByCategory(extraFilters = {}) {
     const prevLimit = this.limitPage;
     this.limitPage = 10;
 
@@ -162,21 +162,21 @@ class Api {
     }
   }
 
-  async getExerciseByCategory(filter, name, page = 1, limit = 10) {
-    try {
-      const params = {
-        ...filter,
-        ...name,
-        ...page,
-        limit,
-      };
+  // async getExerciseByCategory(filter, name, page = 1, limit = 10) {
+  //   try {
+  //     const params = {
+  //       filter,
+  //       name,
+  //       page,
+  //       limit,
+  //     };
 
-      const response = await axios.get('/exercises', { params });
-      return response.data;
-    } catch (error) {
-      return this.#handleError(error);
-    }
-  }
+  //     const response = await axios.get('/exercises', { params });
+  //     return response.data;
+  //   } catch (error) {
+  //     return this.#handleError(error);
+  //   }
+  // }
 
   async getExerciseById(exerciseId) {
     try {

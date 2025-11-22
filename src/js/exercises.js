@@ -103,7 +103,7 @@ const loadExercisesPage = async ({ updatePagination = false } = {}) => {
   lastRenderCount = EXERCISES_LIMIT;
   renderSkeletonList();
 
-  const res = await data_api.getExercises();
+  const res = await data_api.getExerciseByCategory();
   renderExercisesList(res);
 
   if (updatePagination) renderPaginationList(data_api.totalPages);
