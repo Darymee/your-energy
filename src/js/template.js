@@ -1,9 +1,29 @@
 import { data_api } from './api';
 const iconPath = 'img/sprite.svg';
+import { hasFavoriteLS } from './local_storage';
 
 function capitalize(str) {
   if (!str) return '';
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function makeStars(rating) {
+  const safeRating = Math.round(Math.max(0, Math.min(5, Number(rating) || 0)));
+  const full = Array(safeRating)
+    .fill(
+      `<svg class="full" width="18" height="18">
+        <use href="/img/sprite.svg#icon-star"></use>
+        </svg>`
+    )
+    .join('');
+  const empty = Array(5 - safeRating)
+    .fill(
+      `<svg class="empty" width="18" height="18">
+        <use href="/img/sprite.svg#icon-star"></use>
+        </svg>`
+    )
+    .join('');
+  return full + empty;
 }
 
 export const Template = {
@@ -57,15 +77,25 @@ export const Template = {
 
   favoriteCard({ _id, name, burnedCalories, time, bodyPart, target }) {
     return `
-      <li class="favorites-item">
+      <li class="favorites-item" data-id=${_id}>
         <div class="card-header">
           <div class="card-badge">WORKOUT</div>
           
-          <button class="card-btn-delete js-delete-btn" data-id="${_id}" type="button" aria-label="Remove">
-            <svg class="card-icon-trash" width="16" height="16">
-              <use href="${iconPath}#icon-trash"></use>
-            </svg>
-          </button>
+           ${
+             hasFavoriteLS(_id)
+               ? `<button
+                 class="card-btn-delete js-delete-btn"
+                 data-id="${_id}"
+                 data-btn-remove-favorites
+                 type="button"
+                 aria-label="Remove"
+               >
+                 <svg class="card-icon-trash" width="16" height="16">
+                   <use href="${iconPath}#icon-trash"></use>
+                 </svg>
+               </button>`
+               : ''
+           }
           
           <button class="card-btn-start js-start-btn" data-id="${_id}" data-open-overlay="exercise" type="button">
               Start
@@ -100,5 +130,79 @@ export const Template = {
         </ul>
       </li>
     `;
+  },
+
+  exerciseModal({
+    _id,
+    name,
+    rating,
+    gifUrl,
+    target,
+    bodyPart,
+    equipment,
+    popularity,
+    burnedCalories,
+    description,
+    time,
+  }) {
+    const starsHtml = makeStars(rating);
+    return `
+      <div class="modal-exercises">
+        <div class="modal-img-wrapper">
+            <img class="modal-img" src="${gifUrl}" alt="${name}" />
+        </div>
+        <div class="modal-details">
+            <p class="modal-title">${name}</p>
+            <div class="modal-rating">
+                <div class="modal-rating-value">${rating}</div>
+                <div class="modal-rating-stars">${starsHtml}</div>
+            </div>
+            <div class="info-grid">
+                <div class="info-row">
+                    <div class="info-grid-item">
+                        <div class="info-grid-label">Target</div>
+                        <div class="info-grid-value">${target}</div>
+                    </div>
+                    <div class="info-grid-item">
+                        <div class="info-grid-label">Body Part</div>
+                        <div class="info-grid-value">${bodyPart}</div>
+                    </div>
+
+                    <div class="info-grid-item">
+                        <div class="info-grid-label">Equipment</div>
+                        <div class="info-grid-value">${equipment}</div>
+                    </div>
+                    <div class="info-grid-item">
+                        <div class="info-grid-label">Popular</div>
+                        <div class="info-grid-value">${popularity}</div>
+                    </div>
+                    <div class="info-grid-item">
+                        <div class="info-grid-label">Burned calories</div>
+                        <div class="info-grid-value">${burnedCalories} / ${time}</div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="modal-description">${description}</p>
+
+            <div class="modal-btn-wrapper">
+                <button type="button" class="modal-btn" data-btn-favorites>
+                  ${
+                    hasFavoriteLS(_id)
+                      ? 'Remove from favorites'
+                      : 'Add to favorites'
+                  }
+                    <svg class="modal-btn-icon" width="18" height="18">
+                      <use href="img/sprite.svg#${
+                        hasFavoriteLS(_id) ? 'icon-trash' : 'icon-heart'
+                      }"  data-fav-icon></use>
+                    </svg>
+                
+                <button type="button" class="modal-btn-rating" data-btn-rating>
+                  Give a rating
+                </button>
+            </div>  
+        </div>
+      </div>`;
   },
 };
