@@ -229,7 +229,7 @@ export const Template = {
                 id="star5"
               />
               <label for="star5">
-                <svg class="card-icon-run" width="24" height="24">
+                <svg class="card-icon-star" width="24" height="24">
                   <use href="${iconPath}#icon-star"></use>
                 </svg>
               </label>
@@ -241,7 +241,7 @@ export const Template = {
                 id="star4"
               />
               <label for="star4">
-                <svg class="card-icon-run" width="24" height="24">
+                <svg class="card-icon-star" width="24" height="24">
                   <use href="${iconPath}#icon-star"></use>
                 </svg>
               </label>
@@ -254,7 +254,7 @@ export const Template = {
                 id="star3"
               />
               <label for="star3">
-                <svg class="card-icon-run" width="24" height="24">
+                <svg class="card-icon-star" width="24" height="24">
                   <use href="${iconPath}#icon-star"></use>
                 </svg>
               </label>
@@ -267,7 +267,7 @@ export const Template = {
                 id="star2"
               />
               <label for="star2">
-                <svg class="card-icon-run" width="24" height="24">
+                <svg class="card-icon-star" width="24" height="24">
                   <use href="${iconPath}#icon-star"></use>
                 </svg>
               </label>
@@ -280,7 +280,7 @@ export const Template = {
                 id="star1"
               />
               <label for="star1">
-                <svg class="card-icon-run" width="24" height="24">
+                <svg class="card-icon-star" width="24" height="24">
                   <use href="${iconPath}#icon-star"></use>
                 </svg>
               </label>
