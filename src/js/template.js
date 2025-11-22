@@ -198,12 +198,95 @@ export const Template = {
                       }"  data-fav-icon></use>
                     </svg>
 
-                <button type="button" class="modal-btn-rating" data-btn-rating>
+                <button type="button" class="modal-btn modal-btn-rating" data-btn-rating>
                   Give a rating
                 </button>
             </div>
         </div>
       </div>`;
   },
-};
 
+  ratingModal() {
+    return `
+      <form class="rating-form">
+        <div class="rating-form-stars-container">
+          <p class="rating-form-stars-title">Rating</p>
+          <div class="rating-form-value-stars">
+            <div class="rating-form-value">0.0</div>
+            <div class="rating-form-stars">
+              <input
+                type="radio"
+                name="rate"
+                value="5.0"
+                class="rating-form-radio"
+                id="star5"
+              />
+              <label for="star5"></label>
+
+              <input
+                type="radio"
+                name="rate"
+                value="4.0"
+                class="rating-form-radio"
+                id="star4"
+              />
+              <label for="star4"></label>
+
+              <input
+                type="radio"
+                name="rate"
+                value="3.0"
+                class="rating-form-radio"
+                id="star3"
+              />
+              <label for="star3"></label>
+
+              <input
+                type="radio"
+                name="rate"
+                value="2.0"
+                class="rating-form-radio"
+                id="star2"
+              />
+              <label for="star2"></label>
+
+              <input
+                type="radio"
+                name="rate"
+                value="1.0"
+                class="rating-form-radio"
+                id="star1"
+              />
+              <label for="star1"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="rating-form-group-container">
+          <div class="rating-form-group">
+            <input
+              type="email"
+              name="email"
+              id="rating-email"
+              class="rating-form-input"
+              placeholder="Email"
+              required
+            />
+          </div>
+
+          <div class="rating-form-group">
+            <textarea
+              id="rating-comment"
+              name="review"
+              class="rating-form-textarea"
+              placeholder="Your comment"
+              required
+            ></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="modal-btn rating-form-btn" data-btn-submit-rating>Send</button>
+      </form>
+     `;
+  },
+};

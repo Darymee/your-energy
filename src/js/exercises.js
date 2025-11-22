@@ -7,6 +7,7 @@ import {
   removeFavoriteLS,
 } from './local_storage';
 import { Modal, openModal } from './modal';
+import iziToast from 'izitoast';
 
 const refs = {
   listEx: document.querySelector('.exercises-list'),
@@ -107,6 +108,65 @@ const handleRemoveFavorite = e => {
 
 /* ---------------- Update card favorite state ---------------- */
 
+const handleSubmitRating = async (e, exerciseId) => {
+  e.preventDefault();
+
+  const form = e.target.closest('form');
+  if (!form) return;
+
+  const email = form.querySelector('#rating-email')?.value.trim() || '';
+  const review = form.querySelector('#rating-comment')?.value.trim() || '';
+  const rateInput = form.querySelector('input[name="rate"]:checked');
+  const rate = rateInput ? parseFloat(rateInput.value) : null;
+
+  if (!rate) {
+    iziToast.info({
+      message: 'Please select your rating.',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  if (!email) {
+    iziToast.info({
+      message: 'Please enter your email',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  if (!review) {
+    iziToast.info({
+      message: 'Please enter your review',
+      position: 'topRight',
+    });
+    return;
+  }
+
+  try {
+    const response = await data_api.rateExercise(
+      exerciseId,
+      rate,
+      email,
+      review
+    );
+
+    if (response) {
+      iziToast.success({
+        message: 'Rating submitted successfully!',
+        position: 'topRight',
+      });
+      const container = document.querySelector('.full-overlay.is-open');
+      container.remove();
+    }
+  } catch (err) {
+    iziToast.error({
+      message: err,
+      position: 'topRight',
+    });
+  }
+};
+
 const handleExerciseItemClick = async e => {
   const id = e.currentTarget.dataset.id;
   const res = await data_api.getExerciseById(id);
@@ -167,7 +227,19 @@ const handleExerciseItemClick = async e => {
   });
 
   btnAddRating.addEventListener('click', () => {
-    console.log('click rating');
+    const openedModal = document.querySelector('.modal-exercises');
+    if (openedModal) {
+      openedModal.remove();
+    }
+
+    const ratingModalMarkup = Template.ratingModal();
+    Modal('rating', ratingModalMarkup);
+    openModal('rating');
+
+    const submitRatingBtn = document.querySelector('[data-btn-submit-rating]');
+    submitRatingBtn.addEventListener('click', event =>
+      handleSubmitRating(event, id)
+    );
   });
 };
 
