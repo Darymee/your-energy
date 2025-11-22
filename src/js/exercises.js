@@ -239,7 +239,7 @@ const handleExerciseItemClick = async e => {
     }
 
     const ratingModalMarkup = Template.ratingModal();
-    Modal('rating', ratingModalMarkup);
+    Modal('rating', ratingModalMarkup, 'overalay-rating');
     openModal('rating');
 
     const submitRatingBtn = document.querySelector('[data-btn-submit-rating]');

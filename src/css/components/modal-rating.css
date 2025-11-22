@@ -1,3 +1,7 @@
+.overalay-rating .modal {
+  max-width: 335px;
+}
+
 .rating-form {
   display: flex;
   flex-direction: column;
@@ -161,6 +165,10 @@ html[data-theme='dark'] .rating-form-textarea:focus {
 }
 
 @media screen and (min-width: 768px) {
+  .overalay-rating .modal {
+    max-width: 430px;
+  }
+
   .rating-modal {
     max-width: 430px;
     padding: 40px;
