@@ -445,7 +445,6 @@ html[data-theme='dark'] .pagination-item-active {
   }
 
   .quote-card {
-    max-width: 400px;
     height: 249px;
     padding: 40px;
     gap: 16px;
