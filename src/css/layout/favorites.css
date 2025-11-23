@@ -99,7 +99,7 @@ html[data-theme='dark'] .quote-text {
 }
 
 .quote-icon svg {
-  fill: var(--quote-icon);
+  fill: var(--color-white);
 }
 
 .favorites-info-container {
@@ -315,9 +315,25 @@ html[data-theme='dark'] .quote-text {
   opacity: 0.7;
 }
 
+.card-btn-start:hover .card-icon-arrow {
+  animation: arrowMove 0.8s ease-in-out infinite;
+}
+
 .card-icon-arrow {
   stroke: currentColor;
   fill: transparent;
+}
+
+@keyframes arrowMove {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .card-title-wrapper {
