@@ -25,6 +25,7 @@
 @import url('./components/mob-menu.css');
 @import url('./components/scrollbar.css');
 @import url('./components/theme-switcher.css');
+@import url('./components/search-bar.css');
 
 /* Layout style */
 @import url('./layout/header.css');
