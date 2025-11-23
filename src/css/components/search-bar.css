@@ -26,6 +26,8 @@
   font-size: 14px;
   line-height: 1.43;
   color: var(--color-black);
+  background-color: var(--color-white);
+  transition: border-color var(--transition);
 }
 
 .search-bar-input:hover,
@@ -41,12 +43,22 @@
 
 .search-bar-icon {
   position: absolute;
-  top: 12px;
+  top: 13px;
   right: 14px;
+  fill: var(--color-black);
+  transition: fill var(--transition);
+}
+
+.search-bar-input:hover ~ .search-bar-icon,
+.search-bar-input:focus ~ .search-bar-icon {
+  fill: var(--color-grey-60);
 }
 
 .search-bar-reset-btn {
   border: none;
+
+  display: flex;
+  align-items: center;
 
   background-color: transparent;
 }
