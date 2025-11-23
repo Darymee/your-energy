@@ -288,7 +288,7 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
 .pagination {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   margin-bottom: 80px;
 }
 
@@ -298,19 +298,34 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   font-family: inherit;
   font-size: 16px;
   line-height: 1;
-  color: #00000040;
+  color: var(--color-grey-pagination);
   cursor: pointer;
+  transition: color var(--transition);
+}
+
+html[data-theme='dark'] .pagination-item {
+  color: var(--color-grey-50);
+}
+
+.pagination-item:hover,
+.pagination-item:focus {
+  color: var(--color-black);
 }
 
 .pagination-item-active {
-  color: #000;
-  border: 1px solid #000;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+
   border-radius: 50%;
   width: 28px;
   height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+html[data-theme='dark'] .pagination-item-active {
+  color: var(--color-black);
 }
 
 .exercises-item.is-skeleton {
