@@ -261,7 +261,7 @@ export const handleExerciseItemClick = async (e, _id) => {
 };
 
 const handleCategoryClick = async e => {
-  currentCategoryName = e.currentTarget.dataset.name;
+  currentCategoryName = e.currentTarget.dataset.nameCategory;
   currentView = 'exercises';
   exercisesCurrentPage = 1;
 
@@ -280,6 +280,8 @@ const loadExercisesByCategory = async () => {
 
   refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
+  refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
+    currentCategoryName;
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
@@ -348,7 +350,6 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
   renderSkeletonList();
 
   const res = await data_api.getDataByFilter();
-
   renderListHtml(res);
 
   if (updatePagination) {
@@ -365,6 +366,7 @@ const getFilteredData = async () => {
     if (!indicator) return;
 
     const res = await data_api.getDataByFilter();
+
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
       requestAnimationFrame(updateIndicator);

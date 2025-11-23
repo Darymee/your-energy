@@ -37,7 +37,7 @@ export const Template = {
       return parseStr;
     };
 
-    return `<li class='exercises-item'>
+    return `<li class='exercises-item' data-name-category=${name}>
             <div class='exercises-background-img' style='background-image: url(${imgURL});'>
               <div class="exercises-wrap-info">
                 <p>${capitalizeStr(name)}</p>
