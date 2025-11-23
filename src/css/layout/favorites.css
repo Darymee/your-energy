@@ -138,6 +138,11 @@ html[data-theme='dark'] .quote-author {
   flex-direction: column;
   justify-content: space-between;
 }
+@media screen and (min-width: 768px) {
+  .favorites-daily-norm {
+    padding: 25px;
+  }
+}
 
 .daily-norm-icon-wrapper {
   background-color: transparent;
@@ -146,7 +151,7 @@ html[data-theme='dark'] .quote-author {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: auto;
+  margin-bottom: 15px;
 }
 
 .daily-norm-icon-wrapper svg {
