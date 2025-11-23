@@ -21,27 +21,11 @@ const refs = {
 };
 
 let lastRenderCount = data_api.limitPage;
-let prevLimit = data_api.limitPage;
-let isResizingLoad = false;
-let currentView = 'categories'; // 'categories' or 'exercises'
+let currentView = 'categories'; 
 let currentCategoryName = null;
 let exercisesCurrentPage = 1;
 let exercisesTotalPages = 1;
 let currentSearchQuery = '';
-
-const onResize = async () => {
-
-  if (data_api.limitPage !== prevLimit && !isResizingLoad) {
-    isResizingLoad = true;
-    try {
-      prevLimit = data_api.limitPage;
-      lastRenderCount = prevLimit;
-      await loadAndRenderExercises({ updatePagination: true });
-    } finally {
-      isResizingLoad = false;
-    }
-  }
-};
 
 /* ---------------- Skeleton ---------------- */
 
@@ -303,7 +287,7 @@ const performSearch = async query => {
       return;
     }
 
-    refs.listEx.style.display = 'grid';
+    refs.listEx.style.display = 'flex';
     refs.paginationBox.style.display = 'flex';
     refs.favoritesEmpty.classList.add('is-hidden');
     refs.listEx.classList.add('body-parts-list');
@@ -353,7 +337,7 @@ const loadExercisesByCategory = async () => {
     return;
   }
 
-  refs.listEx.style.display = 'grid';
+  refs.listEx.style.display = 'flex';
   refs.favoritesEmpty.classList.add('is-hidden');
   refs.searchBar.classList.add('is-show');
   refs.listEx.classList.add('body-parts-list');
@@ -451,8 +435,6 @@ const getFilteredData = async () => {
   try {
     renderQuote();
 
-    // if (!indicator) return;
-
     const res = await data_api.getDataByFilter();
 
     if (refs.btnBox.children[0]) {
@@ -493,7 +475,7 @@ const onClickFilterBtn = async e => {
     refs.exercisedTitleThumb.classList.remove('is-search-shown');
     refs.searchBar.classList.remove('is-show');
     refs.exercisesBredcrumbs.classList.remove('is-show');
-    refs.listEx.style.display = 'grid';
+    refs.listEx.style.display = 'flex';
   } catch (error) {
     console.error('Filter error:', error);
   }
@@ -528,7 +510,6 @@ getFilteredData();
 /* ---------------- Listeners ---------------- */
 
 if (refs.btnBox) {
-  window.addEventListener('resize', onResize);
   refs.btnBox.addEventListener('click', onClickFilterBtn);
 }
 if (refs.paginationBox) {

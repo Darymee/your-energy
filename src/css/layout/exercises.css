@@ -87,14 +87,15 @@
 }
 
 .exercises-list {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   margin-bottom: 20px;
 }
 
 .exercises-item {
   position: relative;
+  width: 100%;
   border-radius: 12px;
 }
 
@@ -382,7 +383,11 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {  
+  .exercises-item {
+    flex: 0 0 calc((100% - 40px) / 3);
+  }
+  
   .exercises-background-img.skeleton-bg {
     height: 225px;
   }
@@ -417,11 +422,11 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   .pagination {
     margin-bottom: 64px;
   }
-  .exercises-list {
+  /* .exercises-list {
     grid-template-columns: repeat(3, 1fr);
     gap: 32px 15px;
     margin-bottom: 32px;
-  }
+  } */
 
   .exercises-category {
     font-size: 24px;
@@ -484,10 +489,6 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
     height: 242px;
   }
 
-  .exercises-list {
-    grid-area: list;
-  }
-
   .pagination {
     grid-area: pagination;
   }
@@ -519,10 +520,5 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
       'i'
       's';
     row-gap: 32px;
-  }
-
-  .exercises-list.body-parts-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 16px;
   }
 }

@@ -221,8 +221,10 @@ html[data-theme='dark'] .quote-author {
 }
 
 .favorites-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */
   gap: 20px;
 }
 
@@ -237,10 +239,9 @@ html[data-theme='dark'] .quote-author {
 }
 
 @media screen and (min-width: 768px) {
-  .exercises-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 16px;
-    margin-bottom: 32px;
+  .favorites-item {
+    width: calc(50% - 10px);
+    max-height: max-content;
   }
 }
 
