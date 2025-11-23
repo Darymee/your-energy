@@ -16,6 +16,7 @@ const refs = {
   quoteBody: document.querySelector('.quote-card-body'),
   searchBar: document.querySelector('.search-bar'),
   exercisesBredcrumbs: document.querySelector('.exercises-bredcrumbs'),
+  exercisedTitleThumb: document.querySelector('.exercises-title-thumb'),
 };
 
 let lastRenderCount = data_api.limitPage;
@@ -267,23 +268,10 @@ export const handleExerciseItemClick = async (e, _id) => {
 
 const handleSearch = () => {
   const searchInput = document.querySelector('.search-bar-input');
-  const icon = document.querySelector('.search-bar-icon');
 
-  if (!searchInput || !icon) return;
+  if (!searchInput) return;
 
   let timeoutId = null;
-
-  searchInput.addEventListener('focusin', () => {
-    icon.style.opacity = '0';
-    icon.style.pointerEvents = 'none';
-  });
-
-  searchInput.addEventListener('focusout', () => {
-    if (searchInput.value.trim() === '') {
-      icon.style.opacity = '1';
-      icon.style.pointerEvents = 'auto';
-    }
-  });
 
   searchInput.addEventListener('input', e => {
     const query = e.target.value.trim().toLowerCase();
@@ -332,7 +320,7 @@ const loadExercisesByCategory = async () => {
   );
 
   exercisesTotalPages = res.totalPages || 1;
-
+  refs.exercisedTitleThumb.classList.add('is-search-shown');
   refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
   refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
@@ -475,6 +463,7 @@ const onClickFilterBtn = async e => {
     requestAnimationFrame(updateIndicator);
 
     await loadAndRenderExercises({ updatePagination: true });
+    refs.exercisedTitleThumb.classList.remove('is-search-shown');
     refs.searchBar.classList.remove('is-show');
     refs.exercisesBredcrumbs.classList.remove('is-show');
   } catch (error) {
