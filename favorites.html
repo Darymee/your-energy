@@ -17,8 +17,8 @@
     />
     <script type="module" crossorigin src="/your-energy/favorites.js"></script>
     <link rel="modulepreload" crossorigin href="/your-energy/assets/vendor-pFq095uA.js">
-    <link rel="modulepreload" crossorigin href="/your-energy/assets/main-B46lvmW_.js">
-    <link rel="stylesheet" crossorigin href="/your-energy/assets/main-C_Zt4I3g.css">
+    <link rel="modulepreload" crossorigin href="/your-energy/assets/main-C7jyGxte.js">
+    <link rel="stylesheet" crossorigin href="/your-energy/assets/main-OYgm5czt.css">
   </head>
   <body>
     <header class="header">
@@ -177,25 +177,7 @@
 
           <div class="favorites-wrap">
             <div class="favorites-left">
-              <div class="favorites-quote-wrapper">
-                <div class="quote-icon-run">
-                  <svg width="20" height="20">
-                    <use href="img/sprite.svg#icon-running-stick-figure"></use>
-                  </svg>
-                </div>
-
-                <div class="quote-content">
-                  <h3 class="quote-title">Quote of the day</h3>
-                  <p class="quote-text js-quote-text">Loading quote...</p>
-                  <p class="quote-author js-quote-author"></p>
-                </div>
-
-                <div class="quote-icon">
-                  <svg width="20" height="20">
-                    <use href="img/sprite.svg#icon-inverted-commas"></use>
-                  </svg>
-                </div>
-              </div>
+              <div class="favorites-quote-wrapper quote-card"></div>
 
               <div class="favorites-info-container">
                 <div class="favorites-daily-norm">
@@ -321,6 +303,16 @@
   </svg>
 </a>
 
+    <div class="full-overlay" data-overlay>
+  <div class="modal">
+    <button class="modal-close" data-close-overlay>
+      <svg class="icon-close" width="28" height="28">
+        <use href="img/sprite.svg#icon-close"></use>
+      </svg>
+    </button>
 
+    <div class="overlay-content" data-overlay-content></div>
+  </div>
+</div>
   </body>
 </html>
