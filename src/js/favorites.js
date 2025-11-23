@@ -27,7 +27,7 @@ async function fetchQuote() {
 
   const fallbackQuote = {
     quote:
-      'Your body can stand almost anything. It's your mind that you have to convince.',
+      "Your body can stand almost anything. It's your mind that you have to convince.",
     author: 'Unknown',
   };
 
