@@ -23,6 +23,7 @@
   font-size: 20px;
   line-height: 20px;
   color: var(--color-grey-50);
+  text-transform: capitalize;
 }
 
 .exercises-title,
