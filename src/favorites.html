@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load src="partials/header.html" />
+    <load src="./partials/header.html" />
 
     <main>
       <section class="favorites-section">
@@ -27,13 +27,31 @@
 
           <div class="favorites-wrap">
             <div class="favorites-left">
-              <div class="favorites-quote-wrapper quote-card"></div>
+              <div class="favorites-quote-wrapper">
+                <div class="quote-icon-run">
+                  <svg width="20" height="20">
+                    <use href="./img/sprite.svg#icon-running-stick-figure"></use>
+                  </svg>
+                </div>
+
+                <div class="quote-content">
+                  <h3 class="quote-title">Quote of the day</h3>
+                  <p class="quote-text js-quote-text">Loading quote...</p>
+                  <p class="quote-author js-quote-author"></p>
+                </div>
+
+                <div class="quote-icon">
+                  <svg width="20" height="20">
+                    <use href="./img/sprite.svg#icon-inverted-commas"></use>
+                  </svg>
+                </div>
+              </div>
 
               <div class="favorites-info-container">
                 <div class="favorites-daily-norm">
                   <div class="daily-norm-icon-wrapper">
                     <svg width="20" height="20">
-                      <use href="img/sprite.svg#icon-dumbbell"></use>
+                      <use href="./img/sprite.svg#icon-dumbbell"></use>
                     </svg>
                   </div>
                   <p class="daily-norm-value">110 min</p>
@@ -42,7 +60,7 @@
 
                 <div class="favorites-hero-image">
                   <img
-                    src="img/exercises/favorites-hero.jpg"
+                    src="./img/exercises/favorites-hero.jpg"
                     alt="People working out"
                     loading="lazy"
                   />
@@ -50,13 +68,23 @@
               </div>
             </div>
 
-            <load src="components/empty-data-message.html" />
+            <div class="favorites-right">
+              <ul class="favorites-list js-favorites-list"></ul>
+
+              <div class="js-favorites-empty">
+                <p class="favorites-text">
+                  It appears that you haven't added any exercises to your
+                  favorites yet. To get started, you can add exercises that you
+                  like to your favorites for easier access in the future.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <load src="partials/footer.html" />
+    <load src="./partials/footer.html" />
 
     <load src="components/anchor-button.html" />
     <load src="./components/modal.html" />
