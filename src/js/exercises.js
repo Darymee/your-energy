@@ -37,22 +37,61 @@ const renderSkeletonList = () => {
 
 const renderPaginationList = maxPage => {
   const arr = [];
-  for (let i = 1; i <= maxPage; i++) {
+
+  const isExercisesView = currentView === 'exercises';
+  const currentPage = isExercisesView
+    ? exercisesCurrentPage
+    : data_api.currentPage;
+  const totalPages = maxPage || 1;
+
+  const prevDisabled = currentPage <= 1;
+  const nextDisabled = currentPage >= totalPages;
+
+  arr.push(
+    `<button class="pagination-arrow pagination-arrow-prev" type="button" data-action="prev" aria-label="Previous page" ${
+      prevDisabled ? 'disabled' : ''
+    }>&lsaquo;</button>`
+  );
+
+  for (let i = 1; i <= totalPages; i++) {
     arr.push(Template.itemPagination(i));
   }
+
+  arr.push(
+    `<button class="pagination-arrow pagination-arrow-next" type="button" data-action="next" aria-label="Next page" ${
+      nextDisabled ? 'disabled' : ''
+    }>&rsaquo;</button>`
+  );
+
   refs.paginationBox.innerHTML = arr.join('');
 };
 
 const setActivePaginationButton = page => {
-  const buttons = [...refs.paginationBox.children];
-  if (!buttons.length) return;
+  const pageButtons = [
+    ...refs.paginationBox.querySelectorAll('.pagination-item'),
+  ];
+  if (!pageButtons.length) return;
 
-  buttons.forEach(btn => btn.classList.remove('pagination-item-active'));
+  pageButtons.forEach(btn => btn.classList.remove('pagination-item-active'));
 
   const index = page - 1;
-  if (index >= 0 && index < buttons.length) {
-    buttons[index].classList.add('pagination-item-active');
+  if (index >= 0 && index < pageButtons.length) {
+    pageButtons[index].classList.add('pagination-item-active');
   }
+
+  const prevBtn = refs.paginationBox.querySelector('[data-action="prev"]');
+  const nextBtn = refs.paginationBox.querySelector('[data-action="next"]');
+
+  const isExercisesView = currentView === 'exercises';
+  const currentPage = isExercisesView
+    ? exercisesCurrentPage
+    : data_api.currentPage;
+  const totalPages = isExercisesView
+    ? exercisesTotalPages
+    : data_api.totalPages;
+
+  if (prevBtn) prevBtn.disabled = currentPage <= 1;
+  if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
 };
 
 /* ---------------- Handlers ---------------- */
@@ -488,6 +527,36 @@ const onClickPaginationBox = async e => {
     const clickedBtn = e.target.closest('button');
     if (!clickedBtn) return;
 
+    const action = clickedBtn.dataset.action;
+
+    // Handle arrows first
+    if (action === 'prev' || action === 'next') {
+      if (currentView === 'exercises') {
+        const newPage =
+          action === 'prev'
+            ? exercisesCurrentPage - 1
+            : exercisesCurrentPage + 1;
+
+        if (newPage < 1 || newPage > exercisesTotalPages) return;
+
+        exercisesCurrentPage = newPage;
+        await loadExercisesByCategory();
+      } else {
+        const newPage =
+          action === 'prev'
+            ? data_api.currentPage - 1
+            : data_api.currentPage + 1;
+
+        if (newPage < 1 || newPage > data_api.totalPages) return;
+
+        data_api.currentPage = newPage;
+        await loadAndRenderExercises();
+      }
+
+      return; // avoid falling through to numeric logic
+    }
+
+    // Numeric buttons (existing logic)
     const clickedNumPage = Number(clickedBtn.textContent.trim());
     if (!Number.isFinite(clickedNumPage)) return;
 

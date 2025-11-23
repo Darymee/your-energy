@@ -332,6 +332,37 @@ html[data-theme='dark'] .pagination-item-active {
   color: var(--color-black);
 }
 
+.pagination-arrow {
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: color var(--transition);
+  padding: 1px 6px;
+}
+
+html[data-theme='dark'] .pagination-arrow {
+  color: white;
+}
+
+.pagination-arrow:hover,
+.pagination-arrow:focus {
+  color: var(--color-black);
+}
+
+.pagination-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: var(--color-grey-pagination);
+}
+
+html[data-theme='dark'] .pagination-arrow:disabled {
+  color: var(--color-grey-50);
+  opacity: 0.5;
+}
+
 .exercises-item.is-skeleton {
   position: relative;
   overflow: hidden;
@@ -398,11 +429,11 @@ html[data-theme='dark'] .pagination-item-active {
   }
 }
 
-@media screen and (min-width: 768px) {  
+@media screen and (min-width: 768px) {
   .exercises-item {
     flex: 0 0 calc((100% - 40px) / 3);
   }
-  
+
   .exercises-background-img.skeleton-bg {
     height: 225px;
   }
