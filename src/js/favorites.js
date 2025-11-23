@@ -1,6 +1,11 @@
 import { data_api } from './api';
 import { handleExerciseItemClick } from './exercises';
-import { getFavoritesLS, removeFavoriteLS } from './local_storage';
+import {
+  getFavoritesLS,
+  removeFavoriteLS,
+  getDailyQuoteLS,
+  setDailyQuoteLS,
+} from './local_storage';
 import { Template } from './template';
 
 const API_URL = 'https://your-energy.b.goit.study/api';
@@ -20,6 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
 async function fetchQuote() {
   if (!refs.quoteText) return;
 
+  const fallbackQuote = {
+    quote:
+      'Your body can stand almost anything. It's your mind that you have to convince.',
+    author: 'Unknown',
+  };
+
+  // Check localStorage cache first
+  const cachedQuote = getDailyQuoteLS();
+  if (cachedQuote) {
+    refs.quoteText.textContent = cachedQuote.quote;
+    refs.quoteAuthor.textContent = cachedQuote.author;
+    return;
+  }
+
+  // Fetch from API if no cache
   try {
     const response = await fetch(`${API_URL}/quote`);
     if (!response.ok) throw new Error('Failed to fetch quote');
@@ -28,11 +48,12 @@ async function fetchQuote() {
 
     refs.quoteText.textContent = quote;
     refs.quoteAuthor.textContent = author;
+    // Save to cache
+    setDailyQuoteLS(quote, author);
   } catch (error) {
     console.error('Error getting quote:', error);
-    refs.quoteText.textContent =
-      'Your body can stand almost anything. It’s your mind that you have to convince.';
-    refs.quoteAuthor.textContent = 'Unknown';
+    refs.quoteText.textContent = fallbackQuote.quote;
+    refs.quoteAuthor.textContent = fallbackQuote.author;
   }
 }
 
