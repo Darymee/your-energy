@@ -74,8 +74,8 @@
   transition: box-shadow var(--transition), background var(--transition);
 }
 
-.exercises-background-img:hover,
-.exercises-background-img:focus {
+.exercises-item:hover .exercises-background-img,
+.exercises-item:focus .exercises-background-img {
   box-shadow: 0 4px 20px #242424cc;
 }
 
@@ -87,12 +87,13 @@
   pointer-events: none;
   border-radius: 12px;
 
-  transition: background var(--transition);
+  opacity: 1;
+  transition: opacity var(--transition);
 }
 
-.exercises-background-img:hover::before,
-.exercises-background-img:focus::before {
-  background: transparent;
+.exercises-item:hover .exercises-background-img::before,
+.exercises-item:focus .exercises-background-img::before {
+  opacity: 0;
 }
 
 .exercises-wrap-info {
