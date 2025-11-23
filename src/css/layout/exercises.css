@@ -71,8 +71,11 @@
   color: var(--color-black);
 }
 
-.exercises-thumb-indicator {
+.exercises-thumb-btn button.active::after {
+  content: '';
+  display: block;
   position: absolute;
+  width: 100%;
   bottom: -7px;
   left: 0;
   height: 4px;

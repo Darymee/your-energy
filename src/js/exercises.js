@@ -29,14 +29,8 @@ let exercisesCurrentPage = 1;
 let exercisesTotalPages = 1;
 let currentSearchQuery = '';
 
-const indicator = refs.btnBox
-  ? refs.btnBox.querySelector('.exercises-thumb-indicator')
-  : null;
-
 const onResize = async () => {
-  if (!indicator) return;
 
-  updateIndicator();
   if (data_api.limitPage !== prevLimit && !isResizingLoad) {
     isResizingLoad = true;
     try {
@@ -47,22 +41,6 @@ const onResize = async () => {
       isResizingLoad = false;
     }
   }
-};
-
-const updateIndicator = () => {
-  if (!indicator) return;
-
-  const activeBtn = refs.btnBox.querySelector('button.active');
-  if (!activeBtn || !indicator) return;
-
-  const boxRect = refs.btnBox.getBoundingClientRect();
-  const btnRect = activeBtn.getBoundingClientRect();
-
-  const left = btnRect.left - boxRect.left;
-  const width = btnRect.width;
-
-  indicator.style.transform = `translateX(${left}px)`;
-  indicator.style.width = `${width}px`;
 };
 
 /* ---------------- Skeleton ---------------- */
@@ -434,7 +412,6 @@ const renderQuote = async () => {
     quote: `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`,
   };
 
-  // Check localStorage cache first
   const cachedQuote = getDailyQuoteLS();
   if (cachedQuote) {
     wrapper.innerHTML = Template.quoteTemplate({
@@ -444,11 +421,10 @@ const renderQuote = async () => {
     return;
   }
 
-  // Fetch from API if no cache
   try {
     const res = await data_api.getQuote();
     wrapper.innerHTML = Template.quoteTemplate(res);
-    // Save to cache
+
     setDailyQuoteLS(res.quote, res.author);
   } catch (error) {
     console.error('Error fetching quote:', error);
@@ -475,13 +451,12 @@ const getFilteredData = async () => {
   try {
     renderQuote();
 
-    if (!indicator) return;
+    // if (!indicator) return;
 
     const res = await data_api.getDataByFilter();
 
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
-      requestAnimationFrame(updateIndicator);
     }
     renderListHtml(res);
     renderPaginationList(data_api.totalPages);
@@ -513,7 +488,6 @@ const onClickFilterBtn = async e => {
       btn.classList.remove('active')
     );
     clickedBtn.classList.add('active');
-    requestAnimationFrame(updateIndicator);
 
     await loadAndRenderExercises({ updatePagination: true });
     refs.exercisedTitleThumb.classList.remove('is-search-shown');
@@ -533,7 +507,6 @@ const onClickPaginationBox = async e => {
     const clickedNumPage = Number(clickedBtn.textContent.trim());
     if (!Number.isFinite(clickedNumPage)) return;
 
-    // Check which view mode is active
     if (currentView === 'exercises') {
       if (clickedNumPage === exercisesCurrentPage) return;
       exercisesCurrentPage = clickedNumPage;
