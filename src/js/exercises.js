@@ -168,8 +168,8 @@ const handleSubmitRating = async (e, exerciseId) => {
   }
 };
 
-const handleExerciseItemClick = async e => {
-  const id = e.currentTarget.dataset.id;
+export const handleExerciseItemClick = async (e, _id) => {
+  const id = _id || e.currentTarget.dataset.id;
   const res = await data_api.getExerciseById(id);
 
   Modal('exercise', Template.exerciseModal(res), 'overlay-exersices');
@@ -234,7 +234,7 @@ const handleExerciseItemClick = async e => {
     }
 
     const ratingModalMarkup = Template.ratingModal();
-    Modal('rating', ratingModalMarkup, 'overalay-rating');
+    Modal('rating', ratingModalMarkup, 'overlay-rating');
     openModal('rating');
 
     const submitRatingBtn = document.querySelector('[data-btn-submit-rating]');

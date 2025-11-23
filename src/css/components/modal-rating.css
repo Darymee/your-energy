@@ -100,7 +100,7 @@
   border: 1px solid var(--color-white);
   border-radius: 30px;
   background-color: transparent;
-  color: var(--color-grey-60);
+  color: var(--color-white);
   font-size: 14px;
   line-height: 1.29;
   transition: border-color var(--transition);
