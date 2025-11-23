@@ -27,25 +27,7 @@
 
           <div class="favorites-wrap">
             <div class="favorites-left">
-              <div class="favorites-quote-wrapper">
-                <div class="quote-icon-run">
-                  <svg width="20" height="20">
-                    <use href="img/sprite.svg#icon-running-stick-figure"></use>
-                  </svg>
-                </div>
-
-                <div class="quote-content">
-                  <h3 class="quote-title">Quote of the day</h3>
-                  <p class="quote-text js-quote-text">Loading quote...</p>
-                  <p class="quote-author js-quote-author"></p>
-                </div>
-
-                <div class="quote-icon">
-                  <svg width="20" height="20">
-                    <use href="img/sprite.svg#icon-inverted-commas"></use>
-                  </svg>
-                </div>
-              </div>
+              <div class="favorites-quote-wrapper quote-card"></div>
 
               <div class="favorites-info-container">
                 <div class="favorites-daily-norm">
@@ -87,7 +69,7 @@
     <load src="partials/footer.html" />
 
     <load src="components/anchor-button.html" />
-
+    <load src="./components/modal.html" />
     <script type="module" src="./js/main.js"></script>
     <script type="module" src="./js/favorites.js"></script>
   </body>

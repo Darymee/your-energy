@@ -1,4 +1,5 @@
 import { data_api } from './api';
+import { handleExerciseItemClick } from './exercises';
 import { getFavoritesLS, removeFavoriteLS } from './local_storage';
 import { Template } from './template';
 
@@ -90,5 +91,5 @@ function handleStart(event) {
   const btn = event.currentTarget;
   const id = btn.dataset.id;
 
-  console.log(`Open modal for exercise ID: ${id}`);
+  handleExerciseItemClick(event, id);
 }
