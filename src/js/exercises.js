@@ -467,3 +467,4 @@ if (refs.btnBox) {
 if (refs.paginationBox) {
   refs.paginationBox.addEventListener('click', onClickPaginationBox);
 }
+
