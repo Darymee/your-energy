@@ -190,7 +190,7 @@ html[data-theme='dark'] .exercises-wrap-info p:first-child {
 }
 
 html[data-theme='dark'] .quote-card-icon {
-  background-color: var(--color-white);
+  background-color: var(--color-grey-40);
 }
 
 .quote-card-svg {
