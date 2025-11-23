@@ -313,7 +313,7 @@ export const Template = {
   quoteTemplate: ({ quote, author }) => {
     return `
     <div class="quote-icon-run">
-      <svg width="20" height="20">
+      <svg width="18" height="20">
         <use href="img/sprite.svg#icon-running-stick-figure"></use>
       </svg>
     </div>
