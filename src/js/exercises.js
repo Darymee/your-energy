@@ -27,6 +27,7 @@ let currentView = 'categories'; // 'categories' or 'exercises'
 let currentCategoryName = null;
 let exercisesCurrentPage = 1;
 let exercisesTotalPages = 1;
+let currentSearchQuery = '';
 
 const indicator = refs.btnBox
   ? refs.btnBox.querySelector('.exercises-thumb-indicator')
@@ -269,39 +270,76 @@ export const handleExerciseItemClick = async (e, _id) => {
 
 const handleSearch = () => {
   const searchInput = document.querySelector('.search-bar-input');
+  const searchBarIconClose = document.querySelector('.search-bar-icon-close');
 
-  if (!searchInput) return;
+  if (!searchInput || !searchBarIconClose) return;
 
   let timeoutId = null;
 
   searchInput.addEventListener('input', e => {
-    const query = e.target.value.trim().toLowerCase();
+    const query = e.target.value.trim();
+
+    if (query.length > 0) {
+      searchBarIconClose.classList.add('visible');
+    } else {
+      searchBarIconClose.classList.remove('visible');
+    }
 
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      applySearchFilter(query);
-    }, 250);
+    timeoutId = setTimeout(async () => {
+      await performSearch(query);
+    }, 500);
+  });
+
+  searchBarIconClose.addEventListener('click', async () => {
+    searchInput.value = '';
+    searchBarIconClose.classList.remove('visible');
+
+    currentSearchQuery = '';
+
+    await performSearch('');
   });
 };
 
-const applySearchFilter = query => {
-  const cards = document.querySelectorAll('.favorites-item');
+const performSearch = async query => {
+  currentSearchQuery = query;
 
-  cards.forEach(card => {
-    const titleEl = card.querySelector('.card-title');
-    const text = titleEl?.textContent.trim().toLowerCase() || '';
+  try {
+    renderSkeletonList();
 
-    if (query === '') {
-      card.style.display = '';
+    const res = await data_api.getExerciseByCategory(
+      data_api.filterType,
+      currentCategoryName,
+      exercisesCurrentPage,
+      10,
+      query
+    );
+
+    exercisesTotalPages = res.totalPages || 1;
+
+    if (!res.results.length) {
+      refs.favoritesEmpty.classList.remove('is-hidden');
+      refs.listEx.innerHTML = '';
+      refs.listEx.style.display = 'none';
+      refs.paginationBox.style.display = 'none';
       return;
     }
 
-    if (text.includes(query)) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
+    refs.listEx.style.display = 'grid';
+    refs.paginationBox.style.display = 'flex';
+    refs.favoritesEmpty.classList.add('is-hidden');
+    refs.listEx.classList.add('body-parts-list');
+
+    const cards = res.results.map(item => Template.favoriteCard(item));
+    refs.listEx.innerHTML = cards.join('');
+
+    renderPaginationList(exercisesTotalPages);
+    setActivePaginationButton(exercisesCurrentPage);
+
+    addEventListenersToCards();
+  } catch (error) {
+    console.error('Search error:', error);
+  }
 };
 
 const handleCategoryClick = async e => {
@@ -317,7 +355,8 @@ const loadExercisesByCategory = async () => {
     data_api.filterType,
     currentCategoryName,
     exercisesCurrentPage,
-    10
+    10,
+    currentSearchQuery
   );
 
   exercisesTotalPages = res.totalPages || 1;

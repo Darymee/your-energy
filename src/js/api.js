@@ -95,9 +95,14 @@ class Api {
     }
   }
 
-  async getExerciseByCategory(filterType, name, page = 1, limit = 10) {
+  async getExerciseByCategory(
+    filterType,
+    name,
+    page = 1,
+    limit = 10,
+    keyword = ''
+  ) {
     try {
-      // Map the UI filter type to the correct API query parameter
       const filterKeyMap = {
         Muscles: 'muscles',
         'Body parts': 'bodypart',
@@ -105,7 +110,6 @@ class Api {
       };
 
       const paramKey = filterKeyMap[filterType];
-
       if (!paramKey) {
         throw new Error(`Unknown filter type: ${filterType}`);
       }
@@ -116,13 +120,17 @@ class Api {
         limit,
       };
 
+      if (keyword) {
+        params.keyword = keyword.toLowerCase();
+      }
+
       const response = await axios.get('/exercises', { params });
       return response.data;
     } catch (error) {
       return this.#handleError(error);
     }
   }
-
+  
   async getExerciseById(exerciseId) {
     try {
       const response = await axios.get(`/exercises/${exerciseId}`);
