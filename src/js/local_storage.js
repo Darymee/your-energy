@@ -20,8 +20,9 @@ export const setLastSessionLS = value => {
   if (value) {
     try {
       localStorage.setItem(STORAGE_KEY.LAST_SESSION, JSON.stringify(value));
-    } catch (error) {}
-    console.error('Error setting last session to localStorage:', error);
+    } catch (error) {
+      console.error('Error setting last session to localStorage:', error);
+    }
   }
 };
 
@@ -77,7 +78,7 @@ export const toggleFavoriteLS = id => {
 /* ---------------- UI THEME ---------------- */
 
 export const getUIThemeLS = () => {
-  return localStorage.getItem(THEME_KEY) || 'light';
+  return localStorage.getItem(STORAGE_KEY.UI_THEME) || 'light';
 };
 
 export const setUIThemeLS = theme => {

@@ -95,12 +95,24 @@ class Api {
     }
   }
 
-  async getExerciseByCategory(filter, name, page = 1, limit = 10) {
+  async getExerciseByCategory(filterType, name, page = 1, limit = 10) {
     try {
+      // Map the UI filter type to the correct API query parameter
+      const filterKeyMap = {
+        Muscles: 'muscles',
+        'Body parts': 'bodypart',
+        Equipment: 'equipment',
+      };
+
+      const paramKey = filterKeyMap[filterType];
+
+      if (!paramKey) {
+        throw new Error(`Unknown filter type: ${filterType}`);
+      }
+
       const params = {
-        ...filter,
-        ...name,
-        ...page,
+        [paramKey]: name.toLowerCase(),
+        page,
         limit,
       };
 
