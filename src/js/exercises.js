@@ -21,7 +21,7 @@ const refs = {
 };
 
 let lastRenderCount = data_api.limitPage;
-let currentView = 'categories'; 
+let currentView = 'categories';
 let currentCategoryName = null;
 let exercisesCurrentPage = 1;
 let exercisesTotalPages = 1;
@@ -334,9 +334,11 @@ const loadExercisesByCategory = async () => {
     refs.favoritesEmpty.classList.remove('is-hidden');
     refs.listEx.innerHTML = '';
     refs.listEx.style.display = 'none';
+    refs.paginationBox.style.display = 'none';
     return;
   }
 
+  refs.paginationBox.style.display = 'flex';
   refs.listEx.style.display = 'flex';
   refs.favoritesEmpty.classList.add('is-hidden');
   refs.searchBar.classList.add('is-show');
