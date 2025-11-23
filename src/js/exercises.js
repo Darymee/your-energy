@@ -9,6 +9,7 @@ const refs = {
   btnBox: document.querySelector('.exercises-thumb-btn'),
   paginationBox: document.querySelector('.pagination'),
   quoteBody: document.querySelector('.quote-card-body'),
+  searchBar: document.querySelector('.search-bar'),
 };
 
 let lastRenderCount = data_api.limitPage;
@@ -260,6 +261,7 @@ const handleCategoryClick = async e => {
     e.currentTarget.dataset.name
   );
 
+  refs.searchBar.classList.add('is-show');
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
@@ -375,6 +377,7 @@ const onClickFilterBtn = async e => {
     requestAnimationFrame(updateIndicator);
 
     await loadAndRenderExercises({ updatePagination: true });
+    refs.searchBar.classList.remove('is-show');
   } catch (error) {
     console.log('🚀 ~ error:', error);
   }

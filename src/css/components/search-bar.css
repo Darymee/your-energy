@@ -6,9 +6,13 @@
 }
 
 .search-bar {
-  display: flex;
+  display: none;
   gap: 4px;
   align-items: center;
+}
+
+.search-bar.is-show {
+  display: flex;
 }
 
 .search-bar-wrap {
