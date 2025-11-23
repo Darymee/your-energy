@@ -2,6 +2,7 @@ const STORAGE_KEY = {
   FAVORITES: 'favorites',
   UI_THEME: 'ui-theme',
   LAST_SESSION: 'last_session',
+  DAILY_QUOTE: 'daily_quote',
 };
 
 /* ---------------- Last Session ---------------- */
@@ -84,4 +85,46 @@ export const getUIThemeLS = () => {
 export const setUIThemeLS = theme => {
   if (theme !== 'light' && theme !== 'dark') return;
   localStorage.setItem(STORAGE_KEY.UI_THEME, theme);
+};
+
+/* ---------------- DAILY QUOTE ---------------- */
+
+const isSameDay = timestamp => {
+  if (!timestamp) return false;
+  const saved = new Date(timestamp);
+  const now = new Date();
+  return (
+    saved.getFullYear() === now.getFullYear() &&
+    saved.getMonth() === now.getMonth() &&
+    saved.getDate() === now.getDate()
+  );
+};
+
+export const getDailyQuoteLS = () => {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY.DAILY_QUOTE);
+    if (!data) return null;
+
+    const parsed = JSON.parse(data);
+    if (isSameDay(parsed.timestamp)) {
+      return parsed;
+    }
+    return null;
+  } catch (error) {
+    console.error('Error getting daily quote from localStorage:', error);
+    return null;
+  }
+};
+
+export const setDailyQuoteLS = (quote, author) => {
+  try {
+    const data = {
+      quote,
+      author,
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(STORAGE_KEY.DAILY_QUOTE, JSON.stringify(data));
+  } catch (error) {
+    console.error('Error saving daily quote to localStorage:', error);
+  }
 };

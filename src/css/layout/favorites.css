@@ -93,6 +93,10 @@ html[data-theme='dark'] .quote-text {
   color: rgba(255, 255, 255, 0.5);
 }
 
+html[data-theme='dark'] .quote-author {
+  color: var(--color-white);
+}
+
 .quote-icon {
   padding: 0;
   margin-left: auto;

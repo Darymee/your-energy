@@ -1,6 +1,11 @@
 import { data_api } from './api';
 import { Template } from './template';
-import { toggleFavoriteLS, removeFavoriteLS } from './local_storage';
+import {
+  toggleFavoriteLS,
+  removeFavoriteLS,
+  getDailyQuoteLS,
+  setDailyQuoteLS,
+} from './local_storage';
 import { Modal, openModal } from './modal';
 import iziToast from 'izitoast';
 
@@ -12,6 +17,7 @@ const refs = {
   searchBar: document.querySelector('.search-bar'),
   exercisesBredcrumbs: document.querySelector('.exercises-bredcrumbs'),
   favoritesEmpty: document.querySelector('.favorites-empty'),
+  exercisedTitleThumb: document.querySelector('.exercises-title-thumb'),
 };
 
 let lastRenderCount = data_api.limitPage;
@@ -263,23 +269,10 @@ export const handleExerciseItemClick = async (e, _id) => {
 
 const handleSearch = () => {
   const searchInput = document.querySelector('.search-bar-input');
-  const icon = document.querySelector('.search-bar-icon');
 
-  if (!searchInput || !icon) return;
+  if (!searchInput) return;
 
   let timeoutId = null;
-
-  searchInput.addEventListener('focusin', () => {
-    icon.style.opacity = '0';
-    icon.style.pointerEvents = 'none';
-  });
-
-  searchInput.addEventListener('focusout', () => {
-    if (searchInput.value.trim() === '') {
-      icon.style.opacity = '1';
-      icon.style.pointerEvents = 'auto';
-    }
-  });
 
   searchInput.addEventListener('input', e => {
     const query = e.target.value.trim().toLowerCase();
@@ -329,8 +322,8 @@ const loadExercisesByCategory = async () => {
 
   exercisesTotalPages = res.totalPages || 1;
 
-  console.log(!res.results.length);
-
+  refs.exercisedTitleThumb.classList.add('is-search-shown');
+  refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
   refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
     currentCategoryName;
@@ -395,17 +388,32 @@ const renderListHtml = data => {
 
 const renderQuote = async () => {
   const wrapper = document.querySelector('.quote-card');
+  if (!wrapper) return;
 
+  const fallbackQuote = {
+    author: 'Tom Brady',
+    quote: `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`,
+  };
+
+  // Check localStorage cache first
+  const cachedQuote = getDailyQuoteLS();
+  if (cachedQuote) {
+    wrapper.innerHTML = Template.quoteTemplate({
+      quote: cachedQuote.quote,
+      author: cachedQuote.author,
+    });
+    return;
+  }
+
+  // Fetch from API if no cache
   try {
     const res = await data_api.getQuote();
     wrapper.innerHTML = Template.quoteTemplate(res);
+    // Save to cache
+    setDailyQuoteLS(res.quote, res.author);
   } catch (error) {
-    const errorAuthor = 'Tom Brady';
-    const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
-    wrapper.innerHTML = Template.quoteTemplate({
-      quote: errorQuote,
-      author: errorAuthor,
-    });
+    console.error('Error fetching quote:', error);
+    wrapper.innerHTML = Template.quoteTemplate(fallbackQuote);
   }
 };
 
@@ -469,6 +477,7 @@ const onClickFilterBtn = async e => {
     requestAnimationFrame(updateIndicator);
 
     await loadAndRenderExercises({ updatePagination: true });
+    refs.exercisedTitleThumb.classList.remove('is-search-shown');
     refs.searchBar.classList.remove('is-show');
     refs.exercisesBredcrumbs.classList.remove('is-show');
     refs.listEx.style.display = 'grid';

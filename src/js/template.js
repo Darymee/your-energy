@@ -197,6 +197,7 @@ export const Template = {
                         hasFavoriteLS(_id) ? 'icon-trash' : 'icon-heart'
                       }"  data-fav-icon></use>
                     </svg>
+                </button>
 
                 <button type="button" class="modal-btn modal-btn-rating" data-btn-rating>
                   Give a rating

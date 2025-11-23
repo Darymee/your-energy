@@ -55,26 +55,23 @@
   width: 24px;
   height: 24px;
   cursor: pointer;
-  transition: transform var(--transition), filter var(--transition);
+  transition: transform var(--transition);
   margin-right: 2px;
 }
 
 .rating-form-radio:hover + label svg,
 .rating-form-radio:hover ~ label {
   fill: var(--color-yellow);
-  filter: brightness(1.2);
 }
 
 .rating-form-radio:checked + label svg,
 .rating-form-radio:checked ~ label svg {
   fill: var(--color-yellow);
-  filter: brightness(1.3);
 }
 
 .rating-form-stars label:hover svg,
 .rating-form-stars label:hover ~ label svg {
   fill: var(--color-yellow);
-  filter: brightness(1.3);
 }
 
 .rating-form-radio:active + label {
