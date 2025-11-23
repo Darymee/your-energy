@@ -16,6 +16,7 @@ const refs = {
   quoteBody: document.querySelector('.quote-card-body'),
   searchBar: document.querySelector('.search-bar'),
   exercisesBredcrumbs: document.querySelector('.exercises-bredcrumbs'),
+  favoritesEmpty: document.querySelector('.favorites-empty'),
   exercisedTitleThumb: document.querySelector('.exercises-title-thumb'),
 };
 
@@ -320,11 +321,24 @@ const loadExercisesByCategory = async () => {
   );
 
   exercisesTotalPages = res.totalPages || 1;
+
   refs.exercisedTitleThumb.classList.add('is-search-shown');
   refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
   refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
     currentCategoryName;
+
+  if (!res.results.length) {
+    console.log('sadas');
+    refs.favoritesEmpty.classList.remove('is-hidden');
+    refs.listEx.innerHTML = '';
+    refs.listEx.style.display = 'none';
+    return;
+  }
+
+  refs.listEx.style.display = 'grid';
+  refs.favoritesEmpty.classList.add('is-hidden');
+  refs.searchBar.classList.add('is-show');
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
@@ -466,6 +480,7 @@ const onClickFilterBtn = async e => {
     refs.exercisedTitleThumb.classList.remove('is-search-shown');
     refs.searchBar.classList.remove('is-show');
     refs.exercisesBredcrumbs.classList.remove('is-show');
+    refs.listEx.style.display = 'grid';
   } catch (error) {
     console.error('Filter error:', error);
   }
