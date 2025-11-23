@@ -1,8 +1,12 @@
 .exercises-title-thumb {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.exercises-title-thumb.is-search-shown {
+  gap: 40px;
 }
 
 .exercises-bredcrumbs {
@@ -396,6 +400,17 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
 /* skeleton */
 
 @media screen and (min-width: 768px) {
+  .exercises-title-thumb {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 37px; /* 32px + 7px exercises-thumb-indicator */
+  }
+
+  .exercises-title-thumb.is-search-shown {
+    gap: 32px;
+  }
+
   .pagination {
     margin-bottom: 64px;
   }
@@ -455,7 +470,11 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   }
 
   .exercises-title-thumb {
-    margin-bottom: 32px;
+    margin-bottom: 37px; /* 32px + 7px exercises-thumb-indicator */
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
   }
 
   .exercises-background-img {
