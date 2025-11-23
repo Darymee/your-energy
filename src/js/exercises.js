@@ -1,11 +1,6 @@
 import { data_api } from './api';
 import { Template } from './template';
-import {
-  getLastSessionLS,
-  setLastSessionLS,
-  toggleFavoriteLS,
-  removeFavoriteLS,
-} from './local_storage';
+import { toggleFavoriteLS, removeFavoriteLS } from './local_storage';
 import { Modal, openModal } from './modal';
 import iziToast from 'izitoast';
 
@@ -308,54 +303,19 @@ const renderListHtml = data => {
 
 /* ---------------- Quote ---------------- */
 
-const hasPassed24Hours = timestampMs => {
-  const nowMs = Date.now();
-  const diffMs = nowMs - timestampMs;
-  const hours24Ms = 24 * 60 * 60 * 1000;
-  return diffMs >= hours24Ms;
-};
-
 const renderQuote = async () => {
+  const wrapper = document.querySelector('.quote-card');
+
   try {
-    const hasLastSession = getLastSessionLS();
-
-    if (hasLastSession) {
-      const { author: lastAuthor, quote: lastQuote, time } = hasLastSession;
-      const isFutureDate = hasPassed24Hours(time);
-
-      if (isFutureDate) {
-        const res = await data_api.getQuote();
-        const itemQuote = Template.quote(res.author, res.quote);
-        refs.quoteBody.innerHTML = itemQuote;
-
-        setLastSessionLS({
-          author: res.author,
-          quote: res.quote,
-          time: Date.now(),
-        });
-      } else {
-        const itemQuote = Template.quote(lastAuthor, lastQuote);
-        refs.quoteBody.innerHTML = itemQuote;
-      }
-    } else {
-      const res = await data_api.getQuote();
-      const itemQuote = Template.quote(res.author, res.quote);
-      refs.quoteBody.innerHTML = itemQuote;
-
-      setLastSessionLS({
-        author: res.author,
-        quote: res.quote,
-        time: Date.now(),
-      });
-    }
+    const res = await data_api.getQuote();
+    wrapper.innerHTML = Template.quoteTemplate(res);
   } catch (error) {
     const errorAuthor = 'Tom Brady';
     const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
-    const itemQuote = Template.quote(errorAuthor, errorQuote);
-
-    if (!indicator) return;
-
-    refs.quoteBody.innerHTML = itemQuote;
+    wrapper.innerHTML = Template.quoteTemplate({
+      quote: errorQuote,
+      author: errorAuthor,
+    });
   }
 };
 
@@ -376,10 +336,11 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
 };
 
 const getFilteredData = async () => {
-  if (!indicator) return;
-
   try {
     renderQuote();
+
+    if (!indicator) return;
+
     const res = await data_api.getDataByFilter();
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');

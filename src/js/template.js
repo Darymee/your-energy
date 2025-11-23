@@ -53,13 +53,6 @@ export const Template = {
         </button>`;
   },
 
-  quote(author, quote) {
-    return `<p class="quote-card-text">
-             ${quote}
-            </p>
-            <p class="quote-card-author">${author}</p>`;
-  },
-
   skeletonExMarkup(count = data_api.limitPage) {
     return Array.from({ length: count })
       .map(
@@ -314,5 +307,27 @@ export const Template = {
         <button type="submit" class="modal-btn rating-form-btn" data-btn-submit-rating>Send</button>
       </form>
      `;
+  },
+
+  quoteTemplate: ({ quote, author }) => {
+    return `
+    <div class="quote-icon-run">
+      <svg width="20" height="20">
+        <use href="img/sprite.svg#icon-running-stick-figure"></use>
+      </svg>
+    </div>
+
+    <div class="quote-content">
+      <h3 class="quote-title">Quote of the day</h3>
+      <p class="quote-text js-quote-text">${quote}</p>
+      <p class="quote-author js-quote-author">${author}</p>
+    </div>
+
+    <div class="quote-icon">
+      <svg width="20" height="20">
+        <use href="img/sprite.svg#icon-inverted-commas"></use>
+      </svg>
+    </div>
+  `;
   },
 };
