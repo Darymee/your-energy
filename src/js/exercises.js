@@ -1,6 +1,11 @@
 import { data_api } from './api';
 import { Template } from './template';
-import { toggleFavoriteLS, removeFavoriteLS } from './local_storage';
+import {
+  toggleFavoriteLS,
+  removeFavoriteLS,
+  getDailyQuoteLS,
+  setDailyQuoteLS,
+} from './local_storage';
 import { Modal, openModal } from './modal';
 import iziToast from 'izitoast';
 
@@ -17,6 +22,10 @@ const refs = {
 let lastRenderCount = data_api.limitPage;
 let prevLimit = data_api.limitPage;
 let isResizingLoad = false;
+let currentView = 'categories'; // 'categories' or 'exercises'
+let currentCategoryName = null;
+let exercisesCurrentPage = 1;
+let exercisesTotalPages = 1;
 
 const indicator = refs.btnBox
   ? refs.btnBox.querySelector('.exercises-thumb-indicator')
@@ -295,24 +304,35 @@ const applySearchFilter = query => {
 };
 
 const handleCategoryClick = async e => {
-  const categoryName = e.currentTarget.dataset.nameCategory;
+  currentCategoryName = e.currentTarget.dataset.nameCategory;
+  currentView = 'exercises';
+  exercisesCurrentPage = 1;
 
+  await loadExercisesByCategory();
+};
+
+const loadExercisesByCategory = async () => {
   const res = await data_api.getExerciseByCategory(
     data_api.filterType,
-    categoryName
+    currentCategoryName,
+    exercisesCurrentPage,
+    10
   );
 
+  exercisesTotalPages = res.totalPages || 1;
   refs.exercisedTitleThumb.classList.add('is-search-shown');
   refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
   refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
-    categoryName;
+    currentCategoryName;
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
 
-  handleSearch();
+  renderPaginationList(exercisesTotalPages);
+  setActivePaginationButton(exercisesCurrentPage);
 
+  handleSearch();
   addEventListenersToCards();
 };
 
@@ -354,17 +374,32 @@ const renderListHtml = data => {
 
 const renderQuote = async () => {
   const wrapper = document.querySelector('.quote-card');
+  if (!wrapper) return;
 
+  const fallbackQuote = {
+    author: 'Tom Brady',
+    quote: `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`,
+  };
+
+  // Check localStorage cache first
+  const cachedQuote = getDailyQuoteLS();
+  if (cachedQuote) {
+    wrapper.innerHTML = Template.quoteTemplate({
+      quote: cachedQuote.quote,
+      author: cachedQuote.author,
+    });
+    return;
+  }
+
+  // Fetch from API if no cache
   try {
     const res = await data_api.getQuote();
     wrapper.innerHTML = Template.quoteTemplate(res);
+    // Save to cache
+    setDailyQuoteLS(res.quote, res.author);
   } catch (error) {
-    const errorAuthor = 'Tom Brady';
-    const errorQuote = `A lot of times I find that people who are blessed with the most talent don't ever develop that attitude, and the ones who aren't blessed in that way are the most competitive and have the biggest heart.`;
-    wrapper.innerHTML = Template.quoteTemplate({
-      quote: errorQuote,
-      author: errorAuthor,
-    });
+    console.error('Error fetching quote:', error);
+    wrapper.innerHTML = Template.quoteTemplate(fallbackQuote);
   }
 };
 
@@ -407,6 +442,10 @@ const getFilteredData = async () => {
 
 const onClickFilterBtn = async e => {
   try {
+    currentView = 'categories';
+    currentCategoryName = null;
+    refs.listEx.classList.remove('body-parts-list');
+
     const clickedBtn = e.target.closest('button');
     if (!clickedBtn) return;
 
@@ -428,7 +467,7 @@ const onClickFilterBtn = async e => {
     refs.searchBar.classList.remove('is-show');
     refs.exercisesBredcrumbs.classList.remove('is-show');
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    console.error('Filter error:', error);
   }
 };
 
@@ -440,13 +479,18 @@ const onClickPaginationBox = async e => {
     const clickedNumPage = Number(clickedBtn.textContent.trim());
     if (!Number.isFinite(clickedNumPage)) return;
 
-    if (clickedNumPage === data_api.currentPage) return;
-
-    data_api.currentPage = clickedNumPage;
-
-    await loadAndRenderExercises();
+    // Check which view mode is active
+    if (currentView === 'exercises') {
+      if (clickedNumPage === exercisesCurrentPage) return;
+      exercisesCurrentPage = clickedNumPage;
+      await loadExercisesByCategory();
+    } else {
+      if (clickedNumPage === data_api.currentPage) return;
+      data_api.currentPage = clickedNumPage;
+      await loadAndRenderExercises();
+    }
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    console.error('Pagination error:', error);
   }
 };
 
