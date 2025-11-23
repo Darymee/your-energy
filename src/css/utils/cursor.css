@@ -1,5 +1,5 @@
 html {
-  cursor: url('../../public/neon-water-cursor.png'), auto;
+  cursor: url('../../public/cursor.png'), auto;
 }
 
 a,
@@ -7,6 +7,7 @@ a:hover,
 a span,
 a span:hover,
 button,
-button:hover {
-  cursor: url('../../public/neon-dumbbell-cursor.png'), auto;
+button:hover,
+.switch-label {
+  cursor: url('../../public/pointer.png'), auto;
 }
