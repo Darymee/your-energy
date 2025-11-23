@@ -257,15 +257,17 @@ export const handleExerciseItemClick = async (e, _id) => {
 };
 
 const handleCategoryClick = async e => {
+  const categoryName = e.currentTarget.dataset.nameCategory;
+
   const res = await data_api.getExerciseByCategory(
     data_api.filterType,
-    e.currentTarget.dataset.name
+    categoryName
   );
-
-  console.log(res);
 
   refs.searchBar.classList.add('is-show');
   refs.exercisesBredcrumbs.classList.add('is-show');
+  refs.exercisesBredcrumbs.querySelector('.exercises-category').innerHTML =
+    categoryName;
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
@@ -331,7 +333,6 @@ const loadAndRenderExercises = async ({ updatePagination = false } = {}) => {
   renderSkeletonList();
 
   const res = await data_api.getDataByFilter();
-
   renderListHtml(res);
 
   if (updatePagination) {
@@ -348,6 +349,7 @@ const getFilteredData = async () => {
     if (!indicator) return;
 
     const res = await data_api.getDataByFilter();
+
     if (refs.btnBox.children[0]) {
       refs.btnBox.children[0].classList.add('active');
       requestAnimationFrame(updateIndicator);
