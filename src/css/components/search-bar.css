@@ -9,6 +9,7 @@
   display: none;
   gap: 4px;
   align-items: center;
+  height: 1px;
 }
 
 .search-bar.is-show {

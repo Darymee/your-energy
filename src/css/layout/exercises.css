@@ -1,10 +1,37 @@
-.exercises-title {
+.exercises-title-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.exercises-bredcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.exercises-bredcrumbs span {
+  display: none;
+}
+
+.exercises-bredcrumbs.is-show span {
+  display: inline-block;
+}
+
+.exercises-category {
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--color-grey-50);
+}
+
+.exercises-title,
+.exercises-line {
   font-weight: 400;
   font-size: 28px;
   line-height: 1.35714;
   letter-spacing: -0.02em;
   color: var(--color-black);
-  margin-bottom: 20px;
 }
 
 .exercises-thumb-btn {
@@ -376,6 +403,11 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
     margin-bottom: 32px;
   }
 
+  .exercises-category {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
   .exercises-wrap-info p:first-child {
     font-size: 24px;
   }
@@ -390,10 +422,6 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   .quote-img {
     width: 100%;
     height: 249px;
-  }
-
-  .exercises-title {
-    margin-bottom: 32px;
   }
 
   .quote-card {
@@ -425,8 +453,7 @@ html[data-theme='dark'] .quote-card-text.quote-card-color {
   }
 
   .exercises-title-thumb {
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 32px;
   }
 
   .exercises-background-img {
