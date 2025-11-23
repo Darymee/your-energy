@@ -256,6 +256,56 @@ export const handleExerciseItemClick = async (e, _id) => {
   });
 };
 
+const handleSearch = () => {
+  const searchInput = document.querySelector('.search-bar-input');
+  const icon = document.querySelector('.search-bar-icon');
+
+  if (!searchInput || !icon) return;
+
+  let timeoutId = null;
+
+  searchInput.addEventListener('focusin', () => {
+    icon.style.opacity = '0';
+    icon.style.pointerEvents = 'none';
+  });
+
+  searchInput.addEventListener('focusout', () => {
+    if (searchInput.value.trim() === '') {
+      icon.style.opacity = '1';
+      icon.style.pointerEvents = 'auto';
+    }
+  });
+
+  searchInput.addEventListener('input', e => {
+    const query = e.target.value.trim().toLowerCase();
+
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      applySearchFilter(query);
+    }, 250);
+  });
+};
+
+const applySearchFilter = query => {
+  const cards = document.querySelectorAll('.favorites-item');
+
+  cards.forEach(card => {
+    const titleEl = card.querySelector('.card-title');
+    const text = titleEl?.textContent.trim().toLowerCase() || '';
+
+    if (query === '') {
+      card.style.display = '';
+      return;
+    }
+
+    if (text.includes(query)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+};
+
 const handleCategoryClick = async e => {
   const categoryName = e.currentTarget.dataset.nameCategory;
 
@@ -271,6 +321,8 @@ const handleCategoryClick = async e => {
   refs.listEx.classList.add('body-parts-list');
   const cards = res.results.map(item => Template.favoriteCard(item));
   refs.listEx.innerHTML = cards.join('');
+
+  handleSearch();
 
   addEventListenersToCards();
 };
